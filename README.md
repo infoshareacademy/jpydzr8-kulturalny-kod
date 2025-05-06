@@ -1,0 +1,1 @@
+# jpydzr8-kulturalny-kod
