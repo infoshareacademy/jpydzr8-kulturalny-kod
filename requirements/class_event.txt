@@ -1,0 +1,51 @@
+Klasa Event
+
+Inputs:
+ID wydarzenia (event_id)
+Nazwa wydarzenia (name)
+Data i godzina (date)
+Miejsce (venue)
+Liczba wszystkich miejsc (total_seats)
+Liczba dostepnych miejsc (avaliable_seats)
+Kategoria (category)
+Cena biletu (price)
+Rezerwacje (bookings)
+
+Metody do wywolywania:
+
+* Nowa rezerwacja add_booking(self, booking: Booking -> bool) : Zarezerwowanie okreslonej liczby miejsc na wydarzenie (klasa Booking, Admin).
+1. Funkcja sprawdza, czy liczba dostepnych miejsc (self.avaliable_seats) jest wieksza lub rowna liczbie miejsc, ktore chcemy zarezerwowac.
+2. Jesli miejsca sa dostepne:
+    Zmniejsza liczbe dostepnych miejsc o liczbe rezerwowanych miejsc.
+    Doda rezerwacje do listy.
+    Zwraca wartosc True, czyli rezerwacja sie powiodla.
+    Wygeneruje bilet z ID i danymi w klasie Ticket(mozliwosc generowania pliku PDF).
+3. Jesli miejsca sa niedostepne:
+    Nie zmienia liczby dostepnych miejsc.
+    Zwraca wartosc False, czyli rezerwacja sie nie powiodla.
+
+* Edytowanie rezerwacji edit_booking(self, booking_id: int -> bool) : Edytowanie rezerwacji (klasa Booking, Admin).
+1. Funkcja powinna przyjmowac dowolne dane do zmiany i aktualizowac odpowiednie pola w obiekcie Booking (argumenty nazwane **kwargs)
+
+* Anulowanie rezerwacji cancel_booking(self, booking_id :int -> bool) : Anulowanie rezerwacji (klasa Booking, Admin).
+1. Funkcja sprawdza czy istnieje rezerwacja o podanym id.
+2. Jesli istnieje:
+    Zwieksza liczbe dostepnych miejsc o liczbe miejsc z rezerwacji.
+    Usuwa rezerwacje w klasie Booking.
+    Zwraca wartosc True.
+3. Jesli nie istnieje:
+    Zwraca False.
+
+* Sprawdzanie dostepnosci miejsc has_avaliable_seats(self) -> bool : Sprawdzenie, czy wszystkie miejsca na wydarzenie sa juz zarezerwowane.
+1. Funkcja sprawdza czy liczba dostepnych miejs (self.available_seats) wynosi 0.
+2. Jesli tak:
+    Zwraca True.
+3. Jesli nie:
+    Zwraca False.
+
+* Aktualizacja danych wydarzenia update_event() : Pozwala na modyfikacje dowolnych pol wydarzenia.
+
+* Szczegoly wydarzenia get_details() : Zwraca slownik z pelnymi danymi wydarzenia.
+
+
+Powiazania z klasami Ticket, Booking, User, Admin
