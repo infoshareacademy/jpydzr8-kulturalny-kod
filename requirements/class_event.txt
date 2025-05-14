@@ -47,5 +47,4 @@ Metody do wywolywania:
 
 * Szczegoly wydarzenia get_details() : Zwraca slownik z pelnymi danymi wydarzenia.
 
-
 Powiazania z klasami Ticket, Booking, User, Admin
