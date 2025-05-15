@@ -39,7 +39,7 @@ login
 hasło
 list_of_users obiekt klasy UserList
 output:
-bool - czy się udało czy nie
+id | bool - czy się udało czy nie
 dependencies:
 klasa UserList musi mieć funkcję add_user
 
@@ -58,7 +58,7 @@ inputy:
 list_of_events obiekt klasy EventList
 zmienne potrzebne do utworzenia klasy Event
 output:
-bool - czy się udało czy nie
+id | bool - czy się udało czy nie
 dependencies:
 klasa EventList musi mieć funkcję add_event
 
@@ -90,7 +90,7 @@ inputy:
 list_of_users obiekt klasy UserList
 zmienne potrzebne do utworzenia klasy User
 output:
-bool - czy się udało czy nie
+id | bool - czy się udało czy nie
 dependencies:
 klasa UserList musi mieć funkcję add_user
 
