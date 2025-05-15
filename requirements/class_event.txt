@@ -9,7 +9,7 @@ Liczba wszystkich miejsc (total_seats)
 Liczba dostepnych miejsc (avaliable_seats)
 Kategoria (category)
 Cena biletu (price)
-Rezerwacje (bookings)
+
 
 Metody do wywolywania:
 
