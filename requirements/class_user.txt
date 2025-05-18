@@ -14,6 +14,7 @@ Klasa User:
     data utworzenia uzytkownika generowana przy utworzeniu (user_created_at)
     ostatnia data zmiany danych uzytkownika, domyslnie pusta (user_changed_at)
     lista eventow zabookowanych przez uzytkownika, domyslnie pusta (booking_list)
+    + WIEK
 
     Metody:
         init:
@@ -29,8 +30,13 @@ Klasa User:
             Opis:
                 sprawdza czy dany booking nie jest juz na liscie
                 dodaje rezerwacje do booking_list
+                + Usunięcie z listy poprezz Mateuszowy kod
+                + Odwrotnie przy cancelowaniu
+
             Inputy:
-                __user_id_number, event_id, booking_details
+                event_id, booking_details
+                tylko id, bo jak będzie zmiana, to będę miał stare dane
+                printuj jakie mam eventy
             Outputy:
                 bool - czy sie udalo
             Zaleznosci:
@@ -60,6 +66,16 @@ Klasa Users_list:
     Przechowuje liste obiektow:
         klasy User
         klasy Admin
+
+Metoda init, ktora tworzy dict
+Zdefiniować listę
+Osobny plik - Users_list
+Metoda login w ramach Users_list - przyjęcie loginu i hasła i zwraca usera
+Funkcja print options - mowiaca co ta klasa potrafi robic - wypisac dostępne metody
+Załądować jakichsś userow na start
+dla adminów - flaga is_user - jako boolean
+Klasa User_Manager?
+U Mateusza
 
 
     Metody:
