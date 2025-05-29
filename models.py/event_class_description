@@ -1,0 +1,33 @@
+Kluczowe funkcje klasy Event
+
+1. Rezerwacja miejsc – add_booking()
+    * Pozwala użytkownikowi (lub administratorowi) zarezerwować określoną liczbę miejsc.
+    * Sprawdza dostępność miejsc.
+    * Jeśli miejsca są dostępne: rezerwuje je, zmniejsza liczbę dostępnych miejsc, generuje bilet (np. PDF) i zwraca sukces.
+    * Jeśli miejsc brak: nie dokonuje rezerwacji, zwraca informację o niepowodzeniu.
+
+2. Edycja rezerwacji – edit_booking()
+    * Pozwala na modyfikację istniejącej rezerwacji (np. zmiana liczby miejsc, danych uczestnika).
+    * Aktualizuje odpowiednie pola rezerwacji.
+
+3. Anulowanie rezerwacji – cancel_booking()
+    * Umożliwia anulowanie rezerwacji.
+    * Zwiększa liczbę dostępnych miejsc o liczbę miejsc z anulowanej rezerwacji.
+    * Usuwa rezerwację i zwraca informację o powodzeniu lub niepowodzeniu operacji.
+
+4. Sprawdzanie dostępności – has_avaliable_seats()
+    * Szybko sprawdza, czy na wydarzenie są jeszcze wolne miejsca.
+    * Zwraca True, jeśli wszystkie miejsca są już zajęte.
+
+5. Aktualizacja wydarzenia – update_event()
+    * Pozwala administratorowi na zmianę dowolnych danych wydarzenia (np. daty, miejsca, ceny).
+
+6. Szczegóły wydarzenia – get_details()
+    * Zwraca pełne informacje o wydarzeniu w postaci słownika (np. do wyświetlenia na stronie lub w aplikacji).
+
+Powiązania z innymi klasami
+    * Booking – reprezentuje pojedynczą rezerwację na wydarzenie.
+    * Ticket – generuje bilety dla uczestników.
+    * User/Admin – umożliwia zarządzanie wydarzeniami i rezerwacjami przez użytkowników oraz administratorów.
+
+
