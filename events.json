@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "name": "Olsztyn Green Festival 2025",
+    "date": "2025-08-15",
+    "location": "Olsztyn, CRS Ukiel",
+    "available_tickets": 500,
+    "price": 243.50
+  },
+  {
+    "id": 2,
+    "name": "Letnia Akademia Filmowa 2025",
+    "date": "2025-08-10",
+    "location": "Zwierzyniec",
+    "available_tickets": 300,
+    "price": 80.00
+  },
+  {
+    "id": 3,
+    "name": "Kazimiernikejszyn 2025",
+    "date": "2025-07-16",
+    "location": "Kazimierz Dolny, Kamieniołomy",
+    "available_tickets": 400,
+    "price": 130.10
+  },
+  {
+    "id": 4,
+    "name": "Letnia Akademia Jazzu: Koncert Finałowy",
+    "date": "2025-08-28",
+    "location": "Łódź, Klub Wytwórnia",
+    "available_tickets": 200,
+    "price": 62.70
+  },
+  {
+    "id": 5,
+    "name": "Polish Hip-Hop Festival 2025",
+    "date": "2025-07-03",
+    "location": "Płock, Nadwiślańska Plaża",
+    "available_tickets": 600,
+    "price": 120.00
+  },
+  {
+    "id": 6,
+    "name": "Tauron Nowa Muzyka Katowice 2025",
+    "date": "2025-06-19",
+    "location": "Katowice, Strefa Kultury",
+    "available_tickets": 450,
+    "price": 568.11
+  },
+  {
+    "id": 7,
+    "name": "Mystic Festival 2025",
+    "date": "2025-06-04",
+    "location": "Gdańsk, Stocznia Gdańska",
+    "available_tickets": 500,
+    "price": 400.00
+  },
+  {
+    "id": 8,
+    "name": "Lato z Muzami 2025",
+    "date": "2025-07-08",
+    "location": "Nowogard",
+    "available_tickets": 350,
+    "price": 100.00
+  },
+  {
+    "id": 9,
+    "name": "Open'er Festival 2025",
+    "date": "2025-07-02",
+    "location": "Gdynia, Lotnisko Kosakowo",
+    "available_tickets": 1000,
+    "price": 600.00
+  },
+  {
+    "id": 10,
+    "name": "Orange Warsaw Festival 2025",
+    "date": "2025-05-30",
+    "location": "Warszawa, Służewiec",
+    "available_tickets": 800,
+    "price": 550.00
+  },
+  {
+    "id": 11,
+    "name": "Festiwal Kultury Żydowskiej 2025",
+    "date": "2025-06-22",
+    "location": "Kraków, Kazimierz",
+    "available_tickets": 300,
+    "price": 100.00
+  },
+  {
+    "id": 12,
+    "name": "Festiwal Filmu i Sztuki Dwa Brzegi 2025",
+    "date": "2025-07-27",
+    "location": "Kazimierz Dolny",
+    "available_tickets": 250,
+    "price": 80.00
+  },
+  {
+    "id": 13,
+    "name": "Festiwal Muzyki Filmowej 2025",
+    "date": "2025-08-23",
+    "location": "Kraków, Tauron Arena",
+    "available_tickets": 500,
+    "price": 200.00
+  },
+  {
+    "id": 14,
+    "name": "OFF Festival 2025",
+    "date": "2025-08-02",
+    "location": "Katowice, Dolina Trzech Stawów",
+    "available_tickets": 600,
+    "price": 350.00
+  },
+  {
+    "id": 15,
+    "name": "Audioriver Festival 2025",
+    "date": "2025-07-24",
+    "location": "Płock, Plaża nad Wisłą",
+    "available_tickets": 700,
+    "price": 400.00
+  },
+  {
+    "id": 16,
+    "name": "Męskie Granie 2025",
+    "date": "2025-08-09",
+    "location": "Warszawa, Park Sowińskiego",
+    "available_tickets": 500,
+    "price": 150.00
+  },
+  {
+    "id": 17,
+    "name": "Festiwal Malta 2025",
+    "date": "2025-06-20",
+    "location": "Poznań",
+    "available_tickets": 300,
+    "price": 90.00
+  },
+  {
+    "id": 18,
+    "name": "Festiwal Szekspirowski 2025",
+    "date": "2025-07-27",
+    "location": "Gdańsk, Teatr Szekspirowski",
+    "available_tickets": 200,
+    "price": 100.00
+  },
+  {
+    "id": 19,
+    "name": "Festiwal Kultury Kresowej 2025",
+    "date": "2025-08-15",
+    "location": "Mrągowo",
+    "available_tickets": 250,
+    "price": 70.00
+  },
+  {
+    "id": 20,
+    "name": "Festiwal Muzyki Organowej i Kameralnej 2025",
+    "date": "2025-07-05",
+    "location": "Leżajsk",
+    "available_tickets": 150,
+    "price": 60.00
+  },
+  {
+    "id": 21,
+    "name": "Festiwal Kultury Romskiej 2025",
+    "date": "2025-08-01",
+    "location": "Gorzów Wielkopolski",
+    "available_tickets": 200,
+    "price": 50.00
+  },
+  {
+    "id": 22,
+    "name": "Festiwal Muzyki Dawnej 2025",
+    "date": "2025-07-12",
+    "location": "Jarosław",
+    "available_tickets": 180,
+    "price": 70.00
+  },
+  {
+    "id": 23,
+    "name": "Festiwal Muzyki Gospel 2025",
+    "date": "2025-08-16",
+    "location": "Osiek",
+    "available_tickets": 220,
+    "price": 80.00
+  },
+  {
+    "id": 24,
+    "name": "Festiwal Muzyki Elektronicznej 2025",
+    "date": "2025-07-19",
+    "location": "Wrocław, Hala Stulecia",
+    "available_tickets": 400,
+    "price": 120.00
+  },
+  {
+    "id": 25,
+    "name": "Festiwal Teatralny 2025",
+    "date": "2025-08-05",
+    "location": "Sopot, Teatr na Plaży",
+    "available_tickets": 300,
+    "price": 90.00
+  }
+]
