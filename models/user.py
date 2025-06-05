@@ -1,4 +1,4 @@
-class UserManager:
+class UsersManagement:
     """
     dummy class to be replaced
     """
