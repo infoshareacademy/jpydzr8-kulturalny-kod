@@ -1,4 +1,6 @@
 from datetime import datetime, date
+import json
+import os
 
 def calculate_age(birthdate):
     today = date.today()
@@ -8,24 +10,24 @@ class ValidationError(Exception):
     pass
 
 class User:
-    def __init__(self, user_login, user_password, user_email_address, birthdate, user_id):
-        if len(user_login) < 5:
+    def __init__(self, login, password, email, data_urodzenia, id):
+        if len(login) < 5:
             raise ValidationError("Login musi mieć co najmniej 5 znaków.")
-        if len(user_password) < 8:
+        if len(password) < 8:
             raise ValidationError("Hasło musi mieć co najmniej 8 znaków.")
-        if "@" not in user_email_address or "." not in user_email_address:
+        if "@" not in email or "." not in email:
             raise ValidationError("Niepoprawny adres e-mail.")
-        if calculate_age(birthdate) < 18:
+        if calculate_age(data_urodzenia) < 18:
             raise ValidationError("Użytkownik musi mieć co najmniej 18 lat.")
 
-        self.user_login = user_login
-        self.user_password = user_password
-        self.user_email_address = user_email_address
-        self.user_created_at = datetime.now()
-        self.user_changed_at = None
+        self.login = login
+        self.password = password
+        self.email= email
+        self.created_at = datetime.now()
+        self.changed_at = None
         self.booking_list = []
-        self.age = calculate_age(birthdate)
-        self.user_id = user_id
+        self.age = calculate_age(data_urodzenia)
+        self.id = id
 
     def add_booking(self, event_id):
         if event_id in self.booking_list:
@@ -36,7 +38,7 @@ class User:
         return True
 
     def cancel_booking(self, user_id, event_id):
-        if self.user_id != user_id or event_id not in self.booking_list:
+        if self.id != user_id or event_id not in self.booking_list:
             return False
         self.booking_list.remove(event_id)
         print("Rezerwacja anulowana.")
@@ -91,3 +93,27 @@ class UsersManagement:
             return False
         del self.users[user_login]
         return True
+
+    def load_from_json_file(self, filepath):
+        if not os.path.exists(filepath):
+            raise FileNotFoundError(f"Plik nie istnieje: {filepath}")
+
+        with open(filepath) as f:
+            data = json.load(f)
+
+        for u in data.get("users", []):
+            try:
+                birthdate = datetime.strptime(u["data_urodzenia"], "%Y-%m-%d").date()
+                user = User(
+                    login=u["login"],
+                    password=u["password"],
+                    email=u["email"],
+                    data_urodzenia=birthdate,
+                    id=u["id"]
+                )
+                self.users[user.login] = user
+                print(f"Dodano użytkownika: {user.login}")
+            except ValidationError as e:
+                print(f"Walidacja nie powiodła się dla {u['login']}: {e}")
+            except Exception as e:
+                print(f"Inny błąd dla {u['login']}: {e}")
