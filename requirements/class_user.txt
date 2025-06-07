@@ -1,0 +1,167 @@
+Klasa User:
+    login_allowance:
+        Przechowuje wytyczne dot loginu
+    password_allowance:
+        Przechowuje wytyczne dot hasla
+    email_allowance:
+        Przechowuje wytyczne dot maila
+
+    Atrybuty:
+    login uzytkownika (user_login) + weryfikacja czy user_input spelnia wymagania login_allowance
+    haslo uzytkownika (user_password) + weryfikacja czy user_input spelnia wymagania password_allowance
+    adres email uzytkownika (user_email_address) + weryfikacja czy user_input spelnia wymagania email_allowance
+    unikalny numer generowany przy utworzeniu uzytkownika (__user_id_number)
+    data utworzenia uzytkownika generowana przy utworzeniu (user_created_at)
+    ostatnia data zmiany danych uzytkownika, domyslnie pusta (user_changed_at)
+    lista eventow zabookowanych przez uzytkownika, domyslnie pusta (booking_list)
+    + WIEK
+
+    Metody:
+        init:
+            Opis:
+                inicjalizacja uzytkownika
+            Inputy:
+                user_login, user_password, user_email
+            Outputy:
+                brak
+            Zaleznosci:
+                Wywolanie musi wymagac podania loginu, hasla, maila
+        add_booking:
+            Opis:
+                sprawdza czy dany booking nie jest juz na liscie
+                dodaje rezerwacje do booking_list
+                + Usunięcie z listy poprezz Mateuszowy kod
+                + Odwrotnie przy cancelowaniu
+
+            Inputy:
+                event_id, booking_details
+                tylko id, bo jak będzie zmiana, to będę miał stare dane
+                printuj jakie mam eventy
+            Outputy:
+                bool - czy sie udalo
+            Zaleznosci:
+                Dane dot bookingu powinny byc przekazane w postaci dict, gdzie element bookingu jest kluczem, a szczegoly wartoscia
+        edit_booking:
+            Opis:
+                sprawdza czy rezerwacja jest na liscie u tego usera
+                zmienia rezerwacje w booking_list i wprowadza nowe dane w ramach event_id
+            Inputy:
+                __user_id_number, event_id, booking_details_for_change (dict z informacjami gdzie klucze to pola do zmiany
+            Outputy:
+                bool - czy sie udalo
+            Zaleznosci:
+                przy wywolaniu metody dane do zmiany powinny byc przekazane w postaci dicta (dict z informacjami gdzie klucze to pola do zmian
+
+        cancel_booking:
+            Opis:
+                Sprawdza czy dany nr id eventu znajduje sie u danego usera
+                Usuwa rezerwacje z listy w booking_list
+            Inputy:
+                __user_id_numer, event_id
+            Outputy:
+                bool - czy sie udalo
+
+Klasa Users_list:
+
+    Przechowuje liste obiektow:
+        klasy User
+        klasy Admin
+
+Metoda init, ktora tworzy dict
+Zdefiniować listę
+Osobny plik - Users_list
+Metoda login w ramach Users_list - przyjęcie loginu i hasła i zwraca usera
+Funkcja print options - mowiaca co ta klasa potrafi robic - wypisac dostępne metody
+Załądować jakichsś userow na start
+dla adminów - flaga is_user - jako boolean
+Klasa User_Manager?
+U Mateusza
+
+
+    Metody:
+        create_user:
+            Opis:
+                Sprawdzenie czy metoda jest wywolana przy uzyciu loginu i hasla jednego z adminow
+                Sprawdzenie czy uzytkownik o podanym loginie oraz emailu jeszcze nie istnieje na liscie
+                Sprawdzenie czy wszystkie dane zostaly podane
+                Dodanie uzytkownika
+            Input:
+                obiekt klasy User
+                admin_login
+                admin_password
+            Output:
+                bool - czy sie udalo
+            Zaleznosci:
+                Przed wywolaniem funkcji w menu nalezy podac tekstowo wytyczne uzytkownikowi dot loginu i hasla
+                Wywolanie metody powinno nakazac podanie loginu i hasla admina
+
+        edit_user:
+            Opis:
+                Sprawdzenie czy metoda jest wywolana przy uzyciu loginu i hasla jednego z adminow
+                Sprawdzenie czy podano wszystkie dane do zmiany
+                Edycja danych uzytkownika
+            Input:
+                admin_login
+                admin_password
+                __user_id_number, user_details_for_change (dane w postaci dict z polami do zmiany
+            Output:
+                bool - czy sie udalo, wprowadzenie lub zastapienie daty w klasie User -> (user_changed_at)
+            Zaleznosci:
+                przeslane dane do zmiany powinny byc w postaci dict
+                Wywolanie metody powinno nakazac podanie loginu i hasla admina
+        delete_user:
+            Opis:
+                Sprawdzenie czy metoda jest wywolana przy uzyciu loginu i hasla jednego z adminow
+                Sprawdzenie czy taki uzytkownik istnieje na liscie
+                Usuniecie uzytkownika z listy
+            Input:
+                admin_login
+                admin_password
+                __user_id_number
+            Output:
+                bool czy sie udalo
+            Zaleznosci:
+                Wywolanie metody powinno nakazac podanie loginu i hasla admina
+        create_admin:
+            Opis:
+                Sprawdzenie czy metoda jest wywolana przy uzyciu loginu i hasla jednego z adminow
+                Sprawdzenie czy admin o podanym loginie oraz emailu jeszcze nie istnieje na liscie
+                Sprawdzenie czy email zawiera ciag znakow '*@*.*'
+                Dodanie uzytkownika
+            Input:
+                admin_login
+                admin_password
+                obiekt klasy Admin
+            Output:
+                bool - czy sie udalo
+            Zaleznosci:
+                Wywolanie metody powinno nakazac podanie loginu i hasla admina
+                Obiekt Admin powinien spelniac podobne wymagania jak User
+        edit_admin:
+            Opis:
+                Sprawdzenie czy metoda jest wywolana przy uzyciu loginu i hasla jednego z adminow
+                Edycja danych admina
+                Sprawdzenie czy admin o podanym loginie oraz emailu jeszcze nie istnieje na liscie
+                Sprawdzenie czy wszystkie dane zostaly podane
+            Input:
+                admin_login
+                admin_password
+                __admin_id_number, admin_details_for_change (dane w postaci dict z polami do zmiany)
+            Output:
+                bool - czy sie udalo, wprowadzenie lub zastapienie daty w klasie Admin -> (admin_changed_at)
+            Zaleznosci:
+                Wywolanie metody powinno nakazac podanie loginu i hasla admina
+                Obiekt Admin powinien spelniac podobne wymagania jak User
+        delete_admin:
+            Opis:
+                Sprawdzenie czy metoda jest wywolana przy uzyciu loginu i hasla jednego z adminow
+                Sprawdzenie czy admin jest na liscie
+                Usuniecie admina z listy
+            Input:
+                admin_login
+                admin_password
+                __admin_id_number
+            Output:
+                bool czy sie udalo
+            Zaleznosci:
+                Wywolanie metody powinno nakazac podanie loginu i hasla admina
