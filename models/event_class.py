@@ -1,10 +1,11 @@
+import json
 from booking_class import Booking
 from ticket_class import Ticket
 
 
 class Event:
-    def __init__(self, event_id: int, name: str, date: str, venue: str, description:str,
-                 total_seats: int, available_seats: int, category: str, price: float):
+    def __init__(self, event_id: int, name: str, date: str, venue: str,
+                 total_seats: int, available_seats: int, price: float):
         """
         Inicjalizuje obiekt wydarzenia z podstawowymi informacjami.
         """
@@ -12,10 +13,8 @@ class Event:
         self.name = name
         self.date = date
         self.venue = venue
-        self.description = description
         self.total_seats = total_seats
         self.available_seats = available_seats
-        self.category = category
         self.price = price
         self.bookings = []
 
@@ -63,7 +62,6 @@ class Event:
             "venue" : self.venue,
             "total_seats" : self.total_seats,
             "available_seats" : self.available_seats,
-            "category" : self.category,
             "price" : self.price,
             "bookings" : len(self.bookings)
         }
@@ -74,8 +72,8 @@ class Event:
         """
         return self.get_details()
 
-    @staticmethod
-    def from_dict(data):
+    @classmethod
+    def from_dict(cls, data):
         """
         Tworzy obiekt Event z danych słownikowych.
         """
@@ -86,7 +84,30 @@ class Event:
             data["venue"],
             data["total_seats"],
             data.get("available_seats", data["total_seats"]),
-            data["category"],
             data["price"]
         )
+        event.available_seats = data.get("available_seats", event.total_seats)
         return event
+
+class EventList:
+    def __init__(self):
+        self.events = []
+
+    def load_from_file(self, filename):
+        with open(filename, "r") as f:
+            data = json.load(f)
+            for event_data in data:
+                event = Event.from_dict(self._convert_keys(event_data))
+                self.events.append(event)
+
+    def _convert_keys(self, data: dict) -> dict:
+        return {
+            "event_id": data.get("id"),
+            "name": data.get("name"),
+            "date": data.get("date"),
+            "venue": data.get("location"),
+            "description": data.get("description", ""),
+            "total_seats": data.get("available_tickets"),
+            "available_seats": data.get("available_tickets"),
+            "price": data.get("price")
+        }
