@@ -1,6 +1,6 @@
 import json
-from booking_class import Booking
-from ticket_class import Ticket
+from models.booking_class import Booking
+from models.ticket_class import Ticket
 
 
 class Event:
@@ -34,7 +34,7 @@ class Event:
         if booking.seats <= self.available_seats:
             self.available_seats -= booking.seats
             self.bookings.append(booking)
-            booking.ticket = Ticket.generate(booking)
+            booking.ticket = Ticket.generate(booking, self)
             return True
         return False
 
@@ -83,7 +83,8 @@ class Event:
             data["date"],
             data["venue"],
             data["total_seats"],
-            data.get("available_seats", data["total_seats"]),
+            data.get("available_seats",
+            data["total_seats"]),
             data["price"]
         )
         event.available_seats = data.get("available_seats", event.total_seats)
@@ -100,14 +101,18 @@ class EventList:
                 event = Event.from_dict(self._convert_keys(event_data))
                 self.events.append(event)
 
+    def save_to_file(self, filename):
+        data = [event.to_dict() for event in self.events]
+        with open(filename, "w") as f:
+            json.dump(data, f, indent=4)
+
     def _convert_keys(self, data: dict) -> dict:
         return {
-            "event_id": data.get("id"),
+            "event_id": data.get("event_id"),
             "name": data.get("name"),
             "date": data.get("date"),
-            "venue": data.get("location"),
-            "description": data.get("description", ""),
-            "total_seats": data.get("available_tickets"),
-            "available_seats": data.get("available_tickets"),
+            "venue": data.get("venue"),
+            "total_seats": data.get("total_seats"),
+            "available_seats": data.get("available_seats"),
             "price": data.get("price")
         }
