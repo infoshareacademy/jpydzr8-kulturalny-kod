@@ -1,4 +1,4 @@
-class EventsManagement:
+class EventList:
     """
     dummy class to be replaced
     """

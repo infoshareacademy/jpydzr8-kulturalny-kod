@@ -1,8 +1,23 @@
 from uuid import uuid4
 from datetime import datetime
 from user import UsersManagement
-from event import EventsManagement
+from event import EventList
 
+
+def cast_value(value: str) -> int | float | str:
+    try:
+        float_value = float(value)
+        int_value = int(value)
+        if int_value == float_value:
+            return int_value
+        else:
+            return float_value
+    except ValueError:
+        return value
+    except Exception as e:
+        print(f"Unexpected error {e}")
+        return False
+    
 
 class Admin:
     list_of_actions = {
@@ -44,7 +59,7 @@ class Admin:
         attr_dict = {}
         for attribute in list_:
             attribute = attribute.split(":")
-            attr_dict[attribute[0]] = attribute[1]
+            attr_dict[attribute[0]] = cast_value(attribute[1])
         return attr_dict
 
     @property
@@ -66,7 +81,7 @@ class Admin:
     def run(
         self, 
         user_management: UsersManagement, 
-        event_management: EventsManagement,
+        event_list: EventList,
         **kwargs
     ) -> None:
         """
@@ -80,7 +95,7 @@ class Admin:
             action = self.list_of_actions[action_name]
             action_result = getattr(self, action)(
                 user_management=user_management, 
-                event_management=event_management,
+                event_list=event_list,
             )
             if action_result:
                 print(f"Action {action_name} was successful with result {action_result}")
@@ -97,9 +112,8 @@ class Admin:
         login = input("Enter login: ")
         password = input("Enter password: ")
         admin = cls(login, password)
-        result = user_management.add_user(admin)
-        if result:
-            print(f"New admin created with ID: {admin.id}")
+        user_management.users[login] = admin
+        print(f"New admin created with ID: {admin.id}")
         return admin.id
 
     def delete_admin(self, user_management: UsersManagement, **kwargs) -> str:
@@ -107,64 +121,68 @@ class Admin:
         deletes an admin from list of users
         """
         id = input("Enter id of admin to delete: ")
-        result = user_management.delete_user(id, is_admin=self.__is_admin)
+        result = user_management.users.pop(id, None)
         if result:
             print(f"Admin with id {id} was deleted")
         else:
             print(f"There is no admin with id {id}")
         return True
 
-    def create_event(self, event_management: EventsManagement, **kwargs) -> str:
+    def create_event(self, event_list: EventList, **kwargs) -> str:
         """
         creates event and adds it to list of events
         """
         print("Potrzebne dane:")
-        print("Name:XXX,Date:yyyy-mm-dd,Capacity:XXX") # zastanowić się, czy podawanie atrybutuów nie powinno być w ramach metody add_event w event_manager
+        id = str(uuid4())
+        print("name:XXX,date:yyyy-mm-dd,venue:XXX,total_seats:XXX,available_seats:XXX,price:float")
         event_data = input("Enter event data: ")
         event_attr_dict = self.__get_dict_from_string(event_data)
-        id = event_management.add_event(is_admin=self.__is_admin, **event_attr_dict)
+        event_attr_dict["id"] = id
+        id = event_list.add_event(is_admin=self.__is_admin, **event_attr_dict)
         return id
 
-    def delete_event(self, event_management: EventsManagement, **kwargs) -> str:
+    def delete_event(self, event_list: EventList, **kwargs) -> str:
         id = input("Enter id of event to delete: ")
-        result = event_management.delete_event(id, is_admin=self.__is_admin)
+        result = event_list.delete_event(id, is_admin=self.__is_admin)
         return True
 
-    def edit_event(self, event_management: EventsManagement, **kwargs) -> str:
+    def edit_event(self, event_list: EventList, **kwargs) -> str:
         print("Potrzebne dane:")
 
     def create_user(self, user_management: UsersManagement, **kwargs) -> str:
         print("Potrzebne dane:")
-        print("login:XXX,password:XXX,date_of_birth:yyyy-mm-dd") # zastanowić się, czy podawanie atrybutuów nie powinno być w ramach metody add_user w user_manager
+        id = str(uuid4())
+        print("login:XXX,password:XXX,email:XXX,data_urodzenia:yyyy-mm-dd")
         user_data = input("Enter event data: ")
         user_attr_dict = self.__get_dict_from_string(user_data)
-        id = user_management.add_user(is_admin=self.__is_admin, **user_attr_dict)
-        return id
+        user_attr_dict["id"] = id
+        result = user_management.create_user(current_user=self, **user_attr_dict)
+        return result
 
     def delete_user(self, user_management: UsersManagement, **kwargs) -> str:
-        id = input("Enter id of user to delete: ")
-        result = user_management.delete_user(id, is_admin=self.__is_admin)
-        return id
+        login = input("Enter login of user to delete: ")
+        result = user_management.delete_user(current_user=self, user_login=login)
+        return result
 
     def edit_user(self, user_management: UsersManagement, **kwargs) -> str:
         pass
 
     def cancel_booking(
             self,
-            event_management: EventsManagement,
+            event_list: EventList,
             user_management: UsersManagement,
             **kwargs
     ) -> str:
-        user_id = input("Enter id of user: ")
+        user_login = input("Enter login of user: ")
         event_id = input("Enter id of event: ")
-        user = user_management.get_user(user_id, is_admin=self.__is_admin)
+        user = user_management.users.get(user_login)
         if user:
-            result = event_management.cancel_booking(user, event_id, is_admin=self.__is_admin)
+            result = event_list.cancel_booking(user, event_id)
         return True
 
     def edit_booking(
             self,
-            event_management: EventsManagement,
+            event_list: EventList,
             user_management: UsersManagement,
             **kwargs
     ) -> str:
@@ -172,24 +190,26 @@ class Admin:
 
     def add_booking(
             self,
-            event_management: EventsManagement,
+            event_list: EventList,
             user_management: UsersManagement,
             **kwargs
     ) -> str:
-        user_id = input("Enter id of user: ")
+        user_login = input("Enter login of user: ")
         event_id = input("Enter id of event: ")
-        user = user_management.get_user(user_id, is_admin=self.__is_admin)
+        seats = int(input("Enter how many tickets do you wanna book: "))
+        user = user_management.users.get(user_login)
+        event = event_list.get_event(event_id)
         if user:
-            booking_id = event_management.add_booking(user, event_id, is_admin=self.__is_admin)
-        return booking_id
+            result = user.add_booking(event=event, seats=seats)
+        return True
 
 
 if __name__ == "__main__":
     admin = Admin("admin", "admin")
     user_management = UsersManagement()
-    event_management = EventsManagement()
+    event_list = EventList()
     
     admin.run(
         user_management=user_management,
-        event_management=event_management
+        event_list=event_list
     )
