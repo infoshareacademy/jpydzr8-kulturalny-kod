@@ -1,0 +1,158 @@
+Klasa Admin
+
+Przechowywana w ramach klasy UserList
+Logowanie do obiektu w ramach klasy Start
+dependencies:
+klasa Start musi mieć funkcję login
+
+list_of_actions klasa przechowuje dict, gdzie kluczem jest opis akcji, a wartością nazwa funkcji do wywołania
+metody
+__init__
+opis:
+stworzenie obiektu typu user
+w ramach funkcji przypisanie losowego __id i __created_at
+inputy:
+login
+hasło
+
+print_list_of_actions
+printuje listę dostępnych akcji iterując po list_of_actions
+inputy:
+brak
+output:
+brak
+
+action
+na początku wywołuje print_list_of_actions a potem w pętli do momentu wpisania "Wyloguj"
+funkcja prosi Input o podanie nazwy akcji do wywołania i ją wywołuje
+jeśli nie ma takiej akcji to print: brak akcji
+inputy:
+brak
+output:
+brak
+
+create_admin
+obiekt klasy classmethod
+stworzenie admina i przekazanie go to UserList
+inputy:
+login
+hasło
+list_of_users obiekt klasy UserList
+output:
+id | bool - czy się udało czy nie
+dependencies:
+klasa UserList musi mieć funkcję add_user
+
+delete_admin
+usuniecie admina z listy
+inputy:
+list_of_users obiekt klasy UserList
+output:
+bool - czy się udało czy nie
+dependencies:
+klasa UserList musi mieć funkcję delete_user
+
+create_event
+utwórz nowe wydarzenia i przekaż do obiektu klasy EventList
+inputy:
+list_of_events obiekt klasy EventList
+zmienne potrzebne do utworzenia klasy Event
+output:
+id | bool - czy się udało czy nie
+dependencies:
+klasa EventList musi mieć funkcję add_event
+
+delete_event
+usuń wydarzenie z listy, na podstawie id
+inputy:
+list_of_events obiekt klasy EventList
+id
+output:
+bool - czy się udało czy nie
+dependencies:
+klasa EventList musi mieć funkcję delete_event
+
+edit_event
+edytowanie eventu z listy na podstawie id
+inputy:
+list_of_events obiekt klasy EventList
+id
+elements_to_change - dict z podanymi elementami do zmiany
+albo wypisane elementy po kolei z defaultem None
+output:
+bool - czy się udało czy nie
+dependencies:
+klasa EventList musi mieć funkcję edit_event
+
+add_user
+dodanie nowego użytkownika
+inputy:
+list_of_users obiekt klasy UserList
+zmienne potrzebne do utworzenia klasy User
+output:
+id | bool - czy się udało czy nie
+dependencies:
+klasa UserList musi mieć funkcję add_user
+
+delete_user
+usuniecie użytkownika
+inputy:
+list_of_users obiekt klasy UserList
+id
+output:
+bool - czy się udało czy nie
+dependencies:
+klasa UserList musi mieć funkcję delete_user
+
+edit_user
+edytowanie użytkownika
+inputy:
+list_of_users obiekt klasy UserList
+id
+elements_to_change - dict z podanymi elementami do zmiany
+albo wypisane elementy po kolei z defaultem None
+output:
+bool - czy się udało czy nie
+dependencies:
+klasa UserList musi mieć funkcję edit_user
+
+cancel_booking
+usunięcie rezerwacji użytkownikowi
+inputy:
+list_of_events
+list_of_users
+user_id
+event_id
+output:
+bool - czy się udało czy nie
+dependencies:
+klasa User musi mieć funkcję cancel_booking
+klasa Event musi mieć funkcję cancel_booking
+
+edit_booking
+edytowanie rezerwacji użytkownikowi
+inputy:
+list_of_events
+list_of_users
+user_id
+event_id
+elements_to_change - dict z podanymi elementami do zmiany
+albo wypisane elementy po kolei z defaultem None
+output:
+bool - czy się udało czy nie
+dependencies:
+klasa User musi mieć funkcję edit_booking
+klasa Event musi mieć funkcję edit_booking
+
+add_booking
+dodanie rezerwacji użytkownikowi
+inputy:
+list_of_events
+list_of_users
+user_id
+event_id
+output:
+bool - czy się udało czy nie
+dependencies:
+klasa User musi mieć funkcję add_booking
+klasa Event musi mieć funkcję add_booking
