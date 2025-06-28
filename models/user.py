@@ -4,7 +4,9 @@ import json
 import os
 
 
-def calculate_age(birthdate):
+def calculate_age(birthdate: str | date) -> int:
+    if isinstance(birthdate, str):
+        birthdate = datetime.strptime(birthdate, "%Y-%m-%d").date()
     today = date.today()
     return today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
 
@@ -137,6 +139,10 @@ class UsersManagement:
             return None
         return user
 
+    @property
+    def is_admin(self) -> bool:
+        return self.__is_admin
+
     def create_user(self, login, password, email, data_urodzenia, id, current_user):
         if not current_user.is_admin:
             return False
@@ -172,7 +178,7 @@ class UsersManagement:
 
         del self.users[user_login]
         return True
-
+    @staticmethod
     def load_from_json_file(self, filepath, verbose=True):
         if not os.path.exists(filepath):
             raise FileNotFoundError(f"Plik nie istnieje: {filepath}")
@@ -209,3 +215,7 @@ class UsersManagement:
             print(f"Pominięto {skipped_count} z powodu błędów.")
         else:
             print("Wszyscy użytkownicy zostali poprawnie załadowani.")
+
+if __name__ == "__main__":
+    user_1 = User("Marcin","hasełkosds","marcin@dfdfs.com","1986-08-06",213213)
+    user_1.run(user_1,"list")
