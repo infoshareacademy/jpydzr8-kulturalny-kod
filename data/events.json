@@ -1,0 +1,12 @@
+[
+    {
+        "event_id": 1,
+        "name": "Olsztyn Green Festival 2025",
+        "date": "2025-08-15",
+        "venue": "Olsztyn, CRS Ukiel",
+        "total_seats": 500,
+        "available_seats": 500,
+        "price": 243.5,
+        "bookings": 1
+    }
+]
