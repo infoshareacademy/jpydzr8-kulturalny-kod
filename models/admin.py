@@ -1,7 +1,7 @@
 from uuid import uuid4
 from datetime import datetime
+from event_class import Event, EventList
 from user import UsersManagement
-from event import EventList
 
 
 def cast_value(value: str) -> int | float | str:
@@ -17,7 +17,7 @@ def cast_value(value: str) -> int | float | str:
     except Exception as e:
         print(f"Unexpected error {e}")
         return False
-    
+
 
 class Admin:
     list_of_actions = {
@@ -62,27 +62,38 @@ class Admin:
             attr_dict[attribute[0]] = cast_value(attribute[1])
         return attr_dict
 
+    def __get_action_from_input(self, action_name: str) -> str | bool:
+        try:
+            number = int(action_name)
+            if number < 0 or number > len(self.list_of_actions):
+                action_value = False
+            else:
+                action_value = list(self.list_of_actions.values())[number]
+        except ValueError:
+            action_value = self.list_of_actions.get(action_name, False)
+
+        return action_value
+
     @property
     def id(self) -> str:
         return self.__id
-    
+
     @staticmethod
     def exit(**kwargs):
         print("Wylogowano admina")
         return False
 
-    def print_of_actions(self) -> None:
+    def print_of_actions(self, **kwargs) -> bool:
         """
         prints all available actions
         """
         for i, key in enumerate(self.list_of_actions.keys()):
             print(f"{i}. {key.capitalize()}")
 
+        return True
+
     def run(
-        self, 
-        user_management: UsersManagement, 
-        event_list: EventList,
-        **kwargs
+        self, user_management: UsersManagement, event_list: EventList, **kwargs
     ) -> None:
         """
         asks the user to select an action and executes it
@@ -91,18 +102,27 @@ class Admin:
         self.print_of_actions()
         action_name = input("Enter action: ")
         action_name = action_name.lower()
-        if action_name in self.list_of_actions.keys():
-            action = self.list_of_actions[action_name]
-            action_result = getattr(self, action)(
-                user_management=user_management, 
-                event_list=event_list,
-            )
-            if action_result:
-                print(f"Action {action_name} was successful with result {action_result}")
-                self.action()
+        action = self.__get_action_from_input(action_name)
+        if action:
+            try:
+                action_result = getattr(self, action)(
+                    user_management=user_management,
+                    event_list=event_list,
+                )
+
+                if action_result:
+                    print(
+                        f"Action {action_name} was successful with result {action_result}"
+                    )
+                    self.run(user_management=user_management, event_list=event_list)
+
+            except AttributeError:
+                print(f"Wrong attributes passed to function {action_name}")
+                self.run(user_management=user_management, event_list=event_list)
+
         else:
             print("Invalid action")
-            self.action()
+            self.run(user_management=user_management, event_list=event_list)
 
     @classmethod
     def create_admin(cls, user_management: UsersManagement, **kwargs) -> str:
@@ -134,11 +154,13 @@ class Admin:
         """
         print("Potrzebne dane:")
         id = str(uuid4())
-        print("name:XXX,date:yyyy-mm-dd,venue:XXX,total_seats:XXX,available_seats:XXX,price:float")
+        print(
+            "name:XXX,date:yyyy-mm-dd,venue:XXX,total_seats:XXX,available_seats:XXX,price:float"
+        )
         event_data = input("Enter event data: ")
         event_attr_dict = self.__get_dict_from_string(event_data)
-        event_attr_dict["id"] = id
-        id = event_list.add_event(is_admin=self.__is_admin, **event_attr_dict)
+        event_attr_dict["event_id"] = id
+        id = event_list.events.append(Event(**event_attr_dict))
         return id
 
     def delete_event(self, event_list: EventList, **kwargs) -> str:
@@ -147,7 +169,7 @@ class Admin:
         return True
 
     def edit_event(self, event_list: EventList, **kwargs) -> str:
-        print("Potrzebne dane:")
+        pass
 
     def create_user(self, user_management: UsersManagement, **kwargs) -> str:
         print("Potrzebne dane:")
@@ -168,11 +190,8 @@ class Admin:
         pass
 
     def cancel_booking(
-            self,
-            event_list: EventList,
-            user_management: UsersManagement,
-            **kwargs
-    ) -> str:
+        self, event_list: EventList, user_management: UsersManagement, **kwargs
+    ) -> bool:
         user_login = input("Enter login of user: ")
         event_id = input("Enter id of event: ")
         user = user_management.users.get(user_login)
@@ -181,19 +200,13 @@ class Admin:
         return True
 
     def edit_booking(
-            self,
-            event_list: EventList,
-            user_management: UsersManagement,
-            **kwargs
+        self, event_list: EventList, user_management: UsersManagement, **kwargs
     ) -> str:
         pass
 
     def add_booking(
-            self,
-            event_list: EventList,
-            user_management: UsersManagement,
-            **kwargs
-    ) -> str:
+        self, event_list: EventList, user_management: UsersManagement, **kwargs
+    ) -> bool:
         user_login = input("Enter login of user: ")
         event_id = input("Enter id of event: ")
         seats = int(input("Enter how many tickets do you wanna book: "))
@@ -208,8 +221,5 @@ if __name__ == "__main__":
     admin = Admin("admin", "admin")
     user_management = UsersManagement()
     event_list = EventList()
-    
-    admin.run(
-        user_management=user_management,
-        event_list=event_list
-    )
+
+    admin.run(user_management=user_management, event_list=event_list)
