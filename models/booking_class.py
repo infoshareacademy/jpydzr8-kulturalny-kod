@@ -48,3 +48,14 @@ class Booking:
 
         with open(filename, "w") as f:
             json.dump(data, f, indent=4) # Zapisuje z wcięciami dla czytelności
+
+    @classmethod
+    def remove_from_file(cls, booking_id, filename="bookings.json"):
+        try:
+            with open(filename, "r") as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            data = []
+        new_data = [b for b in data if b.get("id") != booking_id]
+        with open(filename, "w") as f:
+            json.dump(new_data, f, indent=4)
