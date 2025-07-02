@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9bf3526c-193f-4096-8a32-5bb1d00858a7" name="Changes" comment="Dodano główny plik start.py uruchamiający aplikację, obsługujący logowanie, rejestrację, panel użytkownika i administratora oraz zapis/odczyt danych z plików JSON." />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/main_menu" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2xs6mzEBiQv0kGTJA38tZZOlKqA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.event_class.executor": "Run",
+    "Python.read_events_from_file_test.executor": "Run",
+    "Python.test.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "feature/main__menu",
+    "last_opened_file_path": "/home/mateusz/Desktop/Mateusz/jpydzr8-wstep-do-testowania",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/models.py" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="event_class" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="jpydzr8-kulturalny-kod" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/models.py" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/models.py/event_class.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.event_class" />
+        <item itemvalue="Python.event_class" />
+        <item itemvalue="Python.event_class" />
+        <item itemvalue="Python.event_class" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-PY-251.26094.141" />
+        <option value="bundled-python-sdk-9f8e2b94138c-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26094.141" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9bf3526c-193f-4096-8a32-5bb1d00858a7" name="Changes" comment="" />
+      <created>1748714596887</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1748714596887</updated>
+      <workItem from="1748714597969" duration="269000" />
+      <workItem from="1748778846050" duration="7000" />
+      <workItem from="1748781351743" duration="4703000" />
+      <workItem from="1749145593574" duration="2868000" />
+      <workItem from="1749149336630" duration="30000" />
+      <workItem from="1749149367602" duration="232000" />
+      <workItem from="1749149634337" duration="1112000" />
+      <workItem from="1749227270629" duration="3234000" />
+      <workItem from="1749312803549" duration="5041000" />
+      <workItem from="1749489963907" duration="3156000" />
+      <workItem from="1749574065998" duration="6669000" />
+      <workItem from="1749832757521" duration="2229000" />
+      <workItem from="1749835038486" duration="1777000" />
+      <workItem from="1749906317919" duration="1912000" />
+      <workItem from="1749991341368" duration="1825000" />
+      <workItem from="1750003692223" duration="1931000" />
+      <workItem from="1751096103901" duration="8840000" />
+      <workItem from="1751213185880" duration="67000" />
+      <workItem from="1751213554045" duration="4476000" />
+      <workItem from="1751471530905" duration="371000" />
+      <workItem from="1751471924350" duration="176000" />
+      <workItem from="1751473180778" duration="154000" />
+      <workItem from="1751473397875" duration="279000" />
+      <workItem from="1751473859623" duration="85000" />
+      <workItem from="1751473979595" duration="380000" />
+    </task>
+    <task id="LOCAL-00001" summary="utworzenie klas booking oraz ticket">
+      <option name="closed" value="true" />
+      <created>1748714845743</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1748714845743</updated>
+    </task>
+    <task id="LOCAL-00002" summary="utworzenie klasy EventList oraz metody do wczytywania wydarzen z pliku">
+      <option name="closed" value="true" />
+      <created>1749313143827</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1749313143827</updated>
+    </task>
+    <task id="LOCAL-00003" summary="pierwsze utworzenie klas booking oraz ticket">
+      <option name="closed" value="true" />
+      <created>1749313260726</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1749313260726</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Dodano metody ładowania i zapisu wydarzeń z/do pliku JSON">
+      <option name="closed" value="true" />
+      <created>1749835208837</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1749835208837</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Dodano metody ładowania i zapisu wydarzeń z/do pliku JSON">
+      <option name="closed" value="true" />
+      <created>1749835445536</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1749835445536</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Dodano klasę Ticket z generowaniem pliku tekstowego biletu">
+      <option name="closed" value="true" />
+      <created>1749835585068</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1749835585068</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Zmieniono format biletu z .txt na PDF i dodano generowanie kodu QR:&#10;&#10;- Zmieniono zapis biletu z pliku tekstowego na plik PDF z użyciem biblioteki `reportlab`&#10;&#10;- Dodano generowanie kodu QR zawierającego dane rezerwacji (ID, użytkownik, wydarzenie) za pomocą biblioteki `qrcode`&#10;&#10;- Przygotowano funkcję `generate_qr_code()` i zintegrowano ją z `generate_pdf()`">
+      <option name="closed" value="true" />
+      <created>1751108690825</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1751108690825</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Dodano główny plik start.py uruchamiający aplikację, obsługujący logowanie, rejestrację, panel użytkownika i administratora oraz zapis/odczyt danych z plików JSON.">
+      <option name="closed" value="true" />
+      <created>1751471768609</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1751471768609</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Dodano główny plik start.py uruchamiający aplikację, obsługujący logowanie, rejestrację, panel użytkownika i administratora oraz zapis/odczyt danych z plików JSON.">
+      <option name="closed" value="true" />
+      <created>1751473558072</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1751473558072</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Dodano główny plik start.py uruchamiający aplikację, obsługujący logowanie, rejestrację, panel użytkownika i administratora oraz zapis/odczyt danych z plików JSON.">
+      <option name="closed" value="true" />
+      <created>1751473592604</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1751473592604</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="utworzenie klas booking oraz ticket" />
+    <MESSAGE value="utworzenie klasy EventList oraz metody do wczytywania wydarzen z pliku" />
+    <MESSAGE value="pierwsze utworzenie klas booking oraz ticket" />
+    <MESSAGE value="Dodano klasę Booking z obsługą tworzenia i zapisu rezerwacji do pliku JSON" />
+    <MESSAGE value="Dodano klasę Ticket z generowaniem pliku tekstowego biletu" />
+    <MESSAGE value="Dodano klasę Booking z obsługą tworzenia i zapisu rezerwacji do pliku JSON" />
+    <MESSAGE value="Zmieniono format biletu z .txt na PDF i dodano generowanie kodu QR:&#10;&#10;- Zmieniono zapis biletu z pliku tekstowego na plik PDF z użyciem biblioteki `reportlab`&#10;&#10;- Dodano generowanie kodu QR zawierającego dane rezerwacji (ID, użytkownik, wydarzenie) za pomocą biblioteki `qrcode`&#10;&#10;- Przygotowano funkcję `generate_qr_code()` i zintegrowano ją z `generate_pdf()`" />
+    <MESSAGE value="Dodano główny plik start.py uruchamiający aplikację, obsługujący logowanie, rejestrację, panel użytkownika i administratora oraz zapis/odczyt danych z plików JSON." />
+    <option name="LAST_COMMIT_MESSAGE" value="Dodano główny plik start.py uruchamiający aplikację, obsługujący logowanie, rejestrację, panel użytkownika i administratora oraz zapis/odczyt danych z plików JSON." />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/jpydzr8_kulturalny_kod$test.coverage" NAME="test Coverage Results" MODIFIED="1751215876928" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/models" />
+    <SUITE FILE_PATH="coverage/jpydzr8_kulturalny_kod$event_class.coverage" NAME="event_class Coverage Results" MODIFIED="1749227278127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/models.py" />
+  </component>
+</project>
