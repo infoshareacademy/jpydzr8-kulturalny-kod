@@ -1,6 +1,13 @@
 import json
-from models.booking_class import Booking
-from models.ticket_class import Ticket
+from .booking_class import Booking
+from .ticket_class import Ticket
+from datetime import datetime
+
+
+def default_serializer(obj):
+    if isinstance(obj, datetime):
+        return obj.isoformat()  # '2025-07-06T14:30:00'
+    raise TypeError(f"Type {type(obj)} not serializable")
 
 
 class Event:
@@ -104,7 +111,7 @@ class EventList:
     def save_to_file(self, filename):
         data = [event.to_dict() for event in self.events]
         with open(filename, "w") as f:
-            json.dump(data, f, indent=4)
+            json.dump(data, f, indent=4, default=default_serializer)
 
     def _convert_keys(self, data: dict) -> dict:
         return {
