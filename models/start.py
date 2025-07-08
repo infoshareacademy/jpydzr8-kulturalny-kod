@@ -6,11 +6,18 @@ import json
 from uuid import uuid4
 from datetime import datetime
 
-from user import UsersManagement, User, Admin, ValidationError
-from event_class import EventList
+from .admin import Admin
+from .user import UsersManagement, User, ValidationError
+from .event_class import EventList
 
+# Path to this file (models/user.py)
+current_file = os.path.abspath(__file__)
+# Directory containing this file (models/)
+current_dir = os.path.dirname(current_file)
+# Parent directory of current_dir (project root)
+parent_dir = os.path.dirname(current_dir)
 
-DATA_DIR = "../data"
+DATA_DIR = os.path.join(parent_dir, "data")
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
 EVENTS_FILE = os.path.join(DATA_DIR, "events.json")
 
@@ -50,7 +57,7 @@ def admin_login(users_management):
     login = input("Login: ").strip()
     password = input("Hasło: ").strip()
     user = users_management.login(login, password)
-    if user and getattr(user, "is_admin", False):
+    if user and getattr(user, "is_admin", True):
         print("Zalogowano jako administrator.")
         return user
     print("Błędny login lub brak uprawnień administratora.")
@@ -94,11 +101,8 @@ def create_first_admin(users_management):
     while True:
         login = input("Podaj login admina: ").strip()
         password = input("Podaj hasło admina: ").strip()
-        email = input("Podaj email admina: ").strip()
-        data_urodzenia = input("Podaj datę urodzenia (YYYY-MM-DD): ").strip()
         try:
-            birthdate = datetime.strptime(data_urodzenia, "%Y-%m-%d").date()
-            admin = Admin(login, password, email, birthdate, str(login) + "_admin")
+            admin = Admin(login, password)
             users_management.users[login] = admin
             print("Admin utworzony!")
             break
@@ -147,8 +151,8 @@ def run():
         elif choice == "2":
             admin = admin_login(users_management)
             if admin:
-                from admin import Admin as AdminMenu
-                admin_menu = AdminMenu(admin.login, admin.password)
+                
+                admin_menu = Admin(admin.login, admin.password)
                 admin_menu.run(user_management=users_management, event_list=event_list)
                 save_all(users_management, event_list)
         elif choice == "3":
