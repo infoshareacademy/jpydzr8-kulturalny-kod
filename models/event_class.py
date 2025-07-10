@@ -102,7 +102,7 @@ class EventList:
         self.events = []
 
     def load_from_file(self, filename):
-        with open(filename, "r") as f:
+        with open(filename, "r", encoding="utf-8") as f:
             data = json.load(f)
             for event_data in data:
                 event = Event.from_dict(self._convert_keys(event_data))

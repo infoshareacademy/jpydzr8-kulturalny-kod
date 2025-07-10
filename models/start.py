@@ -3,6 +3,7 @@
 import os
 import sys
 import json
+import random
 from uuid import uuid4
 from datetime import datetime
 
@@ -134,6 +135,26 @@ def save_all(users_management, event_list):
 def run():
     users_management = load_users(USERS_FILE)
     event_list = load_events(EVENTS_FILE)
+
+    users = users_management.users  # lista obiektów User
+    events = event_list.events  # lista obiektów Event
+
+    successful = 0
+    attempts = 0
+
+    print("\n Tworzenie losowych rezerwacji...")
+
+    while successful < 100 and attempts < 200:
+        user = random.choice(list(users.values()))
+        event = random.choice(events)
+        seats = random.randint(1, 5)
+
+        if user.add_booking(event, seats):
+            successful += 1
+            print(f"{successful}. {user.login} zarezerwował {seats} miejsce(a) na '{event.name}' ({event.date})")
+        attempts += 1
+
+    print(f"\n Utworzono {successful} rezerwacji (próby: {attempts}).")
 
     # Jeśli nie ma żadnego admina, wymusza utworzenie
     if not any(getattr(u, "is_admin", False) for u in users_management.users.values()):
