@@ -5,9 +5,9 @@
         "date": "2025-08-15",
         "venue": "Olsztyn, CRS Ukiel",
         "total_seats": 500,
-        "available_seats": 478,
+        "available_seats": 461,
         "price": 243.5,
-        "bookings": 5
+        "bookings": 4
     },
     {
         "event_id": 2,
@@ -15,9 +15,9 @@
         "date": "2025-09-10",
         "venue": "Warszawa, EXPO XXI",
         "total_seats": 1200,
-        "available_seats": 1148,
+        "available_seats": 1135,
         "price": 149.0,
-        "bookings": 5
+        "bookings": 3
     },
     {
         "event_id": 3,
@@ -25,9 +25,9 @@
         "date": "2025-10-02",
         "venue": "Krakow, ICE Congress Centre",
         "total_seats": 800,
-        "available_seats": 769,
+        "available_seats": 748,
         "price": 89.99,
-        "bookings": 5
+        "bookings": 4
     },
     {
         "event_id": 4,
@@ -35,9 +35,9 @@
         "date": "2025-07-28",
         "venue": "Gdansk, Olivia Business Centre",
         "total_seats": 300,
-        "available_seats": 247,
+        "available_seats": 237,
         "price": 199.0,
-        "bookings": 6
+        "bookings": 3
     },
     {
         "event_id": 5,
@@ -45,9 +45,9 @@
         "date": "2025-10-17",
         "venue": "Poznan, Miedzynarodowe Targi",
         "total_seats": 2500,
-        "available_seats": 2448,
+        "available_seats": 2412,
         "price": 85.5,
-        "bookings": 4
+        "bookings": 3
     },
     {
         "event_id": 6,
@@ -55,7 +55,7 @@
         "date": "2025-09-05",
         "venue": "Wroclaw, Hala Stulecia",
         "total_seats": 1200,
-        "available_seats": 1144,
+        "available_seats": 1092,
         "price": 139.9,
         "bookings": 5
     },
@@ -65,9 +65,9 @@
         "date": "2025-08-22",
         "venue": "Warszawa, Manufaktura",
         "total_seats": 600,
-        "available_seats": 519,
+        "available_seats": 489,
         "price": 39.99,
-        "bookings": 9
+        "bookings": 2
     },
     {
         "event_id": 8,
@@ -75,9 +75,9 @@
         "date": "2025-11-01",
         "venue": "Katowice, Spodek",
         "total_seats": 3500,
-        "available_seats": 3448,
+        "available_seats": 3413,
         "price": 119.0,
-        "bookings": 5
+        "bookings": 10
     },
     {
         "event_id": 9,
@@ -85,9 +85,9 @@
         "date": "2025-08-30",
         "venue": "Torun, Rynek Staromiejski",
         "total_seats": 700,
-        "available_seats": 655,
+        "available_seats": 628,
         "price": 55.0,
-        "bookings": 7
+        "bookings": 3
     },
     {
         "event_id": 10,
@@ -95,9 +95,9 @@
         "date": "2025-09-20",
         "venue": "Szczecin, Zamek Ksiazat Pomorskich",
         "total_seats": 400,
-        "available_seats": 338,
+        "available_seats": 308,
         "price": 65.0,
-        "bookings": 4
+        "bookings": 5
     },
     {
         "event_id": 11,
@@ -105,9 +105,9 @@
         "date": "2025-10-11",
         "venue": "Bydgoszcz, Centrum Nauki",
         "total_seats": 1000,
-        "available_seats": 957,
+        "available_seats": 918,
         "price": 25.0,
-        "bookings": 3
+        "bookings": 7
     },
     {
         "event_id": 12,
@@ -115,7 +115,7 @@
         "date": "2025-11-14",
         "venue": "Rzeszow, Hala Podpromie",
         "total_seats": 750,
-        "available_seats": 718,
+        "available_seats": 700,
         "price": 79.0,
         "bookings": 3
     },
@@ -125,9 +125,9 @@
         "date": "2025-08-18",
         "venue": "Opole, Amfiteatr",
         "total_seats": 550,
-        "available_seats": 502,
+        "available_seats": 460,
         "price": 99.0,
-        "bookings": 5
+        "bookings": 6
     },
     {
         "event_id": 14,
@@ -135,9 +135,9 @@
         "date": "2025-09-07",
         "venue": "Kielce, Park Miejski",
         "total_seats": 800,
-        "available_seats": 739,
+        "available_seats": 702,
         "price": 19.5,
-        "bookings": 9
+        "bookings": 6
     },
     {
         "event_id": 15,
@@ -145,9 +145,9 @@
         "date": "2025-12-12",
         "venue": "Lublin, Stare Miasto",
         "total_seats": 1000,
-        "available_seats": 958,
+        "available_seats": 915,
         "price": 49.0,
-        "bookings": 5
+        "bookings": 8
     },
     {
         "event_id": 16,
@@ -155,9 +155,9 @@
         "date": "2025-09-10",
         "venue": "Zielona Gora, Centrum",
         "total_seats": 1500,
-        "available_seats": 1443,
+        "available_seats": 1398,
         "price": 59.0,
-        "bookings": 7
+        "bookings": 10
     },
     {
         "event_id": 17,
@@ -165,9 +165,9 @@
         "date": "2025-10-20",
         "venue": "Radom, ROKiS",
         "total_seats": 350,
-        "available_seats": 326,
+        "available_seats": 287,
         "price": 89.9,
-        "bookings": 1
+        "bookings": 3
     },
     {
         "event_id": 18,
@@ -175,9 +175,9 @@
         "date": "2025-08-25",
         "venue": "Gorzow Wlkp., Amfiteatr",
         "total_seats": 400,
-        "available_seats": 347,
+        "available_seats": 326,
         "price": 79.99,
-        "bookings": 5
+        "bookings": 3
     },
     {
         "event_id": 19,
@@ -185,9 +185,9 @@
         "date": "2025-09-18",
         "venue": "Legnica, Teatr Modrzejewskiej",
         "total_seats": 300,
-        "available_seats": 254,
+        "available_seats": 214,
         "price": 109.0,
-        "bookings": 4
+        "bookings": 7
     },
     {
         "event_id": 20,
@@ -195,8 +195,8 @@
         "date": "2025-11-22",
         "venue": "Elblag, Galeria EL",
         "total_seats": 600,
-        "available_seats": 579,
+        "available_seats": 541,
         "price": 69.5,
-        "bookings": 3
+        "bookings": 5
     }
 ]

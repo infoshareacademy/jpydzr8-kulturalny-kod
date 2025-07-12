@@ -7,9 +7,9 @@ import random
 from uuid import uuid4
 from datetime import datetime
 
-from .admin import Admin
-from .user import UsersManagement, User, ValidationError
-from .event_class import EventList
+from models.admin import Admin
+from models.user import UsersManagement, User, ValidationError
+from models.event_class import EventList
 
 # Path to this file (models/user.py)
 current_file = os.path.abspath(__file__)
@@ -70,10 +70,12 @@ def user_login(users_management):
     password = input("Hasło: ").strip()
     user = users_management.login(login, password)
     if user and not getattr(user, "is_admin", False):
+        user.load_bookings_from_file()
         print(f"Zalogowano jako użytkownik: {user.login}")
         return user
     print("Błędny login lub nie jesteś użytkownikiem.")
     return None
+
 
 def register_user(users_management):
     print("\n--- Rejestracja nowego użytkownika ---")
