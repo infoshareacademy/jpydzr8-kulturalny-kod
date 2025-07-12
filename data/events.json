@@ -5,8 +5,198 @@
         "date": "2025-08-15",
         "venue": "Olsztyn, CRS Ukiel",
         "total_seats": 500,
-        "available_seats": 500,
+        "available_seats": 478,
         "price": 243.5,
+        "bookings": 5
+    },
+    {
+        "event_id": 2,
+        "name": "Warsaw Tech Days",
+        "date": "2025-09-10",
+        "venue": "Warszawa, EXPO XXI",
+        "total_seats": 1200,
+        "available_seats": 1148,
+        "price": 149.0,
+        "bookings": 5
+    },
+    {
+        "event_id": 3,
+        "name": "Craco Night",
+        "date": "2025-10-02",
+        "venue": "Krakow, ICE Congress Centre",
+        "total_seats": 800,
+        "available_seats": 769,
+        "price": 89.99,
+        "bookings": 5
+    },
+    {
+        "event_id": 4,
+        "name": "Gdansk Startup Weekend",
+        "date": "2025-07-28",
+        "venue": "Gdansk, Olivia Business Centre",
+        "total_seats": 300,
+        "available_seats": 247,
+        "price": 199.0,
+        "bookings": 6
+    },
+    {
+        "event_id": 5,
+        "name": "Poznan Gamea",
+        "date": "2025-10-17",
+        "venue": "Poznan, Miedzynarodowe Targi",
+        "total_seats": 2500,
+        "available_seats": 2448,
+        "price": 85.5,
+        "bookings": 4
+    },
+    {
+        "event_id": 6,
+        "name": "Wroclaw Rock Fest",
+        "date": "2025-09-05",
+        "venue": "Wroclaw, Hala Stulecia",
+        "total_seats": 1200,
+        "available_seats": 1144,
+        "price": 139.9,
+        "bookings": 5
+    },
+    {
+        "event_id": 7,
+        "name": "Warszawa Food Truck Festival",
+        "date": "2025-08-22",
+        "venue": "Warszawa, Manufaktura",
+        "total_seats": 600,
+        "available_seats": 519,
+        "price": 39.99,
+        "bookings": 9
+    },
+    {
+        "event_id": 8,
+        "name": "Katowice E-sport Clash",
+        "date": "2025-11-01",
+        "venue": "Katowice, Spodek",
+        "total_seats": 3500,
+        "available_seats": 3448,
+        "price": 119.0,
+        "bookings": 5
+    },
+    {
+        "event_id": 9,
+        "name": "Torun Folk Festival",
+        "date": "2025-08-30",
+        "venue": "Torun, Rynek Staromiejski",
+        "total_seats": 700,
+        "available_seats": 655,
+        "price": 55.0,
+        "bookings": 7
+    },
+    {
+        "event_id": 10,
+        "name": "Szczecin Stand-up Night",
+        "date": "2025-09-20",
+        "venue": "Szczecin, Zamek Ksiazat Pomorskich",
+        "total_seats": 400,
+        "available_seats": 338,
+        "price": 65.0,
+        "bookings": 4
+    },
+    {
+        "event_id": 11,
+        "name": "Bydgoszcz Science Fair",
+        "date": "2025-10-11",
+        "venue": "Bydgoszcz, Centrum Nauki",
+        "total_seats": 1000,
+        "available_seats": 957,
+        "price": 25.0,
+        "bookings": 3
+    },
+    {
+        "event_id": 12,
+        "name": "Rzeszow Drone Expo",
+        "date": "2025-11-14",
+        "venue": "Rzeszow, Hala Podpromie",
+        "total_seats": 750,
+        "available_seats": 718,
+        "price": 79.0,
+        "bookings": 3
+    },
+    {
+        "event_id": 13,
+        "name": "Opole Classic Music Evening",
+        "date": "2025-08-18",
+        "venue": "Opole, Amfiteatr",
+        "total_seats": 550,
+        "available_seats": 502,
+        "price": 99.0,
+        "bookings": 5
+    },
+    {
+        "event_id": 14,
+        "name": "Kielce Eco Days",
+        "date": "2025-09-07",
+        "venue": "Kielce, Park Miejski",
+        "total_seats": 800,
+        "available_seats": 739,
+        "price": 19.5,
+        "bookings": 9
+    },
+    {
+        "event_id": 15,
+        "name": "Lublin Light Festival",
+        "date": "2025-12-12",
+        "venue": "Lublin, Stare Miasto",
+        "total_seats": 1000,
+        "available_seats": 958,
+        "price": 49.0,
+        "bookings": 5
+    },
+    {
+        "event_id": 16,
+        "name": "Zielona Gora Winobranie",
+        "date": "2025-09-10",
+        "venue": "Zielona Gora, Centrum",
+        "total_seats": 1500,
+        "available_seats": 1443,
+        "price": 59.0,
+        "bookings": 7
+    },
+    {
+        "event_id": 17,
+        "name": "Radom Design Days",
+        "date": "2025-10-20",
+        "venue": "Radom, ROKiS",
+        "total_seats": 350,
+        "available_seats": 326,
+        "price": 89.9,
         "bookings": 1
+    },
+    {
+        "event_id": 18,
+        "name": "Gorzow Wielkopolski Blues Night",
+        "date": "2025-08-25",
+        "venue": "Gorzow Wlkp., Amfiteatr",
+        "total_seats": 400,
+        "available_seats": 347,
+        "price": 79.99,
+        "bookings": 5
+    },
+    {
+        "event_id": 19,
+        "name": "Legnica Theater Weekend",
+        "date": "2025-09-18",
+        "venue": "Legnica, Teatr Modrzejewskiej",
+        "total_seats": 300,
+        "available_seats": 254,
+        "price": 109.0,
+        "bookings": 4
+    },
+    {
+        "event_id": 20,
+        "name": "Elblag Art Show",
+        "date": "2025-11-22",
+        "venue": "Elblag, Galeria EL",
+        "total_seats": 600,
+        "available_seats": 579,
+        "price": 69.5,
+        "bookings": 3
     }
 ]
