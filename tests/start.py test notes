@@ -1,0 +1,76 @@
+0. Pierwsze uruchomienie - PASSED (poprawne wyswietlenie sie menu glownego)
+
+0a. Tworzenie admina przy pierwszym uruchomieniu aplikacji - PARTIALlY PASSED (nowy admin jest przypisywany do pliku users.json)
+        Po zatrzymaniu programu oraz ponownym uruchomieniu, poprzednio utworzony admin nie jest zczytywany z pliku users.json.
+        Wyswietla sie ponownie opcja o Tworzenie pierwszego administratora.
+        Sugestia: W pliku user.py w metodzie load_from_json_file nalezy dodac metode rozpoznawania adminow.
+
+1. Opcja 1. Zaloguj jako uzytkownik - PASSED (poprawnie zczytuje dane uzytkownika z pliku users.json)
+        Opcja 1. Zobacz dostepne wydarzenia - PASSED (poprawnie zczytuje dane wydarzen z pliku events.json)
+        Opcja 2. Zarezerwuj miejsce na wydarzenie - PASSED (poprawnie zczytuje id wydarzenia z pliku events.json,
+                                                            po rezerwacji zostaje stworzony bilet w formacie pdf,
+                                                            rezerwacja zostaje dopisana do pliku bookings.json)
+
+        * Dopiero po wylogowaniu sie uzytkownika jest aktualizowana liczba dostepnych miejsc w pliku events.json.
+          Sugestia: Warto usprawnic kod w pliku user.py by dane byly zapisywane do pliku po kazdej zmianie.
+
+        Opcja 3. Pokaz moje rezerwacje - PASSED (poprawnie zczytuje rezerwacje uzytkownika z pliku bookings.json)
+        Opcja 4. Anuluj rezerwacje - PASSED (poprawnie zczytuje rezerwacje uzytkownika z pliku bookings.json
+                                             po wprowadzeniu id, wyswietlane info o usunieciu rezerwacji)
+
+        * Wykonanie metody nie aktualizuje liczb miejsc w pliku events.json
+          Sugestia: Metoda cancel_booking  w event_class.py aktualizuje liczbę miejsc i usuwa rezerwacje z eventu.
+                    Nalezy upewnic sie czy metoda jest poprawnie wywolywana.
+        * Rezerwacja jest usuwana jedynie z pamieci uzytkownika.
+          Sugestia: Metoda remove_from_file w booking_class.py usuwa rezerwacje z pliku bookings.json
+                    Nalezy upewnic sie czy metoda jest poprawnie wywolywana.
+
+        Opcja 5. Wyloguj - PASSED (uzytkownik zostaje wylogowany i wraca do menu glownego)
+
+2. Opcja 2. Zaloguj sie jako administrator - PASSED (poprawnie zczytuje dane admina z pliku users.json
+                                                     poprawne wyswietlenie menu Admina.)
+        Opcja 0. Wyswietl dostepne mozliwe akcje - dziala (poprawnie wyswietla kompletne menu.
+                                                           czy ta opcja jest potrzebna?)
+        Opcja 1. Utworz admina - PARTIALlY PASSED (wywolanie metody wysyla zapytanie do uzytkownika o login oraz password.
+                                               po zakonczeniu wyswietlana jest informacja o utworzeniu nowego admina z ID...)
+
+            * Metoda nie zapisuje nowego admina do pliku users.json oraz dane potrzebne do rejestracji sa niewystarczajace.
+              Sugestia: Poprawa metody z dodatkowym zapytaniem o date urodzenia oraz adres email.
+                        Przekazanie funkcji zapisu nowego admina do pliku.
+
+        Opcja 2. Usun admina - FAILED (aktualnie nie mozna wykonac testu (patrz notatki do Opcji 1)
+
+        Opcja 3. Uwtorz wydarzenie - PARTIALlY PASSED (poprawne wyswietlenie sie zapytania o dane wydarzenia po wybraniu opcji,
+                                                       po wykonaniu utworzone wydarzenie zostaje dodane do pliku events.json
+            * Brak walidacji kluczy w kodzie. Przy blednym wpisaniu danych wyrzucany jest blad.
+              Sugestia: Dodanie walidacji kluczy w celu unikniecia bledow przy wpisywaniu.
+            * Po prawidlowym wykonaniu metody admin zostaje wylogowany i aplikacja uruchamia sie na nowo.
+              Brak informacji o prawidlowym/nieprawidlowym wykonaniu metody.
+              Sugestia: Nalezy przyjzec sie metodzie create_event w klasie Admin.
+
+        Opcja 4. Usun wydarzenie - FAILED (nie mozna wykonac testu poniewaz metoda nie przyjmuje atrybutow,
+                                           "Wrong attributes passed to function 4")
+
+        Opcja 5. Dodaj uzytkownika- FAILED (nie mozna wykonac testu poniewaz metoda nie przyjmuje atrybutow,
+                                           "Wrong attributes passed to function 5")
+
+        Opcja 6. Usun uzytkownika - FAILED (nie mozna wykonac testu poniewaz metoda nie przyjmuje atrybutow,
+                                           "Wrong attributes passed to function 6")
+
+        Opcja 7. Dodaj rezerwacje - FAILED (nie mozna wykonac testu poniewaz metoda nie przyjmuje atrybutow,
+                                           "Wrong attributes passed to function 7")
+
+        Opcja 8. Anuluj rezerwacje - FAILED (nie mozna wykonac testu poniewaz metoda nie przyjmuje atrybutow,
+                                           "Wrong attributes passed to function 8")
+
+        Opcja 9. Wyjscie - PASSED (poprawne wylogowanie uzytkownika oraz powrot do menu glownego)
+
+3. Opcja 3. Zarejestruj sie jako nowy uzytkownik - PASSED (po wybraniu opcji uzytkownik zostaje poproszony o podanie danych,
+                                                           po zakonczeniu wyswietlona zostaje informacja o rejestracji
+                                                           zakonczonej sukcesem,
+                                                           nowy uzytkownik zostaje dodany do pliku users.json,
+                                                           logowanie uzytkownika dziala poprawnie)
+
+4. Opcja 4. Wyjdz z programu - PASSED (program zostaje zakonczony prawidlowo,
+                                       wyswietlenie informacji o zakonczeniu programu)
+
