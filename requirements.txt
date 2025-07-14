@@ -2,3 +2,5 @@ unidecode==1.4.0
 qrcode~=8.2
 django-qrcode~=0.3
 reportlab~=4.4.2
+django==5.2.4
+mysqlclient==2.2.7
