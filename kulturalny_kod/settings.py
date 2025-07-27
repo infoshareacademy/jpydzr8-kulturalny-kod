@@ -73,10 +73,15 @@ WSGI_APPLICATION = 'kulturalny_kod.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "OPTIONS": {
-            "read_default_file": "database.cnf",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kk_db',
+        'USER': 'root',  # or your MySQL user
+        'PASSWORD': 'root',  # or your MySQL password
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
         },
     }
 }
