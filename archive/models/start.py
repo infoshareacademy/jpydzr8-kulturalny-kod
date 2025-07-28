@@ -7,9 +7,9 @@ import random
 from uuid import uuid4
 from datetime import datetime
 
-from models.admin import Admin
-from models.user import UsersManagement, User, ValidationError
-from models.event_class import EventList
+from archive.models.admin import Admin
+from archive.models.user import UsersManagement, User, ValidationError
+from archive.models.event_class import EventList
 
 # Path to this file (models/user.py)
 current_file = os.path.abspath(__file__)

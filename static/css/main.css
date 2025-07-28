@@ -1,0 +1,18 @@
+html, body {
+    color: darkblue;
+    margin: 0;
+}
+
+.errorlist {
+    color: red;
+}
+
+.helptext {
+    color: green;
+    font-style: italic;
+}
+
+li {
+    color: green;
+    font-style: italic;
+}

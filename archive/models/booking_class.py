@@ -1,7 +1,6 @@
 import json
 from datetime import datetime
 import uuid
-from models.ticket_class import Ticket
 
 
 class Booking:

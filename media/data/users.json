@@ -61407,6 +61407,14 @@
             "data_urodzenia": "2002-10-01",
             "id": "3420bec7-7c03-4d88-a8b4-ed59edd396fb",
             "is_admin": false
+        },
+        {
+            "login": "andrzej",
+            "password": "andrzejandrzej",
+            "email": "and@gmail.com",
+            "data_urodzenia": "1995-01-01 00:00:00",
+            "id": "d3cfe2be-087b-4236-9179-3d1cf50b619d",
+            "is_admin": false
         }
     ]
 }

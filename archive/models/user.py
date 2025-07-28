@@ -1,4 +1,4 @@
-from models.booking_class import Booking
+from archive.models.booking_class import Booking
 from datetime import datetime, date
 import json
 import os
@@ -86,7 +86,7 @@ class User:
 
     def load_bookings_from_file(self, filename="bookings.json"):
         import json
-        from models.booking_class import Booking
+        from archive.models.booking_class import Booking
 
         if not os.path.exists(filename):
             return
