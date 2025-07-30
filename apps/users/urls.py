@@ -10,7 +10,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('activate/<uidb64>/<token>/', ActivateAccount.as_view(), name='activate'),
     path('account_activation_sent/',
-         TemplateView.as_view(template_name='account_activation_sent.html'),
+         TemplateView.as_view(template_name='users/account_activation_sent.html'),
          name='account_activation_sent'
     ),
 ]

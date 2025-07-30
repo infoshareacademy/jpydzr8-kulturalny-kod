@@ -1,5 +1,6 @@
 # jpydzr8-kulturalny-kod
 ```bash
+python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
