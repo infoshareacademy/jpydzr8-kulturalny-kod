@@ -1,0 +1,63 @@
+Klasa EventList
+
+Inputs:
+Lista wydarzeń (events) - wewnętrzna lista przechowująca obiekty klasy Event.
+
+Metody do wywoływania:
+
+* Dodanie nowego wydarzenia do listy
+    1. Funkcja dodaje obiekt Event do listy.
+
+* Usuwanie wydarzenia na podstawie ID
+    1. Sprawdza czy istnieje wydarzenie o podanym event_id
+    2. Jeśli tak:
+        Usuwa wydarzenie z listy.
+        Zwraca True
+    3. Jeśli nie:
+        Zwraca False
+
+* Pobieranie wydarzenia po ID
+    1. Przeszukuje listę events.
+    2. Jeśli znajdzie wydarzenie o danym ID:
+        Zwraca obiekt Event
+    3. Jeśli nie:
+        Zwraca None
+
+* Zwraca listę wydarzeń w słowniku
+    1. Iteruje po liście wydarzeń.
+    2. Zwraca listę słowników z danymi wydarzeń.
+
+* Wyszukiwanie wydarzeń według nazwy
+    1. Porównuje nazwę.
+    2. Zwraca listę pasujących obiektów Event.
+
+* Filtrowanie wydarzeń po kategorii
+    1. Porównuje kategorię.
+    2. Zwraca listę wydarzeń danej kategorii.
+
+* Filtrowanie wydarzeń według daty
+    1. Porównuje datę jako string.
+    2. Zwraca listę wydarzeń z daną datą.
+
+* Aktualizacja danych wydarzenia
+    1. Wyszukuje wydarzenie po ID.
+    2. Jeśli istnieje:
+        Dla każdego pola aktualizuje wartość w obiekcie Event
+        Zwraca True
+    3. Jeśli nie:
+        Zwraca False
+
+* Zapis wszystkich wydarzeń do pliku json
+    1. Tworzy listę słowników.
+    2. Zapisuje dane do pliku JSON.
+
+* Wczytanie wydarzeń z pliku json
+    1. Ładuje dane z pliku.
+    2. Tworzy z nich obiekty Event.
+    3. Nadpisuje aktualną listę.
+
+Powiązania z klasami:
+    1. Event - przechowuje wiele obiektów Event.
+    2. Admin - Może dodawać, usuwać, edytować wydarzenia.
+    3. Booking - Każdy Event może zawierać wiele rezerwacji.
+    4. Ticket - Rezerwacje w Event generują bilety.
