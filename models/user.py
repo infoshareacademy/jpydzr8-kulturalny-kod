@@ -84,6 +84,27 @@ class User:
             else:
                 print("Nieznana opcja. Spróbuj ponownie.")
 
+    def load_bookings_from_file(self, filename="bookings.json"):
+        import json
+        from models.booking_class import Booking
+
+        if not os.path.exists(filename):
+            return
+
+        with open(filename, "r") as f:
+            data = json.load(f)
+
+        for b in data:
+            if b["user_name"] == self.login:
+                booking = Booking(
+                    event_id=b["event_id"],
+                    user_name=b["user_name"],
+                    seats=b["seats"]
+                )
+                booking.id = b["id"]
+                booking.date = b["date"]
+                self.booking_list.append(booking)
+
     def add_booking(self, event, seats=1):
         if any(b.event_id == event.event_id for b in self.booking_list):
             print("Rezerwacja na to wydarzenie już istnieje.")
@@ -110,6 +131,7 @@ class User:
                     return True
         print("Nie znaleziono rezerwacji.")
         return False
+
 
     @property
     def age(self):

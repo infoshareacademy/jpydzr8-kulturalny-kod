@@ -3,14 +3,22 @@
 import os
 import sys
 import json
+import random
 from uuid import uuid4
 from datetime import datetime
 
-from user import UsersManagement, User, Admin, ValidationError
-from event_class import EventList
+from models.admin import Admin
+from models.user import UsersManagement, User, ValidationError
+from models.event_class import EventList
 
+# Path to this file (models/user.py)
+current_file = os.path.abspath(__file__)
+# Directory containing this file (models/)
+current_dir = os.path.dirname(current_file)
+# Parent directory of current_dir (project root)
+parent_dir = os.path.dirname(current_dir)
 
-DATA_DIR = "../data"
+DATA_DIR = os.path.join(parent_dir, "data")
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
 EVENTS_FILE = os.path.join(DATA_DIR, "events.json")
 
@@ -50,7 +58,7 @@ def admin_login(users_management):
     login = input("Login: ").strip()
     password = input("Hasło: ").strip()
     user = users_management.login(login, password)
-    if user and getattr(user, "is_admin", False):
+    if user and getattr(user, "is_admin", True):
         print("Zalogowano jako administrator.")
         return user
     print("Błędny login lub brak uprawnień administratora.")
@@ -62,10 +70,12 @@ def user_login(users_management):
     password = input("Hasło: ").strip()
     user = users_management.login(login, password)
     if user and not getattr(user, "is_admin", False):
+        user.load_bookings_from_file()
         print(f"Zalogowano jako użytkownik: {user.login}")
         return user
     print("Błędny login lub nie jesteś użytkownikiem.")
     return None
+
 
 def register_user(users_management):
     print("\n--- Rejestracja nowego użytkownika ---")
@@ -94,11 +104,8 @@ def create_first_admin(users_management):
     while True:
         login = input("Podaj login admina: ").strip()
         password = input("Podaj hasło admina: ").strip()
-        email = input("Podaj email admina: ").strip()
-        data_urodzenia = input("Podaj datę urodzenia (YYYY-MM-DD): ").strip()
         try:
-            birthdate = datetime.strptime(data_urodzenia, "%Y-%m-%d").date()
-            admin = Admin(login, password, email, birthdate, str(login) + "_admin")
+            admin = Admin(login, password)
             users_management.users[login] = admin
             print("Admin utworzony!")
             break
@@ -131,6 +138,26 @@ def run():
     users_management = load_users(USERS_FILE)
     event_list = load_events(EVENTS_FILE)
 
+    users = users_management.users  # lista obiektów User
+    events = event_list.events  # lista obiektów Event
+
+    successful = 0
+    attempts = 0
+
+    print("\n Tworzenie losowych rezerwacji...")
+
+    while successful < 100 and attempts < 200:
+        user = random.choice(list(users.values()))
+        event = random.choice(events)
+        seats = random.randint(1, 5)
+
+        if user.add_booking(event, seats):
+            successful += 1
+            print(f"{successful}. {user.login} zarezerwował {seats} miejsce(a) na '{event.name}' ({event.date})")
+        attempts += 1
+
+    print(f"\n Utworzono {successful} rezerwacji (próby: {attempts}).")
+
     # Jeśli nie ma żadnego admina, wymusza utworzenie
     if not any(getattr(u, "is_admin", False) for u in users_management.users.values()):
         print("\nBrak administratora w systemie.")
@@ -147,8 +174,8 @@ def run():
         elif choice == "2":
             admin = admin_login(users_management)
             if admin:
-                from admin import Admin as AdminMenu
-                admin_menu = AdminMenu(admin.login, admin.password)
+                
+                admin_menu = Admin(admin.login, admin.password)
                 admin_menu.run(user_management=users_management, event_list=event_list)
                 save_all(users_management, event_list)
         elif choice == "3":

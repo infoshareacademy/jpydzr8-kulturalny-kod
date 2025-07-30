@@ -1,17 +1,22 @@
 from uuid import uuid4
 from datetime import datetime
-from event_class import Event, EventList
-from user import UsersManagement
+
+from .event_class import Event, EventList
+from .user import UsersManagement
 
 
 def cast_value(value: str) -> int | float | str:
     try:
-        float_value = float(value)
-        int_value = int(value)
-        if int_value == float_value:
-            return int_value
-        else:
-            return float_value
+        try:
+            date_value = datetime.strptime(value, "%Y-%m-%d")
+            return date_value
+        except ValueError:
+            float_value = float(value)
+            int_value = int(float_value)
+            if int_value == float_value:
+                return int_value
+            else:
+                return float_value
     except ValueError:
         return value
     except Exception as e:
@@ -50,16 +55,17 @@ class Admin:
         self.__is_admin = True
 
     @staticmethod
-    def __get_dict_from_string(string: str) -> dict:
+    def __get_dict_from_string(required_attributes: str, string: str) -> dict:
         """
         Create a dictionary from a string like
         key1: value1, key2: value2
         """
-        list_ = string.replace(" ", "").split(",")
+        attrs_list = required_attributes.split(",")
+        list_ = string.strip(" ").split(",")
         attr_dict = {}
-        for attribute in list_:
-            attribute = attribute.split(":")
-            attr_dict[attribute[0]] = cast_value(attribute[1])
+        for attribute, value in zip(attrs_list, list_):
+            attr_iter = attribute.split(":")[0]
+            attr_dict[attr_iter] = cast_value(value)
         return attr_dict
 
     def __get_action_from_input(self, action_name: str) -> str | bool:
@@ -73,6 +79,18 @@ class Admin:
             action_value = self.list_of_actions.get(action_name, False)
 
         return action_value
+
+    @property
+    def is_admin(self) -> bool:
+        return self.__is_admin
+    
+    @property
+    def password(self) -> bool:
+        return self.__password
+    
+    @property
+    def login(self) -> bool:
+        return self.__login
 
     @property
     def id(self) -> str:
@@ -112,7 +130,7 @@ class Admin:
 
                 if action_result:
                     print(
-                        f"Action {action_name} was successful with result {action_result}"
+                        f"Action {action} was successful with result {action_result}"
                     )
                     self.run(user_management=user_management, event_list=event_list)
 
@@ -154,13 +172,12 @@ class Admin:
         """
         print("Potrzebne dane:")
         id = str(uuid4())
-        print(
-            "name:XXX,date:yyyy-mm-dd,venue:XXX,total_seats:XXX,available_seats:XXX,price:float"
-        )
+        required_attributes = "name:XXX,date:yyyy-mm-dd,venue:XXX,total_seats:XXX,available_seats:XXX,price:float"
+        print(required_attributes)
         event_data = input("Enter event data: ")
-        event_attr_dict = self.__get_dict_from_string(event_data)
+        event_attr_dict = self.__get_dict_from_string(required_attributes=required_attributes, string=event_data)
         event_attr_dict["event_id"] = id
-        id = event_list.events.append(Event(**event_attr_dict))
+        event_list.events.append(Event(**event_attr_dict))
         return id
 
     def delete_event(self, event_list: EventList, **kwargs) -> str:
@@ -174,9 +191,10 @@ class Admin:
     def create_user(self, user_management: UsersManagement, **kwargs) -> str:
         print("Potrzebne dane:")
         id = str(uuid4())
-        print("login:XXX,password:XXX,email:XXX,data_urodzenia:yyyy-mm-dd")
+        required_attributes = "login:XXX,password:XXX,email:XXX,data_urodzenia:yyyy-mm-dd"
+        print(required_attributes)
         user_data = input("Enter event data: ")
-        user_attr_dict = self.__get_dict_from_string(user_data)
+        user_attr_dict = self.__get_dict_from_string(required_attributes=required_attributes, string=user_data)
         user_attr_dict["id"] = id
         result = user_management.create_user(current_user=self, **user_attr_dict)
         return result
