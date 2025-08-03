@@ -1,0 +1,12 @@
+Hi {{ user.username }},
+
+Thank you for registering at {{ domain }}.
+
+Please click the link below to activate your account:
+
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+If you did not sign up for this account, please ignore this email.
+
+Best regards,
+The {{ domain }} Team

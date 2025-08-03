@@ -1,0 +1,5 @@
+13/07/2025 - prezentacja rozwiązania
+
+15/06/2025 - pierwsza gotowa wersja aplikacji + zintegrowanie wszystkich klas ze sobą w jedną aplikację
+
+01/06/2025 - stworzenie pierwszych wersji wszystkich klas
