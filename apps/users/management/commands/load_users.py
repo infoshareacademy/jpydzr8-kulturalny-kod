@@ -5,6 +5,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.conf import settings
+from apps.users.models import UserProfile
 from tqdm import tqdm
 
 class Command(BaseCommand):
@@ -55,11 +56,20 @@ class Command(BaseCommand):
                     self.style.SUCCESS(f"✅ Batch {i // batch_size}. Created {len(new_users)} users (bulk insert) from file {file_path}.")
                 )
                 total_created += len(new_users)
+                self._create_user_profile_from_db(new_users)
                 new_users.clear()
+
         if new_users:
             User.objects.bulk_create(new_users, ignore_conflicts=True)
+            self._create_user_profile_from_db(new_users)
             total_created += len(new_users)
 
         self.stdout.write(
             self.style.SUCCESS(f"✅ Created {total_created} users (bulk insert) from file {file_path}.")
         )
+    
+    def _create_user_profile_from_db(self, users: list):
+        usernames = [u.username for u in users]
+        db_users = User.objects.filter(username__in=usernames)
+        profiles = [UserProfile(user=user) for user in db_users]
+        UserProfile.objects.bulk_create(profiles)

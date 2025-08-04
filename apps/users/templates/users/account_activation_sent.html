@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Wysłano na email</title>
-</head>
-<body>
-    Wysłano link aktywacyjny na email
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %} {{ title }} {% endblock title %}
+
+{% block content %}
+  <h2>Dziękujemy za rejestrację!</h2>
+  <p>Na Twój adres email została wysłana wiadomość z linkiem aktywacyjnym.</p>
+{% endblock content %}

@@ -1,18 +1,19 @@
-from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic.edit import FormView
-from django.urls import reverse_lazy
-from .forms import CustomUserCreationForm
-from django.shortcuts import render, redirect
-from django.core.mail import EmailMessage
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
-from django.contrib.sites.shortcuts import get_current_site
-from django.contrib.auth.tokens import default_token_generator
-from django.template.loader import render_to_string
-from django.utils.encoding import force_str
-from django.views import View
-from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.views import LoginView
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.views import View
+from django.views.generic.edit import FormView
+from django.views.generic import UpdateView, DetailView, TemplateView
+from .forms import CustomUserCreationForm, CustomUserChangeForm, UserProfileForm
+from .models import UserProfile
 
 # Create your views here.
 class CustomLoginView(LoginView):
@@ -26,19 +27,19 @@ class CustomLoginView(LoginView):
         context['button_info'] = 'Log In'
         return context
     
-class CustomLogoutView(LogoutView):
-    next_page = reverse_lazy("login")
+    def get_success_url(self):
+        return reverse_lazy('users:home')
 
 class CustomRegisterView(FormView):
     form_class = CustomUserCreationForm
     template_name = 'base_form.html'
-    success_url = reverse_lazy('account_activation_sent')
+    success_url = reverse_lazy('users:account_activation_sent')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Add your custom context variables here
-        context['title'] = 'Please Register'
-        context['button_info'] = 'Register'
+        context['title'] = 'Rejestracja'
+        context['button_info'] = 'Zarejestruj'
         return context
 
     def form_valid(self, form):
@@ -72,6 +73,80 @@ class ActivateAccount(View):
             user.is_active = True
             user.save()
             # Optional: login user here
-            return redirect('login')
+            return redirect('users:login')
         else:
             return render(request, 'activation_invalid.html')
+
+class AccountActivationSentView(TemplateView):
+    template_name = 'users/account_activation_sent.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Aktywacja konta wysłana'
+        return context
+
+class UserHomeView(LoginRequiredMixin, View):
+    login_url = 'users:login'
+    
+    def get(self, request):
+        return render(request, "users/user_home.html")
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = CustomUserChangeForm
+    template_name = 'users/user_edit.html'
+    login_url = reverse_lazy('users:home')
+    success_url = reverse_lazy('users:home')  # Redirect after saving
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add your custom context variables here
+        context['title'] = 'Edycja danych'
+        context['button_info'] = 'Edytuj'
+        context['password_change_url'] = reverse_lazy('users:password_change')
+        
+        profile, created = UserProfile.objects.get_or_create(user=self.request.user)
+        if self.request.method == 'POST':
+            context['profile_form'] = UserProfileForm(self.request.POST, self.request.FILES, instance=profile)
+        else:
+            context['profile_form'] = UserProfileForm(instance=profile)
+
+        
+        return context
+
+    # Ensure user can only edit their own profile
+    def get_object(self, queryset=None):
+        return self.request.user
+    
+    def get_success_url(self):
+        return reverse_lazy('users:home')
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        profile, created = UserProfile.objects.get_or_create(user=self.request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
+
+        if form.is_valid() and profile_form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            profile_form.save()
+            return redirect(self.get_success_url())
+        return self.form_invalid(form)
+    
+class UserDetailView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'users/user_info.html'
+    login_url = reverse_lazy('users:home')
+    
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add your custom context variables here
+        context['title'] = 'Profil'
+        
+        profile, created = UserProfile.objects.get_or_create(user=self.request.user)
+        context['profile'] = profile
+        return context

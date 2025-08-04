@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %} {{ title }} {% endblock title %}
+
+{% block content %}
+    <h1>Nazwa użytkownika: {{ user.username }}</h1>
+    <p>Imię: {{ user.first_name }}</p>
+    <p>Nazwisko: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    {% if profile.photo %}
+        <img src="{{ profile.photo.url }}" alt="Zdjęcie profilowe {{ user.username }}" width="150" height="150">
+    {% else %}
+        <p>No profile photo available.</p>
+    {% endif %}
+    <br>
+    <a href="{% url 'users:edit' %}">Edytuj dane</a><br>
+    <button type="button" onclick="history.back()">Cofnij</button>
+{% endblock content %}

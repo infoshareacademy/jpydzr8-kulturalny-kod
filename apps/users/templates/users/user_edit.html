@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %} {{ title }} {% endblock title %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if profile_form %}
+            {{ profile_form.as_p }}
+        {% endif %}
+        <p><a href="{{ password_change_url }}">Zmień hasło</a></p>
+        {% if button_info %}
+            <button type="submit">{{ button_info }}</button>
+        {% endif %}
+    </form>
+
+{% endblock content %}
