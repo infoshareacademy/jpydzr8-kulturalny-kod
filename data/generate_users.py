@@ -19,7 +19,7 @@ def generate_password(length=12):
 
 
 def generate_data(
-    num_users: int = 10000,
+    num_users: int = 100,
     password_length: int = 12,
     oldest_date_of_birth: datetime = datetime(1950, 1, 1),
     seed: int = 42,
@@ -40,21 +40,21 @@ def generate_data(
 
     day_to_today = (datetime.now() - oldest_date_of_birth).days
 
-    with open(imiona_link, "r") as imiona_file:
+    with open(imiona_link, "r", encoding="utf-8") as imiona_file:
         for i, line in enumerate(imiona_file.readlines()):
             if i > 0:
                 line = line.replace("\n", "").split(",")
                 imiona.append([line[0].capitalize(), line[1][0].lower()])
                 imiona_weights.append(int(line[-1]))
 
-    with open(nazwiska_meskie_link, "r") as nazwiska_meskie_file:
+    with open(nazwiska_meskie_link, "r", encoding="utf-8") as nazwiska_meskie_file:
         for i, line in enumerate(nazwiska_meskie_file.readlines()):
             if i > 0:
                 line = line.replace("\n", "").split(",")
                 nazwiska_meskie.append(line[0].capitalize())
                 nazwiska_meskie_weights.append(int(line[-1]))
 
-    with open(nazwiska_zenskie_link, "r") as nazwiska_zenskie_file:
+    with open(nazwiska_zenskie_link, "r", encoding="utf-8") as nazwiska_zenskie_file:
         for i, line in enumerate(nazwiska_zenskie_file.readlines()):
             if i > 0:
                 line = line.replace("\n", "").split(",")
@@ -64,23 +64,26 @@ def generate_data(
     for _ in range(num_users):
         user = {}
         imie = choices(imiona, weights=imiona_weights, k=1)[0]
-        user["imie"] = imie[0]
+        user["first_name"] = imie[0]
         plec = imie[1]
         if plec == "m":
             nazwisko = choices(nazwiska_meskie, weights=nazwiska_meskie_weights, k=1)[0]
         else:
             nazwisko = choices(nazwiska_zenskie, weights=nazwiska_zenskie_weights, k=1)[0]
-        user["nazwisko"] = nazwisko
-        user["plec"] = plec
+        user["last_name"] = nazwisko
+        # user["plec"] = plec
         data_urodzenia = datetime.now() - timedelta(days=randint(0, day_to_today))
-        user["data_urodzenia"] = str(data_urodzenia.date())
-        user["id"] = str(uuid4())
+        # user["data_urodzenia"] = str(data_urodzenia.date())
+        # user["id"] = str(uuid4())
         login = unidecode(
-            f"{user['imie'].lower()[0]}.{user['nazwisko'].lower()}{data_urodzenia.year}{user["id"][:2]}"
+            f"{user['first_name'].lower()[0]}.{user['last_name'].lower()}{data_urodzenia.year}{str(uuid4())[:2]}"
         )
-        user["login"] = login
+        user["username"] = login
         user["password"] = generate_password(password_length)
         user["email"] = f"{login}@example.com"
+        user["is_superuser"] = 0
+        user["is_staff"] = 0
+        user["is_active"] = 1
         users_list.append(user)
 
     json_data = {

@@ -1,4 +1,4 @@
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from .forms import CustomUserCreationForm
@@ -25,6 +25,9 @@ class CustomLoginView(LoginView):
         context['title'] = 'Please Log In'
         context['button_info'] = 'Log In'
         return context
+    
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy("login")
 
 class CustomRegisterView(FormView):
     form_class = CustomUserCreationForm
