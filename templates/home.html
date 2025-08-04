@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <head>
+    <meta charset="UTF-8">
+    <title>System Rezerwacji Biletów</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Kulturalny Kod</h1>
+    <p class="desc">System do rezerwacji biletów</p>
+ <div class="options">
+    <a href="{% url 'login' %}">Zaloguj się</a>
+    <a href="{% url 'register' %}">Zarejestruj się</a>
+</div>
+</div>
+</body>
+</html>
