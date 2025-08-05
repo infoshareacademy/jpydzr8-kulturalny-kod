@@ -1,0 +1,86 @@
+/* Podstawowe ustawienia body i kontenera */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 300px 0;
+    background-color: #ff9933;
+    color: #333;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px 40px;
+    background: #303030;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+/* Nagłówek */
+h1 {
+    font-family: 'Caveat', cursive;
+    color: white;
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Podtytuł / opis */
+p {
+    font-size: 1.2rem;
+    color: antiquewhite;
+    margin-bottom: 40px;
+}
+
+/* Menu opcji (linki) */
+.options a, .options button {
+    display: inline-block;
+    min-width: 160px;
+    padding: 18px 0;
+    margin: 7px 0;
+    background: linear-gradient(90deg, #ffb347 0%, #ff9933 100%);
+    color: #282828;
+    font-size: 1.2rem;
+    font-weight: 800;
+    border: none;
+    border-radius: 28px;
+    box-shadow: 0 6px 20px rgba(255,153,51,0.25);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    letter-spacing: 1px;
+    text-shadow: 1px 2px 6px #fff9;
+}
+
+.options a:hover,
+.options a:focus,
+.options button:hover,
+.options button:focus {
+    background: linear-gradient(90deg, #ff9933 5%, #ffb347 100%);
+    color: #262626;
+    box-shadow: 0 8px 30px rgba(255,153,51,0.45);
+    transform: translateY(-2px) scale(1.04);
+    text-shadow: 1px 4px 7px #fff;
+}
+
+/* Responsywność */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+
+    .options {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .options a {
+        width: 100%;
+        padding: 12px 0;
+        font-size: 1.2rem;
+    }
+}
