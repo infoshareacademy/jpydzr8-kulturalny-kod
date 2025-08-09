@@ -84,3 +84,7 @@ p {
         font-size: 1.2rem;
     }
 }
+.options label,
+        .event h2 {
+            color: antiquewhite;
+        }
