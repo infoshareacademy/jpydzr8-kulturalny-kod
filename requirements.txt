@@ -4,3 +4,5 @@ django-qrcode~=0.3
 reportlab~=4.4.2
 django==5.2.4
 django-environ==0.12.0
+pytest==8.4.1
+pytest-django==4.11.1

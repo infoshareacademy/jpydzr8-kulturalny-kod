@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %} User Homepage {% endblock title %}
+
+{% block content %}
+<a href="{% url 'users:info' %}">Profil</a><br>
+Przeglądaj wydarzenia<br>
+Moje wydarzenia<br>
+
+{% if user.is_authenticated %}
+    <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display:none;">
+        {% csrf_token %}
+    </form>
+    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Wyloguj</a>
+{% endif %}
+{% endblock content %}
+
+<a href="{% url 'events'%}">Przeglądaj wydarzenia</a>
+<a href="{% url 'my-events'%}">Moje wydarzenia</a>
