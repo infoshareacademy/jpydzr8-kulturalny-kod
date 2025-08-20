@@ -3,6 +3,13 @@
 {% block title %} {{ title }} {% endblock title %}
 
 {% block content %}
+<div class="container">
   <h2>Dziękujemy za rejestrację!</h2>
   <p>Na Twój adres email została wysłana wiadomość z linkiem aktywacyjnym.</p>
+  <div class="options">
+    <a href="{% url 'home' %}">Powrót do strony głównej</a>
+  </div>
+  
+</div>
+
 {% endblock content %}

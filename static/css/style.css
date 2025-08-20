@@ -9,12 +9,14 @@ body {
 
 .container {
     max-width: 700px;
+    width: 90%;
     margin: 0 auto;
     padding: 20px 40px;
     background: #303030;
     border-radius: 12px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     text-align: center;
+    align-items: center;
 }
 
 /* Nagłówek */
@@ -22,6 +24,17 @@ h1 {
     font-family: 'Caveat', cursive;
     color: white;
     font-size: 2.8rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Nagłówek */
+h2 {
+    font-family: 'Caveat', cursive;
+    color: white;
+    font-size: 2.4rem;
     margin-bottom: 10px;
     font-weight: 700;
     text-transform: uppercase;
@@ -39,8 +52,8 @@ p {
 .options a, .options button {
     display: inline-block;
     min-width: 160px;
-    padding: 18px 0;
-    margin: 7px 0;
+    padding: 18px 18px;
+    margin: 7px 7px;
     background: linear-gradient(90deg, #ffb347 0%, #ff9933 100%);
     color: #282828;
     font-size: 1.2rem;

@@ -1,0 +1,253 @@
+.form-control {
+  background-color: #1e1e1e; /* dark background */
+  color: white;
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 60%;          /* fixed width relative to the row */
+  max-width: 60%;      /* prevent stretching */
+  box-sizing: border-box;
+}
+
+.form-control.col-6 {
+  width: 50%;
+  max-width: 50%;
+  box-sizing: border-box;
+  flex: 0;
+}
+
+.form-control.col-12 {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  flex: 0;
+}
+
+label {
+  font-weight: 500;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;          /* spacing between columns */
+  flex-wrap: wrap;
+  align-items: flex-start; /* align columns to the top */
+  margin-bottom: 1rem;
+}
+
+.row.info-row {
+    display: flex;
+    gap: 2rem;              /* spacing between columns */
+    align-items: stretch;
+}
+
+.row.align-center {
+    display: flex;
+    align-items: center;   /* vertical centering of label and input */
+    margin-bottom: 1rem;
+}
+
+.col {
+    min-width: 150px;   /* optional: prevent columns from being too narrow */
+    box-sizing: border-box;
+}
+
+.col.info-item {
+    flex: 1;             /* take ~45% of row width */
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;  /* stack label and value */
+    min-width: 150px;        /* optional: prevent too narrow columns */
+}
+
+.col:not(.info-item) {
+    flex: 1;            /* only non-info-item columns stretch */
+    min-width: 150px;
+    box-sizing: border-box;
+}
+
+/* Column classes (like Bootstrap) */
+.col-1 { flex: 0 0 8.33%; max-width: 8.33%; box-sizing: border-box;}
+.col-2 { flex: 0 0 16.66%; max-width: 16.66%; box-sizing: border-box;}
+.col-3 { flex: 0 0 25%; max-width: 25%; box-sizing: border-box;}
+.col-4 { flex: 0 0 33.33%; max-width: 33.33%; box-sizing: border-box;}
+.col-5 { flex: 0 0 41.66%; max-width: 41.66%; box-sizing: border-box;}
+.col-6 { flex: 0 0 50%; max-width: 50%; box-sizing: border-box;}
+.col-7 { flex: 0 0 58.33%; max-width: 58.33%; box-sizing: border-box;}
+.col-8 { flex: 0 0 66.66%; max-width: 66.66%; box-sizing: border-box;}
+.col-9 { flex: 0 0 75%; max-width: 75%; box-sizing: border-box;}
+.col-10 { flex: 0 0 83.33%; max-width: 83.33%; box-sizing: border-box;}
+.col-11 { flex: 0 0 91.66%; max-width: 91.66%; box-sizing: border-box;}
+.col-12 { flex: 0 0 100%; max-width: 100%; box-sizing: border-box;}
+
+.right-align {
+  text-align: right;
+  font-weight: 500;       /* optional styling */
+  margin: 0;              /* remove default margin */
+}
+
+.left-align {
+  text-align: left;
+  font-weight: 500;       /* optional styling */
+  margin: 0;              /* remove default margin */
+}
+
+.center-align {
+  justify-content: center;
+  text-align: center;
+  font-weight: 500;       /* optional styling */
+  margin: 0;              /* remove default margin */
+}
+
+
+
+/* Margin Top */
+.mt-1 { margin-top: 4px; }
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 16px; }
+.mt-4 { margin-top: 24px; }
+.mt-5 { margin-top: 32px; }
+
+/* Margin Bottom */
+.mb-1 { margin-bottom: 4px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-3 { margin-bottom: 16px; }
+.mb-4 { margin-bottom: 24px; }
+.mb-5 { margin-bottom: 32px; }
+
+/* Margin Left / Start */
+.ms-1 { margin-left: 4px; }
+.ms-2 { margin-left: 8px; }
+.ms-3 { margin-left: 16px; }
+.ms-4 { margin-left: 24px; }
+.ms-5 { margin-left: 32px; }
+
+/* Margin Right / End */
+.me-1 { margin-right: 4px; }
+.me-2 { margin-right: 8px; }
+.me-3 { margin-right: 16px; }
+.me-4 { margin-right: 24px; }
+.me-5 { margin-right: 32px; }
+
+/* Margin All Sides */
+.m-1 { margin: 4px; }
+.m-2 { margin: 8px; }
+.m-3 { margin: 16px; }
+.m-4 { margin: 24px; }
+.m-5 { margin: 32px; }
+
+.col.stacked {
+  display: flex;
+  flex-direction: column;  /* label on top of input */
+}
+
+.col.stacked label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.col.center-align {
+  justify-content: center;
+}
+
+.col.stacked.center-align {
+  display: flex;
+  flex-direction: column;   /* label on top of input */
+  align-items: center;      /* center horizontally */
+}
+
+.col.top-align {
+  align-items: flex-start;
+}
+
+.col.p-1 {
+  padding: 4px;
+}
+
+.col.p-3 {
+  padding: 16px;
+}
+
+.profile-img {
+    max-width: 100%;      /* image will not exceed container width */
+    height: auto;         /* maintain aspect ratio */
+    border-radius: 8px;   /* optional rounded corners */
+    display: block;       /* removes inline spacing issues */
+}
+
+
+.info-label {
+  font-weight: 500;      /* bold label */
+  color: antiquewhite;
+  font-size: 1.2rem;
+}
+
+.info-value {
+  display: block;
+  margin-top: 0.1rem;   /* small spacing under label */
+  color: #ccc;           /* optional styling for value */
+}
+
+.left-col .info-row {
+    display: flex;
+    flex: 1;                   /* each info-row grows to evenly fill column height */
+    justify-content: space-evenly;
+}
+
+.left-col .info-row .col-6 {
+  flex: 0 0 50%; 
+  max-width: 50%; 
+  box-sizing: border-box;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.photo-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* center horizontally */
+    gap: 10px;
+}
+
+.photo-upload-container .profile-img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.file-input {
+    display: none; /* hide default ugly input */
+}
+
+.remove-photo {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.file-label {
+    display: inline-block;
+    background-color: #444; /* dark background */
+    color: #fff;           /* white text */
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-size: 14px;
+}
+
+.file-label:hover {
+    background-color: #666;
+}
+
+.file-name {
+    font-size: 14px;
+    color: #ccc;  /* gray text */
+}
