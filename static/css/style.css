@@ -1,10 +1,18 @@
 /* Podstawowe ustawienia body i kontenera */
+html, body {
+    height: 100%;          /* ensure full viewport height */
+    margin: 0;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 300px 0;
+    /* padding: 300px 0; */
     background-color: #ff9933;
     color: #333;
+    
+    display: flex;              /* make body a flex container */
+    justify-content: center;    /* horizontal centering */
+    align-items: center;        /* vertical centering */
 }
 
 .container {
