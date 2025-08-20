@@ -151,7 +151,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         context['profile'] = profile
         return context
     
-class CustomLogoutView(LogoutView):
+class CustomLogoutView(LoginRequiredMixin, LogoutView):
     next_page = '/'  # or reverse_lazy('users:home')
 
     def dispatch(self, request, *args, **kwargs):
