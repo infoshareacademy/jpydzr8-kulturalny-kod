@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordChangeView
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
@@ -81,10 +81,6 @@ class ActivateAccount(View):
 class AccountActivationSentView(TemplateView):
     template_name = 'users/account_activation_sent.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
 class UserHomeView(LoginRequiredMixin, View):
     login_url = 'users:login'
     
@@ -163,3 +159,11 @@ class CustomLogoutView(LogoutView):
         request.session.pop('profile_photo_url', None)
         request.session.pop('profile_id', None)
         return super().dispatch(request, *args, **kwargs)
+
+class CustomPasswordResetView(PasswordResetView):
+    template_name = 'users/user_reset_password.html'
+    email_template_name = 'users/user_reset_password_email.html'
+    success_url = reverse_lazy('users:password_reset_sent')
+    
+class ResetPasswordSentView(TemplateView):
+    template_name = 'users/user_reset_password_done.html'

@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.urls import path, reverse_lazy
-from django.views.generic import TemplateView
-from django.contrib.auth.views import LogoutView, PasswordResetView, PasswordChangeView
+from django.contrib.auth.views import PasswordResetConfirmView, PasswordChangeView
 from .views import \
     CustomLoginView, CustomRegisterView, ActivateAccount, UserHomeView, \
-    UserUpdateView, UserDetailView, AccountActivationSentView, CustomLogoutView
+    UserUpdateView, UserDetailView, AccountActivationSentView, CustomLogoutView, \
+    CustomPasswordResetView, ResetPasswordSentView
 
 urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
@@ -19,16 +19,16 @@ urlpatterns = [
         PasswordChangeView.as_view(
             template_name='base_form.html',
             success_url=reverse_lazy('users:home'),
-            extra_context={
-                'title': 'Zmień hasło',
-                'button_info': 'Zmień hasło'
-            }
         ), 
         name='password_change'
     ),
     path('info/', UserDetailView.as_view(), name='info'),
-    path('password_reset/', PasswordResetView.as_view(
-        template_name='base_form.html',
-        success_url='home'
-    ), name='password_reset')
+    path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', ResetPasswordSentView.as_view(), name='password_reset_sent'),
+    path('reset/<uidb64>/<token>/', 
+        PasswordResetConfirmView.as_view(
+            template_name='users/user_reset_password_confirm.html',
+            success_url=reverse_lazy('users:home'),
+        ), 
+         name='password_reset_confirm'),
 ]
