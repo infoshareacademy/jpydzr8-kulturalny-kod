@@ -62,6 +62,3 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['photo']
-        widgets = {
-            'photo': CustomImageWidget
-        }

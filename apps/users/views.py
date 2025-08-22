@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordChangeView
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
@@ -12,35 +12,36 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
 from django.views.generic.edit import FormView
 from django.views.generic import UpdateView, DetailView, TemplateView
+
 from .forms import CustomUserCreationForm, CustomUserChangeForm, UserProfileForm
 from .models import UserProfile
 
 # Create your views here.
 class CustomLoginView(LoginView):
-    template_name = 'base_form.html'
+    template_name = 'users/user_login.html'
     redirect_authenticated_user = True
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Add your custom context variables here
-        context['title'] = 'Please Log In'
-        context['button_info'] = 'Log In'
-        return context
     
     def get_success_url(self):
         return reverse_lazy('users:home')
+     
+    def form_valid(self, form):
+        """Called when the login form is valid (successful login)."""
+        response = super().form_valid(form)
+
+        # Ensure profile exists
+        profile, created = UserProfile.objects.get_or_create(user=self.request.user)
+
+        # Save profile ID or just image URL into session
+        self.request.session['profile_id'] = profile.id
+        if profile.photo:
+            self.request.session['profile_photo_url'] = profile.photo.url
+
+        return response
 
 class CustomRegisterView(FormView):
     form_class = CustomUserCreationForm
-    template_name = 'base_form.html'
+    template_name = 'users/user_registration.html'
     success_url = reverse_lazy('users:account_activation_sent')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Add your custom context variables here
-        context['title'] = 'Rejestracja'
-        context['button_info'] = 'Zarejestruj'
-        return context
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -80,11 +81,6 @@ class ActivateAccount(View):
 class AccountActivationSentView(TemplateView):
     template_name = 'users/account_activation_sent.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Aktywacja konta wysłana'
-        return context
-
 class UserHomeView(LoginRequiredMixin, View):
     login_url = 'users:login'
     
@@ -101,9 +97,6 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Add your custom context variables here
-        context['title'] = 'Edycja danych'
-        context['button_info'] = 'Edytuj'
-        context['password_change_url'] = reverse_lazy('users:password_change')
         
         profile, created = UserProfile.objects.get_or_create(user=self.request.user)
         if self.request.method == 'POST':
@@ -131,6 +124,14 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
             user = form.save(commit=False)
             user.save()
             profile_form.save()
+
+            # 🔄 Update session with new profile photo
+            request.session['profile_id'] = profile.id
+            if profile.photo:
+                request.session['profile_photo_url'] = profile.photo.url
+            else:
+                request.session.pop('profile_photo_url')
+
             return redirect(self.get_success_url())
         return self.form_invalid(form)
     
@@ -145,8 +146,24 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Add your custom context variables here
-        context['title'] = 'Profil'
         
         profile, created = UserProfile.objects.get_or_create(user=self.request.user)
         context['profile'] = profile
         return context
+    
+class CustomLogoutView(LogoutView):
+    next_page = '/'  # or reverse_lazy('users:home')
+
+    def dispatch(self, request, *args, **kwargs):
+        # Remove profile data from session
+        request.session.pop('profile_photo_url', None)
+        request.session.pop('profile_id', None)
+        return super().dispatch(request, *args, **kwargs)
+
+class CustomPasswordResetView(PasswordResetView):
+    template_name = 'users/user_reset_password.html'
+    email_template_name = 'users/user_reset_password_email.html'
+    success_url = reverse_lazy('users:password_reset_sent')
+    
+class ResetPasswordSentView(TemplateView):
+    template_name = 'users/user_reset_password_done.html'

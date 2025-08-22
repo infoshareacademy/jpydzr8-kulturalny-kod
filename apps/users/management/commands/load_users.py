@@ -20,8 +20,7 @@ class Command(BaseCommand):
         self._load_users(file_name="admins.json", batch_size=batch_size)
         
     def _load_users(self, file_name: str, batch_size: int = 1000, *args, **kwargs):
-        
-        file_path = os.path.join(settings.BASE_DIR, "data", file_name)
+        file_path = os.path.join(settings.BASE_DIR, "apps", "users", "media", "json_files", file_name)
         
         with open(file_path, "r", encoding="utf-8") as f:
             users_json = json.load(f)

@@ -1,18 +1,77 @@
-{% extends "base.html" %}
+{% extends "users/after_login_template.html" %}
+{% load static %}
 
-{% block title %} {{ title }} {% endblock title %}
+{% block title %} Edytuj dane {% endblock title %}
 
-{% block content %}
+{% block user_content %}
+<div class="options">
+    <h1>Nazwa użytkownika: {{ user.username }}</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        {% if profile_form %}
-            {{ profile_form.as_p }}
-        {% endif %}
-        <p><a href="{{ password_change_url }}">Zmień hasło</a></p>
-        {% if button_info %}
-            <button type="submit">{{ button_info }}</button>
-        {% endif %}
+        <div class="row info-row">
+            <div class="col col-6 stacked left-col p-3">
+                <div class="info-row flex-grow">
+                    <div class="info-item col-6 stacked m-3">
+                        <label for="first_name" class="info-label">Imię</label>
+                        <input type="text" class="form-control col-12" 
+                            name="first_name" id="id_first_name"
+                            value="{{ user.first_name }}">
+                    </div>
+                    <div class="info-item col-6 stacked m-3">
+                        <label for="last_name" class="info-label">Nazwisko</label>
+                        <input type="text" class="form-control col-12" 
+                            name="last_name" id="id_last_name"
+                            value="{{ user.last_name }}">
+                    </div>
+                </div>
+                <div class="info-row flex-grow">
+                    <div class="info-item col-6 stacked m-3">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">{{ user.email }}</span>
+                    </div>
+                    <div class="info-item col-6 stacked m-3">
+                        <span class="info-label">Data utworzenia:</span>
+                        <span class="info-value">{{ user.date_joined }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col col-6 center-align p-3 stacked">
+                <div class="photo-upload-container">
+                    <span class="info-label mb-3">Zdjęcie profilowe</span>
+
+                    {% if request.session.profile_photo_url %}
+                        <img src="{{ request.session.profile_photo_url }}" 
+                            alt="Zdjęcie profilowe {{ user.username }}" 
+                            class="profile-img">
+                        <div class="remove-photo">
+                            <input type="checkbox" name="photo-clear" id="id_photo_clear">
+                            <label for="id_photo_clear">Usuń obecne zdjęcie</label>
+                        </div>
+                    {% else %}
+                        <img src="/static/images/users/random_person.png" class="profile-img">
+                    {% endif %}
+
+                    <!-- Hidden input -->
+                    <input type="file" name="photo" id="id_photo" class="file-input">
+                    <!-- Custom button -->
+                    <label for="id_photo" class="file-label">Wybierz zdjęcie</label>
+                    <!-- Filename display -->
+                    <span id="file-name" class="file-name">Brak wybranego pliku</span>
+                </div>
+            </div>        
+        </div>
+
+    
+
+        <br>
+        <button type="submit">Zmień dane</button>
+        <a href="{{ password_change_url }}">Zmień hasło</a>
+        <button type="button" onclick="history.back()">Cofnij</button>
     </form>
 
-{% endblock content %}
+</div>
+
+<script src="{% static 'js/users/file-input.js' %}"></script>
+
+{% endblock user_content %}

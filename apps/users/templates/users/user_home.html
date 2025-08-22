@@ -1,19 +1,19 @@
-{% extends "base.html" %}
+{% extends "users/after_login_template.html" %}
 
-{% block title %} User Homepage {% endblock title %}
 
-{% block content %}
-<a href="{% url 'users:info' %}">Profil</a><br>
-Przeglądaj wydarzenia<br>
-Moje wydarzenia<br>
+{% block title %} Strona Główna {% endblock title %}
 
-{% if user.is_authenticated %}
-    <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display:none;">
-        {% csrf_token %}
-    </form>
-    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Wyloguj</a>
-{% endif %}
-{% endblock content %}
+{% block user_content %}
 
-<a href="{% url 'events'%}">Przeglądaj wydarzenia</a>
-<a href="{% url 'my-events'%}">Moje wydarzenia</a>
+    <h1>Kulturalny kod</h1>
+    <div class="options">
+        
+        <a href="{% url 'events:events_list' %}">Przegląd wydarzeń</a>
+        <a href="#">Moje wydarzenia</a>
+
+
+    </div>
+
+
+
+{% endblock user_content %}
