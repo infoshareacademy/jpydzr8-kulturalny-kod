@@ -25,10 +25,13 @@ def load_events_from_json(filepath):
             Event.objects.create(
                 name=item["name"],
                 date=datetime.strptime(item["date"], "%Y-%m-%d"),
+                city=item["city"],
                 venue=item["venue"],
                 total_seats=item["total_seats"],
                 available_seats=item["available_seats"],
-                price=item["price"]
+                price=item["price"],
+                description=item["description"],
+                highlights=item["highlights"],
             )
         except Exception as e:
             print(f"Błąd przy zapisie eventu: {e}")
