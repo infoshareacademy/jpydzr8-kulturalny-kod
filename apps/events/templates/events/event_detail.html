@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ event.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>{{ event.name }}</h1>
+
+    <div class="event">
+        <p><strong>Data:</strong> {{ event.date|date:"Y-m-d H:i" }}</p>
+        <p><strong>Miejsce:</strong> {{ event.venue }}</p>
+        <p><strong>Cena:</strong> {{ event.price }} zł</p>
+        <p><strong>Liczba miejsc:</strong> {{ event.total_seats }}</p>
+        <p><strong>Dostępnych miejsc:</strong> {{ event.available_seats }}</p>
+    </div>
+    <hr>
+    <div class="options" style="margin-top: 30px;">
+        <a href="{% url 'events:events_list' %}" class="button">Powrót do listy wydarzeń</a>
+        <a href="{% url 'home' %}" class="button">Powrót do strony głównej</a>
+    </div>
+</div>
+</body>
+</html>
