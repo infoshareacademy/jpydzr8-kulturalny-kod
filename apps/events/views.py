@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Event
 
 def event_list_view(request):
@@ -16,3 +16,7 @@ def event_list_view(request):
     return render(request, "events/events_list.html", {
         "events": events
     })
+
+def event_detail_view(request, id):
+    event = get_object_or_404(Event, id=id)
+    return render(request, "events/event_detail.html", {"event": event})
