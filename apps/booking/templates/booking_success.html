@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pl">
+{% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rezerwacja potwierdzona</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h2>Rezerwacja potwierdzona</h2>
+    <p>Numer biletu: <strong>{{ booking.ticket_number }}</strong></p>
+
+    <div class="options">
+      {% if booking.pdf_file %}
+        <a href="{{ booking.pdf_file.url }}" target="_blank">Pobierz bilet (PDF)</a>
+      {% endif %}
+      <a href="{% url 'events:event_detail' booking.event.id %}">Powrót do wydarzenia</a>
+    </div>
+  </div>
+</body>
+</html>

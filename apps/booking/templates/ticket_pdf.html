@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <title>Bilet</title>
+</head>
+<body>
+  <div class="ticket">
+    <div class="header">Bilet wstępu</div>
+
+    <div class="content">
+      <div class="left">
+        <div class="row">Wydarzenie: {{ event.title|default:event.name }}</div>
+        <div class="row">Numer biletu: {{ booking.ticket_number }}</div>
+        <div class="row">Nazwisko: {{ booking.full_name }}</div>
+        <div class="row">Liczba miejsc: {{ booking.quantity }}</div>
+        <div class="row">Suma: {{ booking.total_price }} PLN</div>
+        <div class="row" style="margin-top:12px;">Okazać przy wejściu. Dziękujemy!</div>
+      </div>
+
+      <div class="right">
+        <span class="qr-box">
+          <img class="qr-img" src="{{ qr_url }}" alt="QR">
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

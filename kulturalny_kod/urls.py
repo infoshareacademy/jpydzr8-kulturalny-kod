@@ -25,6 +25,7 @@ urlpatterns = [
     path('users/', include(('apps.users.urls', 'users'), namespace='users')),
     path('events/', include('apps.events.urls')),
     path('', home, name='home'),
+    path('booking/', include('apps.booking.urls', namespace='booking')),
 ]
 
 if settings.DEBUG:

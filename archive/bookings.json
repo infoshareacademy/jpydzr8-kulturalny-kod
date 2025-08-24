@@ -1,0 +1,162 @@
+[
+  {
+    "ticket_number": "TKT-271AD4A0D5",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 1,
+    "total_price": "65.00",
+    "created_at": "2025-08-24T13:56:41.470146+00:00"
+  },
+  {
+    "ticket_number": "TKT-9103A194A1",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 1,
+    "total_price": "65.00",
+    "created_at": "2025-08-24T13:59:01.344609+00:00"
+  },
+  {
+    "ticket_number": "TKT-6546D9CB42",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 2,
+    "total_price": "130.00",
+    "created_at": "2025-08-24T14:05:34.563618+00:00"
+  },
+  {
+    "ticket_number": "TKT-C7AB0867CF",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "klenchere@gmail.com",
+    "quantity": 1,
+    "total_price": "65.00",
+    "created_at": "2025-08-24T14:13:54.109812+00:00"
+  },
+  {
+    "ticket_number": "TKT-4B004B90A9",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 2,
+    "total_price": "130.00",
+    "created_at": "2025-08-24T14:15:14.343339+00:00"
+  },
+  {
+    "ticket_number": "TKT-3AA7C8221E",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 2,
+    "total_price": "130.00",
+    "created_at": "2025-08-24T14:17:52.585697+00:00"
+  },
+  {
+    "ticket_number": "TKT-E30C5CAE80",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 2,
+    "total_price": "130.00",
+    "created_at": "2025-08-24T14:31:57.825377+00:00"
+  },
+  {
+    "ticket_number": "TKT-18C098AEBE",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 1,
+    "total_price": "65.00",
+    "created_at": "2025-08-24T14:40:56.255939+00:00"
+  },
+  {
+    "ticket_number": "TKT-20A0829804",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 1,
+    "total_price": "65.00",
+    "created_at": "2025-08-24T14:44:54.099428+00:00"
+  },
+  {
+    "ticket_number": "TKT-A2C4EF8336",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 1,
+    "total_price": "65.00",
+    "created_at": "2025-08-24T14:46:29.784465+00:00"
+  },
+  {
+    "ticket_number": "TKT-6FA7A9CC13",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 1,
+    "total_price": "65.00",
+    "created_at": "2025-08-24T15:00:26.011365+00:00"
+  },
+  {
+    "ticket_number": "TKT-A09922DE39",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 1,
+    "total_price": "65.00",
+    "created_at": "2025-08-24T15:02:53.502746+00:00"
+  },
+  {
+    "ticket_number": "TKT-ADE18A09E8",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 1,
+    "total_price": "65.00",
+    "created_at": "2025-08-24T15:10:58.947257+00:00"
+  },
+  {
+    "ticket_number": "TKT-AF2714FA54",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 1,
+    "total_price": "65.00",
+    "created_at": "2025-08-24T15:14:22.493485+00:00"
+  },
+  {
+    "ticket_number": "TKT-C7A04C2799",
+    "event_id": 10,
+    "event": "Szczecin Stand-up Night",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 1,
+    "total_price": "65.00",
+    "created_at": "2025-08-24T15:39:35.044621+00:00"
+  },
+  {
+    "ticket_number": "TKT-ABD90018BB",
+    "event_id": 11,
+    "event": "Bydgoszcz Science Fair",
+    "full_name": "andrzej szczecin",
+    "email": "andrzej@email.com",
+    "quantity": 1,
+    "total_price": "25.00",
+    "created_at": "2025-08-24T15:48:24.148354+00:00"
+  }
+]
