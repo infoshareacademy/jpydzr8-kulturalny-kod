@@ -18,9 +18,10 @@
 
         <label for="to_date">Do:</label>
         <input type="date" name="to_date" id="to_date" value="{{ request.GET.to_date }}">
-
-        <button type="submit">Filtruj</button>
-        <a href="?all=1" class="button">Wszystkie wydarzenia</a>
+        <div class="options">
+            <button type="submit">Filtruj</button>
+            <a href="?all=1" class="button">Wszystkie wydarzenia</a>
+        </div>
 
     </form>
 
