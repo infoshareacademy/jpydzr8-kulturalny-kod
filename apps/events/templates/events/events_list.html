@@ -1,6 +1,4 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <title>Przegląd wydarzeń</title>
@@ -12,14 +10,18 @@
     <h1>Przegląd wydarzeń</h1>
 
     <form method="get" class="options">
+        <label for="city">Miasto:</label>
+        <input type="text" name="city" id="city" value="{{ request.GET.city }}">
+
         <label for="from_date">Od:</label>
         <input type="date" name="from_date" id="from_date" value="{{ request.GET.from_date }}">
 
         <label for="to_date">Do:</label>
         <input type="date" name="to_date" id="to_date" value="{{ request.GET.to_date }}">
-
-        <button type="submit">Filtruj</button>
-        <a href="?all=1" class="button">Wszystkie wydarzenia</a>
+        <div class="options">
+            <button type="submit">Filtruj</button>
+            <a href="?all=1" class="button">Wszystkie wydarzenia</a>
+        </div>
 
     </form>
 
@@ -30,13 +32,15 @@
             <div class="event">
                 <h2>{{ event.name }}</h2>
                 <p><strong>Data:</strong> {{ event.date|date:"Y-m-d" }}</p>
+                <p><strong>Miasto:</strong> {{ event.city }}</p>
                 <p><strong>Miejsce:</strong> {{ event.venue }}</p>
-                <p><strong>Cena:</strong> {{ event.price }} zł</p>
-                <p><strong>Dostępnych miejsc:</strong> {{ event.available_seats }}</p>
+
+                <div class="options" style="margin-top: 30px;">
+                    <a href="{% url 'events:event_detail' event.pk %}" class="button">Szczegóły i rezerwacja</a>
+                </div>
             </div>
             <hr>
         {% endfor %}
-
     {% else %}
         <p>Brak wydarzeń do wyświetlenia. Skorzystaj z filtrów powyżej.</p>
     {% endif %}

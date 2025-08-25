@@ -1,0 +1,37 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>{{ event.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+<div class="container">
+    <h1>{{ event.name }}</h1>
+    <p><strong>Data:</strong> {{ event.date|date:"Y-m-d" }}</p>
+    <p><strong>Miasto:</strong> {{ event.city }}</p>
+    <p><strong>Miejsce:</strong> {{ event.venue }}</p>
+    <p><strong>Cena:</strong> {{ event.price }} zł</p>
+    <p><strong>Dostępnych miejsc:</strong> {{ event.available_seats }}</p>
+
+    {% if event.description %}
+        <p><strong>Opis:</strong> {{ event.description }}</p>
+    {% endif %}
+
+    {% if event.highlights %}
+        <p><strong>Najważniejsze atrakcje:</strong></p>
+        {% for point in event.highlights %}
+            <p>{{ point }}</p>
+        {% endfor %}
+    {% endif %}
+
+
+    <div class="options" style="margin-top: 30px;">
+        <a href="" class="button">Zarezerwuj bilet</a>
+    </div>
+
+    <div class="options" style="margin-top: 30px;">
+        <a href="{% url 'events:events_list' %}" class="button">Powrót</a>
+    </div>
+</div>
+</body>

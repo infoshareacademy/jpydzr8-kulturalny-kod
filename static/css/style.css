@@ -1,111 +1,168 @@
-/* Podstawowe ustawienia body i kontenera */
-html, body {
-    height: 100%;          /* ensure full viewport height */
-    margin: 0;
+:root{
+    --bg: #ff9933;
+    --card: #2b2b2b;
+    --text: #f5f5f5;
+    --muted: #ffe9d2;
+    --accent1: #ffb347;
+    --accent2: #ff9933;
+    --shadow: 0 8px 24px rgba(0,0,0,.35);
+    --radius: 16px;
+    --gap: 16px;
+    --focus: 2px solid #fff;
 }
 
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 16px; }
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* padding: 300px 0; */
-    background-color: #ff9933;
-    color: #333;
-    
-    display: flex;              /* make body a flex container */
-    justify-content: center;    /* horizontal centering */
-    align-items: center;        /* vertical centering */
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans";
+    margin: 0;
+    min-height: 100dvh;
+    display: grid;
+    place-items: start center;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 24px;
 }
 
 .container {
-    max-width: 700px;
-    width: 90%;
-    margin: 0 auto;
-    padding: 20px 40px;
-    background: #303030;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    width: min(100%, 880px);
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: clamp(20px, 4vw, 40px);
+    margin-inline: auto;
     text-align: center;
-    align-items: center;
 }
 
-/* Nagłówek */
 h1 {
-    font-family: 'Caveat', cursive;
-    color: white;
-    font-size: 2.8rem;
-    margin-bottom: 10px;
+    font-family: 'Bellota Text', sans-serif;
     font-weight: 700;
+    font-style: italic;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    color: #fff;
+    letter-spacing: .5px;
+    margin: 0 0 .25em 0;
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
 }
 
-/* Nagłówek */
-h2 {
-    font-family: 'Caveat', cursive;
-    color: white;
-    font-size: 2.4rem;
-    margin-bottom: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-/* Podtytuł / opis */
 p {
-    font-size: 1.2rem;
-    color: antiquewhite;
-    margin-bottom: 40px;
+    font-family: 'Bellota Text', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0 0 1.75rem 0;
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    color: var(--muted);
 }
 
-/* Menu opcji (linki) */
-.options a, .options button {
-    display: inline-block;
-    min-width: 160px;
-    padding: 18px 18px;
-    margin: 7px 7px;
-    background: linear-gradient(90deg, #ffb347 0%, #ff9933 100%);
-    color: #282828;
-    font-size: 1.2rem;
-    font-weight: 800;
-    border: none;
-    border-radius: 28px;
-    box-shadow: 0 6px 20px rgba(255,153,51,0.25);
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
-    cursor: pointer;
+.event h3 {
+    font-family: 'Bellota Text', sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.event .meta {
+    font-family: 'Bellota Text', sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: .95rem;
+    color: var(--muted);
+}
+
+/* przyciski */
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--gap);
+    margin-block: 1.25rem 0.5rem;
+}
+
+.options a,
+.options button {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
-    outline: none;
-    letter-spacing: 1px;
-    text-shadow: 1px 2px 6px #fff9;
+    cursor: pointer;
+    user-select: none;
+
+    /* min-width: clamp(160px, 42vw, 220px); */
+    padding: clamp(12px, 2.8vw, 16px) clamp(14px, 3.2vw, 22px);
+    font-size: clamp(1rem, 2.6vw, 1.125rem);
+    font-weight: 800;
+    letter-spacing: .5px;
+
+    color: #262626;
+    background: linear-gradient(90deg, var(--accent1) 0%, var(--accent2) 100%);
+    border: 0;
+    border-radius: 999px;
+    box-shadow: 0 6px 20px rgba(255,153,51,0.28);
+    transition: transform .12s ease, box-shadow .2s ease, filter .2s ease;
+    text-shadow: 0 1px 0 #fff7;
 }
 
 .options a:hover,
-.options a:focus,
-.options button:hover,
-.options button:focus {
-    background: linear-gradient(90deg, #ff9933 5%, #ffb347 100%);
-    color: #262626;
-    box-shadow: 0 8px 30px rgba(255,153,51,0.45);
-    transform: translateY(-2px) scale(1.04);
-    text-shadow: 1px 4px 7px #fff;
+.options button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(255,153,51,0.45);
+    filter: brightness(1.05);
+}
+.options a:active,
+.options button:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 18px rgba(255,153,51,0.35);
+}
+.options a:focus-visible,
+.options button:focus-visible {
+    outline: var(--focus);
+    outline-offset: 3px;
 }
 
-/* Responsywność */
-@media (max-width: 600px) {
-    .container {
-        padding: 20px;
-    }
-
-    .options {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .options a {
-        width: 100%;
-        padding: 12px 0;
-        font-size: 1.2rem;
-    }
-}
 .options label,
-        .event h2 {
-            color: antiquewhite;
-        }
+.event h2 { color: var(--muted); }
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ffffff33, transparent);
+    margin: 1.5rem 0 1rem;
+}
+
+.events {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    text-align: left;
+    margin-top: 1rem;
+}
+.event { background: #222; border-radius: 12px; padding: 14px 16px; }
+.event h3 { margin: 0 0 .25rem 0; font-size: 1.05rem; color: #fff; }
+
+/* responsywność */
+@media (max-width: 400px) {
+    .options { gap: 12px; }
+    .options a, .options button { width: 100%; min-width: 0; }
+}
+
+@media (min-width: 600px) {
+    body { padding: 40px; }
+    .container { padding: clamp(28px, 4vw, 48px); }
+}
+
+@media (min-width: 768px) {
+    .events { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+    body { padding: 56px; }
+    .container { padding: clamp(32px, 3vw, 56px); }
+    .events { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* redukcja animacji */
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+}
