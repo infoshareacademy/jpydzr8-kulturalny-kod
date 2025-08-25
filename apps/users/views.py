@@ -167,3 +167,7 @@ class CustomPasswordResetView(PasswordResetView):
     
 class ResetPasswordSentView(TemplateView):
     template_name = 'users/user_reset_password_done.html'
+
+class CustomPasswordChangeView(PasswordChangeView):
+    template_name = "users/user_change_password.html"
+    success_url = reverse_lazy('users:home')
