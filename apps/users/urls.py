@@ -4,7 +4,7 @@ from django.contrib.auth.views import PasswordResetConfirmView, PasswordChangeVi
 from .views import \
     CustomLoginView, CustomRegisterView, ActivateAccount, UserHomeView, \
     UserUpdateView, UserDetailView, AccountActivationSentView, CustomLogoutView, \
-    CustomPasswordResetView, ResetPasswordSentView
+    CustomPasswordResetView, ResetPasswordSentView, CustomPasswordChangeView
 
 urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
@@ -16,10 +16,7 @@ urlpatterns = [
     path('edit/', UserUpdateView.as_view(), name='edit'),
     path(
         'edit/change_password/', 
-        PasswordChangeView.as_view(
-            template_name='base_form.html',
-            success_url=reverse_lazy('users:home'),
-        ), 
+        CustomPasswordChangeView.as_view(), 
         name='password_change'
     ),
     path('info/', UserDetailView.as_view(), name='info'),

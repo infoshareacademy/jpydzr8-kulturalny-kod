@@ -41,6 +41,7 @@
     padding: 0.5rem 1rem;
     color: white;
     text-decoration: none;
+    text-align: left;
 }
 
 .profile-dropdown li a:hover {

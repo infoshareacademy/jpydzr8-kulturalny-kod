@@ -89,7 +89,7 @@ p {
     cursor: pointer;
     user-select: none;
 
-    min-width: clamp(160px, 42vw, 220px);
+    /* min-width: clamp(160px, 42vw, 220px); */
     padding: clamp(12px, 2.8vw, 16px) clamp(14px, 3.2vw, 22px);
     font-size: clamp(1rem, 2.6vw, 1.125rem);
     font-weight: 800;

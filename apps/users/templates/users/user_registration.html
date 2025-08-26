@@ -14,44 +14,44 @@
     <h1>Rejestracja</h1>
         <form method="post" class="options">
             {% csrf_token %}
-            <div class="row">
-                <div class="col col-6 stacked center-align">
+            <div class="row align-center">
+                <div class="col col-5 stacked center-align">
                     <label for="id_username">Użytkownik</label>
-                    <input type="text" class="form-control" name="username" id="id_username">
+                    <input type="text" class="form-control col-9" name="username" id="id_username">
                 </div>
-                <div class="col col-6 stacked center-align">
+                <div class="col col-5 stacked center-align">
                     <label for="id_email">Email</label>
-                    <input type="email" class="form-control" name="email" id="id_email">
+                    <input type="email" class="form-control col-9" name="email" id="id_email">
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col col-6 stacked center-align">
+            <div class="row align-center">
+                <div class="col col-5 stacked center-align">
                     <label for="id_password1">Hasło</label>
-                    <input type="password" class="form-control" name="password1" id="id_password1">
+                    <input type="password" class="form-control col-9" name="password1" id="id_password1">
                 </div>
-                <div class="col col-6 stacked center-align">
+                <div class="col col-5 stacked center-align">
                     <label for="id_password2">Powtórz hasło</label>
-                    <input type="password" class="form-control" name="password2" id="id_password2">
+                    <input type="password" class="form-control col-9" name="password2" id="id_password2">
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col col-6 stacked center-align">
+            <div class="row align-center">
+                <div class="col col-5 stacked center-align">
                     <label for="id_first_name">Imię</label>
-                    <input type="text" class="form-control" name="first_name" id="id_first_name">
+                    <input type="text" class="form-control col-9" name="first_name" id="id_first_name">
                 </div>
-                <div class="col col-6 stacked center-align">
+                <div class="col col-5 stacked center-align">
                     <label for="id_last_name">Nazwisko</label>
-                    <input type="text" class="form-control" name="last_name" id="id_last_name">
+                    <input type="text" class="form-control col-9" name="last_name" id="id_last_name">
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col col-6">
+            <div class="row align-center equal-buttons">
+                <div class="col col-4">
                     <button type="submit">Zarejestruj</button>
                 </div>
-                <div class="col col-6">
+                <div class="col col-4">
                     <a href="{% url 'home' %}">Powrót do strony głównej</a>
                 </div>
             </div>

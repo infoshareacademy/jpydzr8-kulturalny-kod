@@ -6,7 +6,7 @@
 <div class="options">
     <h1>Nazwa użytkownika: {{ user.username }}</h1>
     <div class="row info-row">
-        <div class="col col-6 stacked left-col p-3">
+        <div class="col col-5 stacked left-col p-3">
             <div class="info-row flex-grow">
                 <div class="info-item col-6 stacked m-3">
                     <span class="info-label">Imię</span>
@@ -29,7 +29,7 @@
             </div>
         </div>
         
-        <div class="col col-6 center-align p-3 stacked">
+        <div class="col col-5 center-align p-3 stacked">
             <span class="info-label mb-3">Zdjęcie profilowe</span>
             {% if profile.photo %}
                 <img src="{{ profile.photo.url }}" alt="Zdjęcie profilowe {{ user.username }}" class="profile-img">
@@ -43,9 +43,17 @@
     
 
     <br>
-    <a href="{% url 'users:edit' %}">Edytuj dane</a>
-    <a href="{% url 'users:password_change' %}">Zmień hasło</a>
-    <button type="button" onclick="history.back()">Cofnij</button>
+    <div class="row align-center equal-buttons">
+        <div class="col col-3">
+            <a href="{% url 'users:edit' %}">Edytuj dane</a>
+        </div>
+        <div class="col col-3">
+            <a href="{% url 'users:password_change' %}">Zmień hasło</a>
+        </div>
+        <div class="col col-3">
+            <button type="button" onclick="history.back()">Cofnij</button>
+        </div>
+    </div>
 </div>
 
 {% endblock user_content %}
