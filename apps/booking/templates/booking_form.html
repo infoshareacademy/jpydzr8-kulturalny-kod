@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pl">
+{% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rezerwacja</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h2>Rezerwacja: {{ event.title|default:event.name }}</h2>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <p>
+        {{ form.full_name.label_tag }}<br>
+        {{ form.full_name }}
+      </p>
+
+      <p>
+        {{ form.email.label_tag }}<br>
+        {{ form.email }}
+      </p>
+
+      <p>
+        {{ form.quantity.label_tag }}<br>
+        {{ form.quantity }}
+      </p>
+
+      <div class="options">
+        <button type="submit">Potwierdź rezerwację</button>
+        <a href="{% url 'events:event_detail' event.id %}">Anuluj</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
