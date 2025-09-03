@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('events', '0002_event_city_event_description_event_highlights'),
+        ('events', '0003_event_description_event_highlights'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
