@@ -15,30 +15,29 @@
         <form method="post" class="options">
             {% csrf_token %}
             <div class="row align-center">
-                <div class="col col-5 stacked right-align">
+                <div class="col right-align">
                     <label for="id_username">Użytkownik</label>
                 </div>
-                <div class="col col-6 stacked left-align">
-                    <input type="text" class="form-control" name="username" id="id_username">
+                <div class="col col-3 left-align">
+                    <input type="text" class="form-control col-12" name="username" id="id_username">
                 </div>
-            </div>
-            <div class="row align-center">
-                <div class="col col-5 stacked right-align">
+                
+                <div class="col col-1 right-align">
                     <label for="id_password">Hasło</label>
                 </div>
-                <div class="col col-6 stacked left-align">
-                    <input type="password" class="form-control" name="password" id="id_password">
+                <div class="col col-3 left-align">
+                    <input type="password" class="form-control col-12" name="password" id="id_password">
                 </div>
             </div>
             
-            <div class="row">
-                <div class="col col-4">
+            <div class="row align-center equal-buttons">
+                <div class="col col-3">
                     <button type="submit">Zaloguj</button>
                 </div>
-                <div class="col col-4">
+                <div class="col col-3">
                     <a href="{% url 'users:password_reset' %}">Zapomniałeś hasło?</a>
                 </div>
-                <div class="col col-4">
+                <div class="col col-3">
                     <a href="{% url 'home' %}">Powrót do strony głównej</a>
                 </div>
             </div>

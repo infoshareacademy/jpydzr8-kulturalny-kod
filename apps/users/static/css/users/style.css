@@ -9,18 +9,39 @@
   box-sizing: border-box;
 }
 
+.form-control.col-3 {
+  width: 25%;
+  max-width: 25%;
+  box-sizing: border-box;
+  flex: 0 0 25%;
+}
+
+.form-control.col-4 {
+  width: 33.3%;
+  max-width: 33.3%;
+  box-sizing: border-box;
+  flex: 0 0 33,3%;
+}
+
 .form-control.col-6 {
   width: 50%;
   max-width: 50%;
   box-sizing: border-box;
-  flex: 0;
+  flex: 0 0 50%;
+}
+
+.form-control.col-9 {
+  width: 75%;
+  max-width: 75%;
+  box-sizing: border-box;
+  flex: 0 0 75%;
 }
 
 .form-control.col-12 {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  flex: 0;
+  flex: 0 0 1;
 }
 
 label {
@@ -33,23 +54,26 @@ label {
   flex-wrap: wrap;
   align-items: flex-start; /* align columns to the top */
   margin-bottom: 1rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .row.info-row {
-    display: flex;
-    gap: 2rem;              /* spacing between columns */
-    align-items: stretch;
+  display: flex;
+  gap: 2rem;              /* spacing between columns */
+  align-items: stretch;
 }
 
 .row.align-center {
-    display: flex;
-    align-items: center;   /* vertical centering of label and input */
-    margin-bottom: 1rem;
+  display: flex;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .col {
-    min-width: 150px;   /* optional: prevent columns from being too narrow */
     box-sizing: border-box;
+    /* display: inline-block; */
 }
 
 .col.info-item {
@@ -57,28 +81,21 @@ label {
     display: flex;
     justify-content: flex-start;
     flex-direction: column;  /* stack label and value */
-    min-width: 150px;        /* optional: prevent too narrow columns */
-}
-
-.col:not(.info-item) {
-    flex: 1;            /* only non-info-item columns stretch */
-    min-width: 150px;
-    box-sizing: border-box;
 }
 
 /* Column classes (like Bootstrap) */
-.col-1 { flex: 0 0 8.33%; max-width: 8.33%; box-sizing: border-box;}
-.col-2 { flex: 0 0 16.66%; max-width: 16.66%; box-sizing: border-box;}
-.col-3 { flex: 0 0 25%; max-width: 25%; box-sizing: border-box;}
-.col-4 { flex: 0 0 33.33%; max-width: 33.33%; box-sizing: border-box;}
-.col-5 { flex: 0 0 41.66%; max-width: 41.66%; box-sizing: border-box;}
-.col-6 { flex: 0 0 50%; max-width: 50%; box-sizing: border-box;}
-.col-7 { flex: 0 0 58.33%; max-width: 58.33%; box-sizing: border-box;}
-.col-8 { flex: 0 0 66.66%; max-width: 66.66%; box-sizing: border-box;}
-.col-9 { flex: 0 0 75%; max-width: 75%; box-sizing: border-box;}
-.col-10 { flex: 0 0 83.33%; max-width: 83.33%; box-sizing: border-box;}
-.col-11 { flex: 0 0 91.66%; max-width: 91.66%; box-sizing: border-box;}
-.col-12 { flex: 0 0 100%; max-width: 100%; box-sizing: border-box;}
+.col.col-1 { flex: 0 0 8.33%; max-width: 8.33%; box-sizing: border-box;}
+.col.col-2 { flex: 0 0 16.66%; max-width: 16.66%; box-sizing: border-box;}
+.col.col-3 { flex: 0 0 25%; max-width: 25%; box-sizing: border-box;}
+.col.col-4 { flex: 0 0 33.33%; max-width: 33.33%; box-sizing: border-box;}
+.col.col-5 { flex: 0 0 41.66%; max-width: 41.66%; box-sizing: border-box;}
+.col.col-6 { flex: 0 0 50%; max-width: 50%; box-sizing: border-box;}
+.col.col-7 { flex: 0 0 58.33%; max-width: 58.33%; box-sizing: border-box;}
+.col.col-8 { flex: 0 0 66.66%; max-width: 66.66%; box-sizing: border-box;}
+.col.col-9 { flex: 0 0 75%; max-width: 75%; box-sizing: border-box;}
+.col.col-10 { flex: 0 0 83.33%; max-width: 83.33%; box-sizing: border-box;}
+.col.col-11 { flex: 0 0 91.66%; max-width: 91.66%; box-sizing: border-box;}
+.col.col-12 { flex: 0 0 100%; max-width: 100%; box-sizing: border-box;}
 
 .right-align {
   text-align: right;
@@ -186,6 +203,7 @@ label {
   display: block;
   margin-top: 0.1rem;   /* small spacing under label */
   color: #ccc;           /* optional styling for value */
+  word-wrap: break-word;
 }
 
 .left-col .info-row {
@@ -250,4 +268,31 @@ label {
 .file-name {
     font-size: 14px;
     color: #ccc;  /* gray text */
+}
+
+.equal-buttons {
+    display: flex;
+    justify-content: center;  /* center row */
+    align-items: stretch;     /* equal height */
+    gap: 10px;
+    /* width: 100%; */
+}
+
+.equal-buttons .col {
+    flex: 1;                 /* each takes equal space */
+    display: flex;
+}
+
+.equal-buttons button, a,
+.equal-buttons .btn-link {
+    flex: 1;                 /* button/link fills column */
+    text-align: center;
+    padding: 12px;
+    /* font-size: 16px; */
+    /* border: 1px solid #ccc;
+    background: #f8f8f8; */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;     /* vertically center text */
 }
