@@ -1,0 +1,17 @@
+ticket_number,event_id,event,full_name,email,quantity,total_price,created_at
+TKT-271AD4A0D5,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,1,65.00,2025-08-24T13:56:41.470146+00:00
+TKT-9103A194A1,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,1,65.00,2025-08-24T13:59:01.344609+00:00
+TKT-6546D9CB42,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,2,130.00,2025-08-24T14:05:34.563618+00:00
+TKT-C7AB0867CF,10,Szczecin Stand-up Night,andrzej szczecin,klenchere@gmail.com,1,65.00,2025-08-24T14:13:54.109812+00:00
+TKT-4B004B90A9,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,2,130.00,2025-08-24T14:15:14.343339+00:00
+TKT-3AA7C8221E,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,2,130.00,2025-08-24T14:17:52.585697+00:00
+TKT-E30C5CAE80,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,2,130.00,2025-08-24T14:31:57.825377+00:00
+TKT-18C098AEBE,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,1,65.00,2025-08-24T14:40:56.255939+00:00
+TKT-20A0829804,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,1,65.00,2025-08-24T14:44:54.099428+00:00
+TKT-A2C4EF8336,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,1,65.00,2025-08-24T14:46:29.784465+00:00
+TKT-6FA7A9CC13,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,1,65.00,2025-08-24T15:00:26.011365+00:00
+TKT-A09922DE39,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,1,65.00,2025-08-24T15:02:53.502746+00:00
+TKT-ADE18A09E8,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,1,65.00,2025-08-24T15:10:58.947257+00:00
+TKT-AF2714FA54,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,1,65.00,2025-08-24T15:14:22.493485+00:00
+TKT-C7A04C2799,10,Szczecin Stand-up Night,andrzej szczecin,andrzej@email.com,1,65.00,2025-08-24T15:39:35.044621+00:00
+TKT-ABD90018BB,11,Bydgoszcz Science Fair,andrzej szczecin,andrzej@email.com,1,25.00,2025-08-24T15:48:24.148354+00:00

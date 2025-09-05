@@ -138,6 +138,7 @@ p {
     text-align: left;
     margin-top: 1rem;
 }
+
 .event { background: #222; border-radius: 12px; padding: 14px 16px; }
 .event h3 { margin: 0 0 .25rem 0; font-size: 1.05rem; color: #fff; }
 
