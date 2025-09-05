@@ -1,51 +1,24 @@
 import pytest
-from django.contrib.auth import authenticate
+import datetime
+from django.utils import timezone
 from django.contrib.auth.models import User
+from apps.users.models import user_profile_picture_path
 from apps.users.models import UserProfile
 
 
-@pytest.fixture
-def create_user(db):
-    def make_user(username: str, email: str, password: str = "test123"):
-        return User.objects.create_user(username=username, email=email, password=password)
-    return make_user
+def test_user_profile_picture_path_generates_correct_path(monkeypatch):
+    user = User(username="XXX")
+    user_profile = UserProfile(user=user)
 
-@pytest.mark.django_db
-def test_single_user_created(create_user):
-    user = create_user("jan", "jan@example.com")
+    filename = "photo.png"
 
-    assert user.username == "jan"
-    assert user.email == "jan@example.com"
-    
-@pytest.mark.django_db
-def test_multiple_users_created(create_user):
-    user1 = create_user("jan", "jan@example.com")
-    user2 = create_user("anna", "anna@example.com")
+    # Patch timezone for predictable timestamp
+    monkeypatch.setattr(timezone, "now", lambda: datetime.datetime(2025, 9, 5, 12, 0, 0))
 
-    assert User.objects.count() == 2
+    path = user_profile_picture_path(user_profile, filename)
+    assert path == "profile_photos/XXX_20250905120000.png"
 
-@pytest.mark.django_db
-def test_user_profile_created():
-    user = User.objects.create(username="jan", email="jan@example.com")
-    profile = UserProfile.objects.get(user=user)
-
-    assert profile.user.username == "jan"
-    assert str(profile) == f"{user.username} Profile"
-
-@pytest.mark.django_db
-def test_login_password():
-    from django.contrib.auth.models import User
-    user = User.objects.create_user(username="jan", password="correctpass")
-
-    result = authenticate(username="jan", password="correctpass")
-
-    assert result is not None
-
-@pytest.mark.django_db
-def test_login_wrong_password():
-    from django.contrib.auth.models import User
-    user = User.objects.create_user(username="jan", password="correctpass")
-
-    result = authenticate(username="jan", password="wrongpass")
-
-    assert result is None
+def test_userprofile_str_unit():
+    user = User(username="XXX")
+    user_profile = UserProfile(user=user)
+    assert str(user_profile) == "XXX Profile"

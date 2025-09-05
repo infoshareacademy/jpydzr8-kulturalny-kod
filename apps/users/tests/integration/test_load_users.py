@@ -8,17 +8,14 @@ from apps.users.management.commands.load_users import Command
 
 TEST_FILE_NAME = "test.json"
 
-@pytest.fixture(scope="module")
-def loaded_users(django_db_setup, django_db_blocker):
-    """
-    Load users once for all tests in this module.
-    """
+@pytest.fixture()
+def loaded_users(django_user_model, django_db_blocker):
     command = Command()
     with django_db_blocker.unblock():
         command._load_users(file_name=TEST_FILE_NAME)
-    return User.objects.all()
+    return django_user_model.objects.all()
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def users_from_json():
     """Load users from the test JSON file."""
     file_path = os.path.join(
