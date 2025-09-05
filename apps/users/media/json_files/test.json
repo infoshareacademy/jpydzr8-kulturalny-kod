@@ -1,0 +1,19 @@
+{
+    "users": [
+        {
+            "first_name": "Bernadetta",
+            "last_name": "Kowalska",
+            "username": "b.kowalska2000b9",
+            "password": "xnj(Z3civ40&",
+            "email": "b.kowalska2000b9@example.com",
+            "is_superuser": 0,
+            "is_staff": 0,
+            "is_active": 1
+        }
+    ],
+    "created_at": "2025-08-04 17:27:46.339394",
+    "num_users": 3,
+    "password_length": 12,
+    "oldest_date_of_birth": "1950-01-01 00:00:00",
+    "output_file_name": "test.json"
+}

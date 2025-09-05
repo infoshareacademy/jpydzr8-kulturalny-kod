@@ -11,9 +11,8 @@ class Command(BaseCommand):
     help = "Load users from JSON file into auth_user"
 
     def handle(self, *args, **kwargs):
-        batch_size = kwargs["batch_size"]
-        self._load_users(file_name="users.json", batch_size=batch_size)
-        self._load_users(file_name="admins.json", batch_size=batch_size)
+        self._load_users(file_name="users.json")
+        self._load_users(file_name="admins.json")
         
     def _load_users(self, file_name: str, *args, **kwargs):
         file_path = os.path.join(settings.BASE_DIR, "apps", "users", "media", "json_files", file_name)

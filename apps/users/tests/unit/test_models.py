@@ -33,10 +33,19 @@ def test_user_profile_created():
     assert str(profile) == f"{user.username} Profile"
 
 @pytest.mark.django_db
+def test_login_password():
+    from django.contrib.auth.models import User
+    user = User.objects.create_user(username="jan", password="correctpass")
+
+    result = authenticate(username="jan", password="correctpass")
+
+    assert result is not None
+
+@pytest.mark.django_db
 def test_login_wrong_password():
     from django.contrib.auth.models import User
     user = User.objects.create_user(username="jan", password="correctpass")
 
     result = authenticate(username="jan", password="wrongpass")
 
-    assert result is None  # ✅ authentication should fail
+    assert result is None
