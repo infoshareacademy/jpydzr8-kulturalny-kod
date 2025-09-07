@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 from django.conf import settings
+from django.contrib.staticfiles import finders
 from django.template.loader import render_to_string
 from django.core.files.base import ContentFile
 
@@ -69,6 +70,8 @@ def render_ticket_pdf_to_content(event, booking, qr_url: str, base_url: str, css
         'booking': booking,
         'qr_url': qr_url,
     })
+
+    css_file = finders.find('css/style.css')
 
     pdf_bytes = HTML(string=html, base_url=base_url).write_pdf(
         stylesheets=[CSS(css_url)]
