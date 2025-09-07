@@ -12,6 +12,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
 from django.views.generic.edit import FormView
 from django.views.generic import UpdateView, DetailView, TemplateView
+from typing import cast
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm, UserProfileForm
 from .models import UserProfile
@@ -31,8 +32,6 @@ class CustomLoginView(LoginView):
         # Ensure profile exists
         profile, created = UserProfile.objects.get_or_create(user=self.request.user)
 
-        # Save profile ID or just image URL into session
-        self.request.session['profile_id'] = profile.id
         if profile.photo:
             self.request.session['profile_photo_url'] = profile.photo.url
 
@@ -85,6 +84,7 @@ class UserHomeView(LoginRequiredMixin, View):
     login_url = 'users:login'
     
     def get(self, request):
+        request.session.pop("message", None)
         return render(request, "users/user_home.html")
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
@@ -108,8 +108,8 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
     # Ensure user can only edit their own profile
-    def get_object(self, queryset=None):
-        return self.request.user
+    def get_object(self, queryset=None) -> User:
+        return cast(User, self.request.user)
     
     def get_success_url(self):
         return reverse_lazy('users:home')
@@ -125,8 +125,6 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
             user.save()
             profile_form.save()
 
-            # 🔄 Update session with new profile photo
-            request.session['profile_id'] = profile.id
             if profile.photo:
                 request.session['profile_photo_url'] = profile.photo.url
             else:
@@ -140,8 +138,8 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     template_name = 'users/user_info.html'
     login_url = reverse_lazy('users:home')
     
-    def get_object(self, queryset=None):
-        return self.request.user
+    def get_object(self, queryset=None) -> User:
+        return cast(User, self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -151,13 +149,12 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         context['profile'] = profile
         return context
     
-class CustomLogoutView(LogoutView):
+class CustomLogoutView(LoginRequiredMixin, LogoutView):
     next_page = '/'  # or reverse_lazy('users:home')
 
     def dispatch(self, request, *args, **kwargs):
         # Remove profile data from session
         request.session.pop('profile_photo_url', None)
-        request.session.pop('profile_id', None)
         return super().dispatch(request, *args, **kwargs)
 
 class CustomPasswordResetView(PasswordResetView):
