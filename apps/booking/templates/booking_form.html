@@ -12,15 +12,14 @@
     <h2>Rezerwacja: {{ event.title|default:event.name }}</h2>
 
     <div class="user-info">
-      <p><strong>Zalogowany jako:</strong> {{ user.username }}</p>
-      <p><strong>Email:</strong> {{ user.email }}</p>
       <p><strong>Imię i nazwisko:</strong>
         {% if user.first_name or user.last_name %}
-          {{ user.first_name }} {{ user.last_name }}
+        {{ user.first_name }} {{ user.last_name }}
         {% else %}
-          {{ user.username }}
+        {{ user.username }}
         {% endif %}
       </p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
     </div>
 
     <form method="post">
