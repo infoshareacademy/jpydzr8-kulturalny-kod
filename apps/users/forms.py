@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from .models import UserProfile
-from django.utils.safestring import mark_safe
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -25,7 +24,7 @@ class CustomUserCreationForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("A user with that email already exists.")
+            raise forms.ValidationError("Ten adres e-mail jest już zajęty.")
         return email
     
     def clean_first_name(self):
@@ -54,9 +53,6 @@ class CustomUserChangeForm(UserChangeForm):
     def clean_last_name(self):
         last_name = self.cleaned_data.get('last_name', '')
         return last_name.capitalize()
-
-class CustomImageWidget(forms.ClearableFileInput):
-    template_name = 'widgets/image_widget.html'
 
 class UserProfileForm(forms.ModelForm):
     class Meta:

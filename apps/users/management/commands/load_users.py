@@ -10,33 +10,24 @@ from tqdm import tqdm
 class Command(BaseCommand):
     help = "Load users from JSON file into auth_user"
 
-    def add_arguments(self, parser):
-        parser.add_argument(
-            '--batch_size',
-            type=int,
-            default=100,
-            help='Number of users to process in one batch',
-        )
-
     def handle(self, *args, **kwargs):
-        batch_size = kwargs["batch_size"]
-        self._load_users(file_name="users.json", batch_size=batch_size)
-        self._load_users(file_name="admins.json", batch_size=batch_size)
-
-    def _load_users(self, file_name: str, batch_size: int):
+        self._load_users(file_name="users.json")
+        self._load_users(file_name="admins.json")
+        
+    def _load_users(self, file_name: str, *args, **kwargs):
         file_path = os.path.join(settings.BASE_DIR, "apps", "users", "media", "json_files", file_name)
-
+        
         with open(file_path, "r", encoding="utf-8") as f:
             users_json = json.load(f)
-
+        
         users = users_json["users"]
 
         total_created = 0
         existing_usernames = set(User.objects.values_list("username", flat=True))
-
+        
         for i, user_data in enumerate(
-                tqdm(users, desc=f"Loading users from {file_name}", file=stdout, mininterval=0.5),
-                start=1
+            tqdm(users, desc="Loading users", file=stdout, mininterval=0.5), 
+            start=1
         ):
             if user_data["username"] not in existing_usernames:
                 User.objects.create_user(
@@ -50,9 +41,6 @@ class Command(BaseCommand):
                     is_active=user_data["is_active"]
                 )
                 total_created += 1
-
-            if i % batch_size == 0:
-                self.stdout.write(f"🔄 Processed {i} users...")
 
         self.stdout.write(
             self.style.SUCCESS(f"✅ Created {total_created} users (bulk insert) from file {file_path}.")
