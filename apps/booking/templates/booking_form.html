@@ -11,18 +11,20 @@
   <div class="container">
     <h2>Rezerwacja: {{ event.title|default:event.name }}</h2>
 
+    <div class="user-info">
+      <p><strong>Zalogowany jako:</strong> {{ user.username }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Imię i nazwisko:</strong>
+        {% if user.first_name or user.last_name %}
+          {{ user.first_name }} {{ user.last_name }}
+        {% else %}
+          {{ user.username }}
+        {% endif %}
+      </p>
+    </div>
+
     <form method="post">
       {% csrf_token %}
-
-      <p>
-        {{ form.full_name.label_tag }}<br>
-        {{ form.full_name }}
-      </p>
-
-      <p>
-        {{ form.email.label_tag }}<br>
-        {{ form.email }}
-      </p>
 
       <p>
         {{ form.quantity.label_tag }}<br>

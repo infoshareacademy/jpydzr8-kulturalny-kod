@@ -8,8 +8,9 @@ from django.core.files.base import ContentFile
 
 from weasyprint import HTML, CSS
 
-ARCHIVE_DIR = Path(settings.BASE_DIR) / 'archive'
-ARCHIVE_DIR.mkdir(exist_ok=True)
+# Katalog archiwum CSV/JSON (pozostaje w apps/booking/media/bookings)
+ARCHIVE_DIR = Path(settings.BASE_DIR) / 'apps' / 'booking' / 'media' / 'bookings'
+ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def save_booking_to_csv(booking):
@@ -20,13 +21,15 @@ def save_booking_to_csv(booking):
         writer = csv.writer(f)
         if new_file:
             writer.writerow([
-                'ticket_number', 'event_id', 'event',
+                'ticket_number', 'event_id', 'event', 'user_id', 'username',
                 'full_name', 'email', 'quantity', 'total_price', 'created_at'
             ])
         writer.writerow([
             booking.ticket_number,
             booking.event_id,
             getattr(booking.event, 'title', getattr(booking.event, 'name', 'event')),
+            booking.user.id if booking.user else '',
+            booking.user.username if booking.user else '',
             booking.full_name,
             booking.email,
             booking.quantity,
@@ -45,6 +48,8 @@ def save_booking_to_json(booking):
         'ticket_number': booking.ticket_number,
         'event_id': booking.event_id,
         'event': getattr(booking.event, 'title', getattr(booking.event, 'name', 'event')),
+        'user_id': booking.user.id if booking.user else None,
+        'username': booking.user.username if booking.user else None,
         'full_name': booking.full_name,
         'email': booking.email,
         'quantity': booking.quantity,

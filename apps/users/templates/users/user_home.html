@@ -1,6 +1,5 @@
 {% extends "users/after_login_template.html" %}
 
-
 {% block title %} Strona Główna {% endblock title %}
 
 {% block user_content %}
@@ -12,14 +11,9 @@
                 <a href="{% url 'events:events_list' %}">Przegląd wydarzeń</a>
             </div>
             <div class="col">
-                <a href="#">Moje wydarzenia</a>
+                <a href="{% url 'booking:my_bookings' %}">Moje wydarzenia</a>
             </div>
-
         </div>
-
-
     </div>
-
-
 
 {% endblock user_content %}
