@@ -28,7 +28,14 @@
 
       <p>
         {{ form.quantity.label_tag }}<br>
-        {{ form.quantity }}
+          {{ form.quantity }}
+          {% if form.quantity.errors %}
+            <ul class="errorlist">
+                {% for error in form.quantity.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
       </p>
 
       <div class="options">

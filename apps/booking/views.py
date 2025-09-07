@@ -35,12 +35,20 @@ def booking_create(request, event_id):
             price = _event_price(event)
             total = price * quantity
 
+            if quantity > event.available_seats:
+                form.add_error('quantity', 'Brak wystarczającej liczby wolnych miejsc.')
+                return render(request, 'booking_form.html', {'event': event, 'form': form})
+
             ticket_no = generate_ticket_number()
 
             # Pobierz dane z zalogowanego użytkownika
             full_name = f"{request.user.first_name} {request.user.last_name}".strip()
             if not full_name:
                 full_name = request.user.username
+
+                if quantity > event.available_seats:
+                    form.add_error('quantity', 'Brak wystarczającej liczby wolnych miejsc.')
+                    return render(request, 'booking_form.html', {'event': event, 'form': form})
 
             # 1) utworzenie rezerwacji
             booking = Booking.objects.create(
@@ -52,6 +60,10 @@ def booking_create(request, event_id):
                 total_price=total,
                 ticket_number=ticket_no,
             )
+
+            # Zmniejsz liczbę dostępnych miejsc i zapisz zmianę
+            event.available_seats = event.available_seats - quantity
+            event.save(update_fields=['available_seats'])
 
             # 2) QR -> zapis do standardowego MEDIA_ROOT/tickets
             qr_content = f'{ticket_no}|event:{event.id}|email:{booking.email}'
