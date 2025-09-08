@@ -1,23 +1,27 @@
-<!doctype html>
-<html lang="pl">
+{% extends "base.html" %}
 {% load static %}
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rezerwacja potwierdzona</title>
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-  <div class="container">
-    <h2>Rezerwacja potwierdzona</h2>
-    <p>Numer biletu: <strong>{{ booking.ticket_number }}</strong></p>
 
-    <div class="options">
-      {% if booking.pdf_file %}
-        <a href="{{ booking.pdf_file.url }}" target="_blank">Pobierz bilet (PDF)</a>
-      {% endif %}
-      <a href="{% url 'events:event_detail' booking.event.id %}">Powrót do wydarzenia</a>
-    </div>
+{% block title %}Rezerwacja potwierdzona{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Rezerwacja potwierdzona</h2>
+  <p>Numer biletu: <strong>{{ booking.ticket_number }}</strong></p>
+
+  <div class="booking-details">
+    <p><strong>Wydarzenie:</strong> {{ booking.event.name }}</p>
+    <p><strong>Data:</strong> {{ booking.event.date|date:"Y-m-d H:i" }}</p>
+    <p><strong>Miejsce:</strong> {{ booking.event.venue }}, {{ booking.event.city }}</p>
+    <p><strong>Liczba biletów:</strong> {{ booking.quantity }}</p>
+    <p><strong>Cena całkowita:</strong> {{ booking.total_price }} PLN</p>
   </div>
-</body>
-</html>
+
+  <div class="options">
+    {% if booking.pdf_file %}
+      <a href="{{ booking.pdf_file.url }}" target="_blank" class="btn">Pobierz bilet (PDF)</a>
+    {% endif %}
+    <a href="{% url 'events:event_detail' booking.event.id %}" class="btn">Powrót do wydarzenia</a>
+    <a href="{% url 'booking:my_bookings' %}" class="btn">Moje rezerwacje</a>
+  </div>
+</div>
+{% endblock %}

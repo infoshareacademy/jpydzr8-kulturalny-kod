@@ -1,47 +1,39 @@
-<!doctype html>
-<html lang="pl">
+{% extends "base.html" %}
 {% load static %}
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rezerwacja</title>
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-  <div class="container">
-    <h2>Rezerwacja: {{ event.title|default:event.name }}</h2>
 
-    <div class="user-info">
-      <p><strong>Imię i nazwisko:</strong>
-        {% if user.first_name or user.last_name %}
-        {{ user.first_name }} {{ user.last_name }}
-        {% else %}
-        {{ user.username }}
-        {% endif %}
-      </p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-    </div>
+{% block title %}Rezerwacja - {{ event.name }}{% endblock %}
 
-    <form method="post">
-      {% csrf_token %}
+{% block extra_css %}
+{% endblock %}
 
-      <p>
-        {{ form.quantity.label_tag }}<br>
-          {{ form.quantity }}
-          {% if form.quantity.errors %}
-            <ul class="errorlist">
-                {% for error in form.quantity.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-      </p>
+{% block content %}
+<div class="container">
+  <h2>Rezerwacja: {{ event.name }}</h2>
 
-      <div class="options">
-        <button type="submit">Potwierdź rezerwację</button>
-        <a href="{% url 'events:event_detail' event.id %}">Anuluj</a>
-      </div>
-    </form>
+  <div class="user-info">
+    <p><strong>Użytkownik:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
   </div>
-</body>
-</html>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <p>
+      {{ form.quantity.label_tag }}<br>
+      {{ form.quantity }}
+      {% if form.quantity.errors %}
+        <ul class="errorlist">
+          {% for error in form.quantity.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </p>
+
+    <div class="options">
+      <button type="submit">Potwierdź rezerwację</button>
+      <a href="{% url 'events:event_detail' event.id %}">Anuluj</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
