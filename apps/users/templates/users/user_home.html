@@ -1,25 +1,28 @@
-{% extends "users/after_login_template.html" %}
+{% extends "base.html" %}
+{% load static %}
 
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'css/users/style.css' %}">
+{% endblock css %}
 
 {% block title %} Strona Główna {% endblock title %}
 
-{% block user_content %}
+{% block content %}
+    <div class="container">
+        <h1>Kulturalny kod</h1>
+        <div class="options">
+            <div class="row center-align">
+                <div class="col">
+                    <a href="{% url 'events:events_list' %}">Przegląd wydarzeń</a>
+                </div>
+                <div class="col">
+                    <a href="#">Moje wydarzenia</a>
+                </div>
 
-    <h1>Kulturalny kod</h1>
-    <div class="options">
-        <div class="row center-align">
-            <div class="col">
-                <a href="{% url 'events:events_list' %}">Przegląd wydarzeń</a>
             </div>
-            <div class="col">
-                <a href="#">Moje wydarzenia</a>
-            </div>
-
         </div>
-
-
     </div>
 
 
-
-{% endblock user_content %}
+{% endblock content %}
