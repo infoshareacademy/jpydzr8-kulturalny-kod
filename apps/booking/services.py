@@ -74,6 +74,6 @@ def render_ticket_pdf_to_content(event, booking, qr_url: str, base_url: str, css
     css_file = finders.find('css/style.css')
 
     pdf_bytes = HTML(string=html, base_url=base_url).write_pdf(
-        stylesheets=[CSS(css_url)]
+        stylesheets=[CSS(css_file)]
     )
     return ContentFile(pdf_bytes, name=f'{booking.ticket_number}.pdf')
