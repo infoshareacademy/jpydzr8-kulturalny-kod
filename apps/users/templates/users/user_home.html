@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block css %}
-{{ block.super }}
-<link rel="stylesheet" type="text/css" href="{% static 'css/users/style.css' %}">
-{% endblock css %}
 
 {% block title %} Strona Główna {% endblock title %}
 
@@ -21,8 +17,10 @@
                 </div>
 
             </div>
+            <div class="col">
+                <a href="{% url 'booking:my_bookings' %}">Moje wydarzenia</a>
+            </div>
         </div>
     </div>
 
-
-{% endblock content %}
+{% endblock user_content %}

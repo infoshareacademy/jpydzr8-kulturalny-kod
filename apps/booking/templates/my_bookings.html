@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Moje rezerwacje{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Moje rezerwacje</h2>
+  
+  {% if bookings %}
+    {% for booking in bookings %}
+      <div class="booking-item">
+        <h3>{{ booking.event.name }}</h3>
+        <p><strong>Numer biletu:</strong> {{ booking.ticket_number }}</p>
+        <p><strong>Data wydarzenia:</strong> {{ booking.event.date|date:"Y-m-d H:i" }}</p>
+        <p><strong>Miejsce:</strong> {{ booking.event.venue }}, {{ booking.event.city }}</p>
+        <p><strong>Liczba biletów:</strong> {{ booking.quantity }}</p>
+        <p><strong>Cena całkowita:</strong> {{ booking.total_price }} PLN</p>
+        <p><strong>Data rezerwacji:</strong> {{ booking.created_at|date:"Y-m-d H:i" }}</p>
+        
+        <div class="options">
+          {% if booking.pdf_file %}
+            <a href="{{ booking.pdf_file.url }}" target="_blank" class="btn">Pobierz bilet (PDF)</a>
+          {% endif %}
+        </div>
+      </div>
+      <hr>
+    {% endfor %}
+  {% else %}
+    <div class="no-bookings">
+      <p>Nie masz jeszcze żadnych rezerwacji.</p>
+      <div class="options">
+        <a href="{% url 'events:events_list' %}" class="btn">Przeglądaj wydarzenia</a>
+      </div>
+    </div>
+  {% endif %}
+  
+  <div class="options">
+    <a href="{% url 'users:home' %}" class="btn">Powrót do strony głównej</a>
+  </div>
+</div>
+{% endblock %}
