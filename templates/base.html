@@ -2,16 +2,43 @@
 <!DOCTYPE html>
 <html lang="pl">
 
-<head>
-    <meta charset="UTF-8">
-    
-    {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <link rel="shortcut icon" href="{% static 'kulturalny_kod/favicon.ico' %}" type="image/x-icon">
-    {% endblock css %}
-    <title>{% block title %}{% endblock title %}</title>
-</head>
-<body>
-    {% block content %}{% endblock content %}
-</body>
+    <head>
+        <meta charset="UTF-8">
+        
+        {% block css %}
+            <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/profile-menu.css' %}">
+            <link rel="shortcut icon" href="{% static 'kulturalny_kod/favicon.ico' %}" type="image/x-icon">
+        {% endblock css %}
+        <title>{% block title %}{% endblock title %}</title>
+    </head>
+    <body>
+        <div class="profile-menu">
+            <button class="profile-btn" onclick="toggleProfileMenu()">
+                {% if request.session.profile_photo_url %}
+                    <img src="{{ request.session.profile_photo_url }}" alt="Zdjęcie profilowe {{ user.username }}" class="profile-icon">
+                {% else %}
+                    <img src="/static/images/users/random_person.png" class="profile-icon">
+                {% endif %}
+                <span class="username">{{ user.username }}</span>
+            </button>
+            <ul class="profile-dropdown">
+                <li><a href="{% url 'home' %}">Strona Główna</a></li>
+                <hr class="dropdown-separator">
+                <li><a href="{% url 'users:info' %}">Profil</a></li>
+                <li><a href="#">Ustawienia</a></li>
+                <li>
+                    {% if user.is_authenticated %}
+                        <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display:none;">
+                            {% csrf_token %}
+                        </form>
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Wyloguj</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+        {% block content %}{% endblock content %}
+        <script src="{% static 'js/profile-menu.js' %}"></script>
+    </body>
 </html>
