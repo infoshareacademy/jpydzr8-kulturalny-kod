@@ -71,6 +71,16 @@ label {
   text-align: center;
 }
 
+.row.align-start {
+  display: flex;
+  margin-bottom: 1rem;
+  text-align: start;
+}
+
+.row.align-baseline {
+  align-items: baseline;
+}
+
 .col {
     box-sizing: border-box;
     /* display: inline-block; */
@@ -295,4 +305,9 @@ label {
     display: flex;
     justify-content: center;
     align-items: center;     /* vertically center text */
+}
+
+.error {
+  color: red;
+  font-weight: bold;
 }

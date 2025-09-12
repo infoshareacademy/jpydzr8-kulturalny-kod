@@ -1,3 +1,0 @@
-ticket_number,event_id,event,user_id,username,full_name,email,quantity,total_price,created_at
-TKT-AA0FF8CE0A,1,Olsztyn Green Festival 2025,101,andrzej_admin,Andrzej Kowalski,andrzej_admin@example.com,1,243.50,2025-09-07T08:56:58.240423+00:00
-TKT-BAAA60C972,1,Olsztyn Green Festival 2025,101,andrzej_admin,Andrzej Kowalski,andrzej_admin@example.com,3,730.50,2025-09-07T09:11:39.440824+00:00
