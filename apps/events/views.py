@@ -15,7 +15,7 @@ def event_list_view(request):
         events = events.filter(date__range=[from_date, to_date])
 
     if city:
-        events = events.filter(city=city)
+        events = events.filter(city=city.capitalize())
 
     return render(request, "events/events_list.html", {
         "events": events
