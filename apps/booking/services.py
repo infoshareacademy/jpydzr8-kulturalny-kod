@@ -1,5 +1,4 @@
-import csv
-import json
+import csv, json, io
 from pathlib import Path
 
 from django.conf import settings
@@ -61,7 +60,7 @@ def save_booking_to_json(booking):
     json_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
 
 
-def render_ticket_pdf_to_content(event, booking, qr_url: str, base_url: str, css_url: str):
+def render_ticket_pdf_to_content(event, booking, qr_url: str):
     """
     Renderuje PDF z zewnętrznym CSS i absolutnym file:// do obrazu QR.
     """
@@ -70,10 +69,11 @@ def render_ticket_pdf_to_content(event, booking, qr_url: str, base_url: str, css
         'booking': booking,
         'qr_url': qr_url,
     })
+    pdf_io = io.BytesIO()
+    css_file = finders.find('booking/css/ticket.css')
 
-    css_file = finders.find('css/style.css')
-
-    pdf_bytes = HTML(string=html, base_url=base_url).write_pdf(
-        stylesheets=[CSS(css_file)]
+    HTML(string=html, base_url=settings.MEDIA_ROOT).write_pdf(
+        pdf_io,
+        stylesheets=[CSS(css_file)] if css_file else None
     )
-    return ContentFile(pdf_bytes, name=f'{booking.ticket_number}.pdf')
+    return ContentFile(pdf_io.getvalue(), name=f'{booking.ticket_number}.pdf')
