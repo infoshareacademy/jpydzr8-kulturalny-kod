@@ -67,10 +67,24 @@
                 <div class="col col-5 stacked center-align">
                     <label for="id_first_name">Imię</label>
                     <input type="text" class="form-control col-9" name="first_name" id="id_first_name">
+                    <div class="error">
+                        {% if form.first_name.errors %}
+                            {% for error in form.first_name.errors %}
+                                {{ error }}<br>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="col col-5 stacked center-align">
                     <label for="id_last_name">Nazwisko</label>
                     <input type="text" class="form-control col-9" name="last_name" id="id_last_name">
+                    <div class="error">
+                        {% if form.last_name.errors %}
+                            {% for error in form.last_name.errors %}
+                                {{ error }}<br>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
 
