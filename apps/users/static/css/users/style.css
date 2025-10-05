@@ -81,9 +81,18 @@ label {
   align-items: baseline;
 }
 
+.row.align-stretch {
+  align-items: stretch;
+}
+
 .col {
     box-sizing: border-box;
     /* display: inline-block; */
+}
+
+.col.blend {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px); 
 }
 
 .col.info-item {
@@ -310,4 +319,22 @@ label {
 .error {
   color: red;
   font-weight: bold;
+}
+
+.col.border {
+    border: 1px solid #c5bbcf;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.col.table-col {
+    flex: 1 1 0;            /* allow column to grow and shrink */
+    min-width: 0;           /* prevent overflow */
+    display: flex;
+    flex-direction: column; /* stack label and table */
+}
+
+.col.table-col table, td, th {
+    border: 1px solid #c5bbcf;
+    padding: 2px;
 }

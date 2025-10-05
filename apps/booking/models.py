@@ -3,7 +3,7 @@ from django.db import models
 
 class Booking(models.Model):
     event = models.ForeignKey('events.Event', on_delete=models.CASCADE, related_name='bookings')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='bookings')
     full_name = models.CharField(max_length=120)
     email = models.EmailField()
     quantity = models.PositiveIntegerField(default=1)

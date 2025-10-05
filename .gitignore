@@ -174,3 +174,5 @@ cython_debug/
 .pypirc
 
 media/profile_photos/*
+
+tickets

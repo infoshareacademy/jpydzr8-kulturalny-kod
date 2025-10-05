@@ -39,6 +39,8 @@
             </ul>
         </div>
         {% block content %}{% endblock content %}
-        <script src="{% static 'js/profile-menu.js' %}"></script>
+        {% block scripts %}
+            <script src="{% static 'js/profile-menu.js' %}"></script>
+        {% endblock scripts %}
     </body>
 </html>
