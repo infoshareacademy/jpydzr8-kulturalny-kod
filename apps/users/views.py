@@ -130,7 +130,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     form_class = CustomUserChangeForm
     template_name = 'users/user_edit.html'
     login_url = reverse_lazy('users:home')
-    success_url = reverse_lazy('users:home')  # Redirect after saving
+    success_url = reverse_lazy('users:info')  # Redirect after saving
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -139,7 +139,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         profile, created = UserProfile.objects.get_or_create(user=self.request.user)
         if self.request.method == 'POST':
             context['profile_form'] = UserProfileForm(self.request.POST, self.request.FILES, instance=profile)
-        else:
+        else :
             context['profile_form'] = UserProfileForm(instance=profile)
 
         
@@ -150,7 +150,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         return cast(User, self.request.user)
     
     def get_success_url(self):
-        return reverse_lazy('users:home')
+        return reverse_lazy('users:info')
     
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -165,7 +165,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
             if profile.photo:
                 request.session['profile_photo_url'] = profile.photo.url
-            else:
+            elif 'profile_photo_url' in request.session:
                 request.session.pop('profile_photo_url')
 
             return redirect(self.get_success_url())
