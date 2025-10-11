@@ -4,13 +4,92 @@
 {% block css %}
 {{ block.super }}
 <link rel="stylesheet" type="text/css" href="{% static 'css/users/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/users/calendar.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
+<script src="{% static 'js/users/calendar.js' %}"></script>
+    <!-- <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth'
+        });
+        calendar.render();
+      });
+
+    </script> -->
 {% endblock css %}
 
 {% block title %} Strona Główna {% endblock title %}
 
 {% block content %}
-    <div class="container">
+    <div class="container wide">
         <h1>Kulturalny kod</h1>
+        <div class="row align-center align-stretch">
+            
+            <div class="col col-12 border blend">
+                <h2>Witamy, {{ user.username }}!</h2>
+                <p>Na swoim koncie możesz przeglądać i zarządzać swoimi rezerwacjami wydarzeń kulturalnych.</p>
+                <p>Zapraszamy do odkrywania nadchodzących wydarzeń i korzystania z naszej platformy!</p>
+            </div>
+        </div>
+        <div class="row align-center align-stretch">
+
+            <div class="col col-6 border table-col blend">
+                <h2>Najbliższe 3 rezerwacje</h2>
+                <table>
+                    <tr>
+                        <th>Nazwa wydarzenia</th>
+                        <th>Miejsce</th>
+                        <th>Data wydarzenia</th>
+                    </tr>
+                    {% for booking in nearest_3_bookings %}
+                    <tr>
+                        <td>{{ booking.event.name }}</td>
+                        <td>{{ booking.event.city }}</td>
+                        <td>{{ booking.event.date }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">Brak rezerwacji.</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="col col-6 border table-col blend">
+                <h2>Ostatnie 3 rezerwacje</h2>
+                <table>
+                    <tr>
+                        <th>Nazwa wydarzenia</th>
+                        <th>Miejsce</th>
+                        <th>Data wydarzenia</th>
+                    </tr>
+                    {% for booking in last_3_bookings %}
+                    <tr>
+                        <td>{{ booking.event.name }}</td>
+                        <td>{{ booking.event.city }}</td>
+                        <td>{{ booking.event.date }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">Brak rezerwacji.</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            
+        </div>
+
+
+        <div class="row align-center align-stretch">
+            <div class="col col-12 border blend">
+                <h2>Mój kalendarz rezerwacji</h2>
+                <div id="calendar" data-booking-events='{{ booking_events|safe }}'></div>
+
+            </div>
+
+        </div>
         <div class="options">
             <div class="row center-align">
                 <div class="col">
@@ -25,3 +104,9 @@
     </div>
 
 {% endblock content %}
+
+{% block scripts %}
+    {{ block.super }}
+    
+    
+{% endblock scripts %}

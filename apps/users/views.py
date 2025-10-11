@@ -1,3 +1,4 @@
+import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
@@ -12,6 +13,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode, url_
 from django.views import View
 from django.views.generic.edit import FormView
 from django.views.generic import UpdateView, DetailView, TemplateView
+import json
 from typing import cast
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm, UserProfileForm
@@ -90,7 +92,38 @@ class UserHomeView(LoginRequiredMixin, View):
     
     def get(self, request):
         request.session.pop("message", None)
-        return render(request, "users/user_home.html")
+        bookings = request.user.bookings.select_related('event')
+        booking_events = [
+            {
+                "date": b.event.date.isoformat(),
+                "title": b.event.name,
+                "city": b.event.city,
+                "venue": b.event.venue,
+            }
+            for b in bookings
+        ]
+        
+        last_3_bookings = (
+            bookings
+            .filter(event__date__lte=datetime.date.today())
+            .order_by('-created_at')[:3]
+        )
+        
+        nearest_3_bookings = (
+            bookings
+            .filter(event__date__gte=datetime.date.today())
+            .order_by('event__date')[:3]
+        )
+
+        return render(
+            request,
+            "users/user_home.html",
+            {
+                "last_3_bookings": last_3_bookings,
+                "nearest_3_bookings": nearest_3_bookings,
+                "booking_events": json.dumps(booking_events),
+            }
+        )
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User

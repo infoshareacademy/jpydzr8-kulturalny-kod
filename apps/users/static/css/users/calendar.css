@@ -1,0 +1,102 @@
+/* Target all events in the calendar */
+.fc-event,
+.fc-list-item.fc-event {
+    position: relative; /* needed for tooltip positioning */
+}
+
+.fc-event {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+/* Change background on hover */
+.fc-event:hover {
+    background-color: #388e3c; /* darker green */
+    transform: scale(1.02);               /* slight zoom effect */
+}
+
+/* Optional: change text color on hover */
+.fc-event:hover .fc-event-title {
+    color: #9b0c0c;
+}
+
+/* Target all list view events */
+.fc-list-item.fc-event {
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    cursor: pointer;
+    padding: 0.3em 0.5em; /* optional padding for better hover */
+}
+
+/* Basic tooltip container */
+.fc-event[data-description]:hover::after {
+    content: attr(data-description);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 125%;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 1000;
+    font-size: 0.85rem;
+    opacity: 1;
+    pointer-events: none;
+}
+
+/* Optional arrow */
+/* .fc-event[data-description]:hover::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 115%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent;
+    z-index: 1000;
+} */
+
+/* Smooth fade-in */
+.fc-event[data-description]::after,
+.fc-event[data-description]::before {
+    transition: opacity 0.2s ease;
+    opacity: 0;
+}
+
+.fc-event[data-description]:hover::after,
+.fc-event[data-description]:hover::before {
+    opacity: 1;
+}
+
+.fc-list-day-cushion {
+    background-color: #260ac5; /* light gray background for day headers */
+    padding: 5px 10px;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+}
+
+.fc-list-day-text {
+    color: #333;
+}
+
+.fc-list-day-side-text {
+    color: #333;
+}
+
+.fc-list-event:hover {
+    transition: background-color 0.2s ease;
+    color: #333;
+}
+
+.fc-list-item.fc-event:hover {
+    background-color: rgba(53, 23, 221, 0.2) !important; /* background */
+    color: #333 !important;                                /* text */
+    border-color: rgba(53, 23, 221, 0.4) !important;      /* optional border */
+    transform: scale(1.02);                    /* slight zoom effect */
+}
+
+.fc-list-item.fc-event .fc-event-main {
+    background-color: rgba(53, 23, 221, 0.2) !important;
+}

@@ -87,6 +87,10 @@
     </div>
 </div>
 
-<script src="{% static 'js/users/file-input.js' %}"></script>
 
 {% endblock content %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/users/file-input.js' %}"></script>
+{% endblock scripts %}
