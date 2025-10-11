@@ -22,6 +22,8 @@ from .models import UserProfile
 from kulturalny_kod.logger import get_logger
 logger = get_logger(__name__)
 
+from kulturalny_kod.mailer import notify_admin
+
 # Create your views here.
 class CustomLoginView(LoginView):
     template_name = 'users/user_login.html'
@@ -71,6 +73,10 @@ class CustomRegisterView(FormView):
         email = EmailMessage(mail_subject, message, to=[user.email])
         email.send()
         logger.info(f"Utworzono konto dla {user.email}. Wysłano mail aktywacyjny na domenę {current_site.domain}.")
+        notify_admin(
+            "Nowy użytkownik",
+            f"Użytkownik {user.username}, e-mail: {user.email}"
+        )
         return super().form_valid(form)
 
 class ActivateAccount(View):
