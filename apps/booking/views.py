@@ -17,6 +17,8 @@ from .services import (
     save_booking_to_json,
     render_ticket_pdf_to_content,
 )
+from kulturalny_kod.logger import get_logger
+logger = get_logger(__name__)
 
 
 def _event_price(event):
@@ -37,6 +39,7 @@ def booking_create(request, event_id):
 
             if quantity > event.available_seats:
                 form.add_error('quantity', 'Brak wystarczającej liczby wolnych miejsc.')
+                logger.info(f"Niewystarczająca ilość miejsc przy próbie zamówienia na {event.name} -> wymagana liczba: {quantity}, dostępna: {event.available_seats}.")
                 return render(request, 'booking_form.html', {'event': event, 'form': form})
 
             ticket_no = generate_ticket_number()
@@ -47,6 +50,7 @@ def booking_create(request, event_id):
 
                 if quantity > event.available_seats:
                     form.add_error('quantity', 'Brak wystarczającej liczby wolnych miejsc.')
+                    logger.info(f"Niewystarczająca ilość miejsc przy próbie zamówienia na {event.name} -> wymagana liczba: {quantity}, dostępna: {event.available_seats}.")
                     return render(request, 'booking_form.html', {'event': event, 'form': form})
 
             booking = Booking.objects.create(
@@ -57,6 +61,15 @@ def booking_create(request, event_id):
                 quantity=quantity,
                 total_price=total,
                 ticket_number=ticket_no,
+            )
+            logger.info(
+                f"Utworzono rezerwację: "
+                f"[ticket_no={ticket_no}] "
+                f"[user={request.user.username} ({request.user.email})] "
+                f"[event={event.name}] "
+                f"[quantity={quantity}] "
+                f"[total_price={total:.2f}] "
+                f"[ticket_number={ticket_no}]"
             )
 
             event.available_seats = event.available_seats - quantity

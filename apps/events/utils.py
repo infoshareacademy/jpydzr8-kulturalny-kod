@@ -8,7 +8,6 @@ def load_events_from_json(filepath):
         print(f"Plik {filepath} nie istnieje.")
         return
 
-    # Zabezpieczenie przed duplikacją
     if Event.objects.exists():
         print("Wydarzenia już istnieją w bazie. Pomijam import.")
         return

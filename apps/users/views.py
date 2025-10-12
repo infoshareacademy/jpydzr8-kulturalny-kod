@@ -19,17 +19,24 @@ from typing import cast
 from .forms import CustomUserCreationForm, CustomUserChangeForm, UserProfileForm
 from .models import UserProfile
 
+from kulturalny_kod.logger import get_logger
+logger = get_logger(__name__)
+
+from kulturalny_kod.mailer import notify_admin
+
 # Create your views here.
 class CustomLoginView(LoginView):
     template_name = 'users/user_login.html'
     redirect_authenticated_user = True
     
     def get_success_url(self):
-        # First, try to redirect to the 'next' parameter
+        user = self.request.user if self.request.user.is_authenticated else "Anonymous"
         next_url = self.request.GET.get('next') or self.request.POST.get('next')
         if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={self.request.get_host()}):
+            logger.info(f"Użytkownik {user} przekierowany do {next_url} po zalogowaniu.")
             return next_url
         # Fallback: go to home
+        logger.info(f"Użytkownik {user} zalogowany, przekierowany na stronę główną.")
         return reverse_lazy('users:home')
      
     def form_valid(self, form):
@@ -65,7 +72,11 @@ class CustomRegisterView(FormView):
 
         email = EmailMessage(mail_subject, message, to=[user.email])
         email.send()
-
+        logger.info(f"Utworzono konto dla {user.email}. Wysłano mail aktywacyjny na domenę {current_site.domain}.")
+        notify_admin(
+            "Nowy użytkownik",
+            f"Użytkownik {user.username}, e-mail: {user.email}"
+        )
         return super().form_valid(form)
 
 class ActivateAccount(View):
@@ -79,9 +90,11 @@ class ActivateAccount(View):
         if user is not None and default_token_generator.check_token(user, token):
             user.is_active = True
             user.save()
+            logger.info(f"Konto użytkownika {user.email} zostało aktywowane.")
             # Optional: login user here
             return redirect('users:login')
         else:
+            logger.warning(f"Nieudana próba aktywacji konta: uid={uidb64}, token={token}.")
             return render(request, 'activation_invalid.html')
 
 class AccountActivationSentView(TemplateView):
@@ -142,7 +155,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         else :
             context['profile_form'] = UserProfileForm(instance=profile)
 
-        
+
         return context
 
     # Ensure user can only edit their own profile
@@ -167,7 +180,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
                 request.session['profile_photo_url'] = profile.photo.url
             elif 'profile_photo_url' in request.session:
                 request.session.pop('profile_photo_url')
-
+            logger.info(f"Użytkownik {request.user.username} zaktualizował profil.")
             return redirect(self.get_success_url())
         return self.form_invalid(form)
     
@@ -192,6 +205,7 @@ class CustomLogoutView(LoginRequiredMixin, LogoutView):
 
     def dispatch(self, request, *args, **kwargs):
         # Remove profile data from session
+        logger.info(f"Użytkownik {request.user.username} wylogował się.")
         request.session.pop('profile_photo_url', None)
         return super().dispatch(request, *args, **kwargs)
 
