@@ -1,0 +1,69 @@
+[
+  {
+    "model": "venues.venue",
+    "pk": 1,
+    "fields": {
+      "name": "Hala Miejska",
+      "city": "Gdańsk",
+      "address": "ul. Kulturalna 1",
+      "pets_friendly": true,
+      "description": "Nowoczesna hala widowiskowa."
+    }
+  },
+  {
+    "model": "venues.venuearea",
+    "pk": 1,
+    "fields": {
+      "venue": 1,
+      "name": "Sala Główna"
+    }
+  },
+  {
+    "model": "venues.seatingplan",
+    "pk": 1,
+    "fields": {
+      "area": 1,
+      "title": "Koncert"
+    }
+  },
+  {
+    "model": "venues.section",
+    "pk": 1,
+    "fields": {
+      "plan": 1,
+      "name": "Balkon",
+      "type": "seated",
+      "capacity": 0
+    }
+  },
+  {
+    "model": "venues.section",
+    "pk": 2,
+    "fields": {
+      "plan": 1,
+      "name": "Płyta",
+      "type": "standing",
+      "capacity": 1200
+    }
+  },
+  {
+    "model": "venues.seat",
+    "pk": 1,
+    "fields": {
+      "section": 1,
+      "row": "A",
+      "number": "1",
+      "is_wheelchair": false
+    }
+  },
+  {
+    "model": "venues.seat",
+    "pk": 2,
+    "fields": {
+      "section": 1,
+      "row": "A",
+      "number": "2",
+      "is_wheelchair": true
+    }
+  }
+]

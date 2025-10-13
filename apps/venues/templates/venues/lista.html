@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Obiekty / budynki{% endblock title %}
+
+{% block content %}
+<div class="container">
+  <h1>Obiekty / budynki</h1>
+
+  <ul>
+    {% for o in obiekty %}
+      <li>
+        <a href="{% url 'venues:szczegoly' o.pk %}">{{ o.name }}</a>
+        <span> — {{ o.city }}</span>
+      </li>
+    {% empty %}
+      <li>Brak obiektów w bazie.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock content %}
