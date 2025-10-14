@@ -27,6 +27,7 @@ urlpatterns = [
     path('', home, name='home'),
     path('booking/', include('apps.booking.urls', namespace='booking')),
     path('payments/', include('apps.payments.urls', namespace='payments')),
+    path('venues/', include('apps.venues.urls', namespace='venues')),
 ]
 
 if settings.DEBUG:
