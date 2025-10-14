@@ -4,14 +4,16 @@ from pathlib import Path
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import default_storage
+from django.db import transaction
+from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from apps.events.models import Event
 from .forms import BookingForm
-from .models import Booking
-from .utils import generate_ticket_number, make_qr_code
+from .models import Booking, BookingItem
+from .utils import generate_ticket_number, make_qr_code, create_single_booking_item
 from .services import (
     save_booking_to_csv,
     save_booking_to_json,
@@ -75,7 +77,7 @@ def booking_create(request, event_id):
             event.available_seats = event.available_seats - quantity
             event.save(update_fields=['available_seats'])
 
-            qr_content = f'{ticket_no}|event:{event.id}|email:{booking.email}'
+            qr_content = f'{ticket_no}|event:{event.pk}|email:{booking.email}'
             qr_file = make_qr_code(qr_content)
             qr_path = f"tickets/{ticket_no}_qr.png"
             qr_saved_path = default_storage.save(qr_path, qr_file)
@@ -85,7 +87,7 @@ def booking_create(request, event_id):
 
             pdf_content = render_ticket_pdf_to_content(
                 event=event,
-                booking=booking,
+                booking_item=booking,
                 qr_url=qr_url
             )
 
@@ -113,5 +115,84 @@ def booking_success(request, ticket_number):
 
 @login_required
 def my_bookings(request):
-    bookings = Booking.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'my_bookings.html', {'bookings': bookings})
+    booking_items = BookingItem.objects.filter(booking__user=request.user).order_by('-booking__created_at')
+    # bookings = Booking.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'my_bookings.html', {'booking_items': booking_items})
+
+
+@login_required
+def booking_view(request: HttpRequest, event_id: int) -> HttpResponse:
+    event = get_object_or_404(Event, pk=event_id)
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            quantity = form.cleaned_data['quantity']
+            cart = request.session.get('cart', {})
+            cart[str(event_id)] = cart.get(str(event_id), 0) + quantity
+            request.session['cart'] = cart
+            logger.info(f"Dodano do koszyka: event_id={event_id}, quantity={quantity}, user={request.user.username}")
+            return redirect('payments:cart')
+    else:
+        form = BookingForm()
+    
+    return render(request, 'booking_form.html', {'event': event, 'form': form})
+
+
+@require_http_methods(['POST'])
+@login_required
+def cart_checkout(request: HttpRequest) -> HttpResponse:
+    user = getattr(request, "user")
+    cart = request.session.get('cart', {})
+    if not cart:
+        return HttpResponseBadRequest("Koszyk jest pusty")
+
+    total_price = Decimal(0)
+    
+    try:
+        with transaction.atomic():
+            booking = Booking.objects.create(
+                user=user,
+                email=user.email,
+                total_price=total_price,
+            )
+            for event_id, quantity in cart.items():
+                result = create_single_booking_item(
+                    booking=booking,
+                    user=user,
+                    event_id=int(event_id),
+                    quantity=quantity
+                )
+                if not result:
+                    raise Exception(event_id)
+                
+                total_price += result
+            # Update booking with total price
+            booking.total_price = total_price
+            booking.save(update_fields=['total_price'])
+                
+        
+        #clear cart
+        request.session['cart'] = {}
+        request.session.modified = True
+        return redirect('booking:success_multiple', booking_number = booking.pk)
+
+    except Exception as e:
+        # If anything fails, all bookings are rolled back automatically
+        print("Failed to create bookings:", e)
+        return HttpResponseBadRequest("Nie udało się zrealizować rezerwacji. Spróbuj ponownie.")
+
+    payment = Payment.objects.create(
+        amount=total_price,
+        currency="PLN",
+        description="Opis płatności",
+        payer_email=request.user.email,
+        metadata={"cart": cart}
+    )
+
+    return redirect(reverse('payments:start_payment', kwargs={'pk': payment.pk}))
+
+
+@login_required
+def booking_success_multiple(request, booking_number):
+    booking = get_object_or_404(Booking, pk=booking_number, user=request.user)
+    return render(request, 'booking_success_multiple.html', {'items': booking.items.all()})

@@ -1,0 +1,46 @@
+/* Center the table horizontally on the page */
+.cart-table {
+    margin: 40px auto;         /* centers table */
+    border-collapse: collapse; /* clean borders */
+    width: 80%;                /* adjust as needed */
+    text-align: center;        /* center text in cells */
+    border: 2px solid #333;    /* bounding box around entire table */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* soft shadow for aesthetics */
+}
+
+/* Header styling */
+.cart-table th {
+    background-color: #25251f;
+    border: 2px solid #333; /* border around headers */
+    padding: 12px;
+    font-weight: bold;
+}
+
+/* Data cell styling */
+.cart-table td {
+    border: 1px solid #999;
+    padding: 10px;
+}
+
+/* Optional: hover effect for rows */
+.cart-table tr:hover {
+    background-color: #211722;
+}
+
+/* Optional: center the "Usuń" button neatly */
+.cart-table form {
+    margin: 0;
+}
+
+.cart-table button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cart-table button:hover {
+    background-color: #c0392b;
+}
