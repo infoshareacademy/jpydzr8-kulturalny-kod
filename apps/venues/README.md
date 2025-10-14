@@ -24,3 +24,21 @@ mindmap
                 Miejsce dla osoby na wózku (is_wheelchair)
             Miejsca stojące
               Liczba miejsc (capacity)
+
+Dlaczego venues?
+Aplikacja obsługuje wydarzenia różnych organizatorów w różnych lokalizacjach i obiektach.
+Nie wszystkie nstytucje kulturalne posiadają swoje własne obiekty. Są teatry, które nie mają swojej sceny i występując tylko gościnnie.
+Z kolei np. w filharmonii, która dysponuje swoją salą, mogą odbywać się imprezy biletowane innych organizatorów.
+Czyli adresatem naszej aplikacji od strony biznesu mogą być organizatorzy imprez, agencje sprzedażowe i także właściciele obiektów.
+
+Kategorie i rodzaje biletów
+Venues umożliwia jednokrotne wprowadzenie danych dotyczących miejsc w danym obiekcie.
+Przy wprowadzaniu wydarzenia można wybrać konkrekty miejsce (np. sala gówna) 
+i konkretne ustawienie sali (np. ustawienie koncertowe).
+Na poziomie wydarzenia można natomiast skorelować kategorie cenowe biletów z sektorami (np. kat. I, II, VIP)
+
+Pozostałe kwestie od strony zakupu biletu, to
+rodzaj biletu: normalny, ulgowy itd.
+zniżki: karta lojalnościowa, bon rabatowy itd.
+
+Pod dyskusję.
