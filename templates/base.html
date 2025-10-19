@@ -25,6 +25,9 @@
             </button>
             <ul class="profile-dropdown">
                 <li><a href="{% url 'home' %}">Strona Główna</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'payments:cart' %}">Koszyk</a></li>
+                {% endif %}
                 <hr class="dropdown-separator">
                 <li><a href="{% url 'users:info' %}">Profil</a></li>
                 <li><a href="#">Ustawienia</a></li>

@@ -6,20 +6,20 @@
 {% block content %}
 <div class="container">
   <h2>Moje rezerwacje</h2>
-  
-  {% if bookings %}
-    {% for booking in bookings %}
+  <hr>
+  {% if booking_items %}
+    {% for item in booking_items %}
       <div class="booking-item">
-        <h3>{{ booking.event.name }}</h3>
-        <p><strong>Numer biletu:</strong> {{ booking.ticket_number }}</p>
-        <p><strong>Data wydarzenia:</strong> {{ booking.event.date|date:"Y-m-d H:i" }}</p>
-        <p><strong>Miejsce:</strong> {{ booking.event.venue }}, {{ booking.event.city }}</p>
-        <p><strong>Liczba biletów:</strong> {{ booking.quantity }}</p>
-        <p><strong>Cena całkowita:</strong> {{ booking.total_price }} PLN</p>
-        <p><strong>Data rezerwacji:</strong> {{ booking.created_at|date:"Y-m-d H:i" }}</p>
+        <h3>{{ item.event.name }}</h3>
+        <p><strong>Numer biletu:</strong> {{ item.ticket_number }}</p>
+        <p><strong>Data wydarzenia:</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
+        <p><strong>Miejsce:</strong> {{ item.event.venue }}, {{ item.event.city }}</p>
+        <p><strong>Liczba biletów:</strong> {{ item.quantity }}</p>
+        <p><strong>Cena całkowita:</strong> {{ item.total_price }} PLN</p>
+        <p><strong>Data rezerwacji:</strong> {{ item.booking.created_at|date:"Y-m-d H:i" }}</p>
         
         <div class="options">
-          {% if booking.pdf_file %}
+          {% if item.pdf_file %}
             <a href="{{ booking.pdf_file.url }}" target="_blank" class="btn">Pobierz bilet (PDF)</a>
           {% endif %}
         </div>

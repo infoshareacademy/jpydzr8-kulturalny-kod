@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+{{ block.super }}
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/users/style.css' %}"> -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/payments/cart.css' %}">
+{% endblock css %}
+
+{% block title %} Twoj Koszyk {% endblock title %}
+
+{% block content %}
+<div class="container wide">
+    <h1>Twój Koszyk</h1>
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Nazwa wydarzenia</th>
+                <th>Ilość biletów</th>
+                <th>Cena za bilet</th>
+                <th>Usuń</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+            <tr>
+                <td>{{ item.event.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.event.price }}</td>
+                <td>
+                    
+                    <form method="post" action="{% url 'payments:remove_from_cart' item.event.pk %}">
+                        {% csrf_token %}
+                        <button type="submit">Usuń</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Twój koszyk jest pusty.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if total_price %}
+    <h3>Wartość koszyka: {{ total_price }}</h3>
+    {% endif %}
+    <div class="options">
+        <a href="{% url 'events:events_list' %}">Kontynuuj zakupy</a>
+        <form method="post" action="{% url 'booking:cart_checkout' %}">
+            {% csrf_token %}
+            <button>
+                Potwierdź rezerwacje
+            </button>
+        </form>
+        <a href="#">Rezygnuj</a>
+    </div>
+</div>
+{% endblock content %}

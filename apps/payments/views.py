@@ -2,13 +2,16 @@ from decimal import Decimal
 from typing import Dict, Any
 
 from django.conf import settings
-from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
+from django.contrib.auth.decorators import login_required
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 
 from .models import Payment
 from .services.dummy import DummyProvider
+from apps.events.models import Event
 
 
 def _get_provider(name: str):
@@ -78,3 +81,27 @@ def webhook(request: HttpRequest, provider: str) -> HttpResponse:
     if provider != "dummy":
         return HttpResponse("unsupported provider", status=400)
     return HttpResponse("ok")
+
+
+@require_http_methods(['GET', 'POST'])
+@login_required
+def cart_view(request: HttpRequest) -> HttpResponse:
+    cart = request.session.get('cart', {})
+    if request.method == "GET":
+        events_in_cart = [
+            {"event": Event.objects.get(pk=event_id), "quantity": quantity}
+            for event_id, quantity in cart.items()
+        ]
+        total_price = sum(event['event'].price * event['quantity'] for event in events_in_cart)
+        return render(request, "payments/cart.html", {"cart": events_in_cart, "total_price": total_price})
+    return render(request, "payments/cart.html", {"cart": []})
+
+
+@require_http_methods(['POST'])
+@login_required
+def remove_from_cart(request: HttpRequest, event_id: int) -> HttpResponse:
+    cart = request.session.get('cart', {})
+    if str(event_id) in cart:
+        del cart[str(event_id)]
+        request.session['cart'] = cart
+    return redirect('payments:cart')

@@ -18,6 +18,7 @@ from typing import cast
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm, UserProfileForm
 from .models import UserProfile
+from apps.booking.models import BookingItem
 
 from kulturalny_kod.logger import get_logger
 logger = get_logger(__name__)
@@ -105,7 +106,8 @@ class UserHomeView(LoginRequiredMixin, View):
     
     def get(self, request):
         request.session.pop("message", None)
-        bookings = request.user.bookings.select_related('event')
+        booking_items = BookingItem.objects.filter(booking__user=request.user).select_related('event')
+        # bookings = request.user.bookings.select_related('event')
         booking_events = [
             {
                 "date": b.event.date.isoformat(),
@@ -113,17 +115,17 @@ class UserHomeView(LoginRequiredMixin, View):
                 "city": b.event.city,
                 "venue": b.event.venue,
             }
-            for b in bookings
+            for b in booking_items
         ]
         
         last_3_bookings = (
-            bookings
+            booking_items
             .filter(event__date__lte=datetime.date.today())
-            .order_by('-created_at')[:3]
+            .order_by('-event__date')[:3]
         )
         
         nearest_3_bookings = (
-            bookings
+            booking_items
             .filter(event__date__gte=datetime.date.today())
             .order_by('event__date')[:3]
         )

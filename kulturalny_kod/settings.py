@@ -158,6 +158,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PAYMENTS_DEFAULT_PROVIDER = env("PAYMENTS_DEFAULT_PROVIDER", default="dummy")
 
 
+# Expire sessions after 30 minutes of inactivity
+SESSION_COOKIE_AGE = 30 * 60  # seconds
 
-
-
+# Optional: reset expiry time on each request
+SESSION_SAVE_EVERY_REQUEST = True
