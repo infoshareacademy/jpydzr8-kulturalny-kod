@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Usuń wydarzenie{% endblock title %}
+
+{% block content %}
+<div class="container wide">
+    <h1>Potwierdzenie usunięcia</h1>
+    <p>Czy na pewno chcesz usunąć wydarzenie <strong>{{ event.name }}</strong> ({{ event.date|date:"Y-m-d" }})?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="button" style="background-color:red;">Usuń</button>
+        <a href="{% url 'users:super_user_events_list' %}" class="button">Anuluj</a>
+    </form>
+</div>
+{% endblock content %}

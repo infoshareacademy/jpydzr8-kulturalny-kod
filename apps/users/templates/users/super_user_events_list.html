@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'css/users/style.css' %}">
+{% endblock css %}
+
+{% block title %} Zarządzanie wydarzeniami {% endblock title %}
+
+{% block content %}
+<div class="container wide">
+    <h1>Zarządzanie wydarzeniami</h1>
+
+    <div class="options" style="margin-bottom: 15px;">
+        <a href="{% url 'users:super_user_event_create' %}" class="button">+ Dodaj nowe wydarzenie</a>
+    </div>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nazwa</th>
+            <th>Data</th>
+            <th>Miasto</th>
+            <th>Miejsce</th>
+            <th>Miejsca</th>
+            <th>Cena</th>
+            <th>Akcje</th>
+        </tr>
+        {% for event in events %}
+        <tr>
+            <td>{{ event.id }}</td>
+            <td>{{ event.name }}</td>
+            <td>{{ event.date|date:"Y-m-d H:i" }}</td>
+            <td>{{ event.city }}</td>
+            <td>{{ event.venue }}</td>
+            <td>{{ event.available_seats }}/{{ event.total_seats }}</td>
+            <td>{{ event.price }} zł</td>
+            <td>
+                <a href="{% url 'users:super_user_event_edit' event.pk %}">Edytuj</a> |
+                <a href="{% url 'users:super_user_event_delete' event.pk %}" style="color:red;">Usuń</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="8">Brak wydarzeń.</td></tr>
+        {% endfor %}
+    </table>
+
+    <div class="options" style="margin-top: 20px;">
+        <a href="{% url 'users:super_user_dashboard' %}">← Powrót do panelu superusera</a>
+    </div>
+</div>
+{% endblock content %}

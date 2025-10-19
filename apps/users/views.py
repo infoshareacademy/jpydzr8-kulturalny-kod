@@ -31,11 +31,20 @@ class CustomLoginView(LoginView):
     
     def get_success_url(self):
         user = self.request.user if self.request.user.is_authenticated else "Anonymous"
+
+        try:
+            role = user.profile.role
+        except Exception:
+            role = "user"
+
+        if role == "super_user":
+            return reverse_lazy('users:super_user_dashboard')
+
         next_url = self.request.GET.get('next') or self.request.POST.get('next')
         if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={self.request.get_host()}):
             logger.info(f"Użytkownik {user} przekierowany do {next_url} po zalogowaniu.")
             return next_url
-        # Fallback: go to home
+
         logger.info(f"Użytkownik {user} zalogowany, przekierowany na stronę główną.")
         return reverse_lazy('users:home')
      
