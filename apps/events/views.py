@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Q
 from .models import Event
 from kulturalny_kod.logger import get_logger
 logger = get_logger(__name__)
@@ -9,8 +10,9 @@ def event_list_view(request):
     to_date = request.GET.get('to_date')
     show_all = request.GET.get('all')
     city = request.GET.get('city')
-    
-    if not show_all and not (from_date or to_date) and not city:
+    q = request.GET.get('q', '')
+
+    if not show_all and not (from_date or to_date) and not city and not q:
         return render(request, "events/events_list.html", {"events": []})
 
     if from_date and to_date:
@@ -21,11 +23,22 @@ def event_list_view(request):
         events = events.filter(date__lte=to_date)
 
     if city:
-        events = events.filter(city=city.capitalize())
+        events = events.filter(city__iexact=city.strip())
+
+    if q:
+        q = q.strip()
+        events = events.filter(
+            Q(name__icontains=q) |
+            Q(city__icontains=q) |
+            Q(venue__icontains=q) |
+            Q(description__icontains=q) |
+            Q(highlights__icontains=q))
+
     logger.info(f"Wywołana lista eventów: {events} przez: {getattr(request.user, 'username', 'Anonymous')}")
     return render(request, "events/events_list.html", {
         "events": events
     })
+
 
 def event_detail_view(request, pk):
     event = get_object_or_404(Event, pk=pk)

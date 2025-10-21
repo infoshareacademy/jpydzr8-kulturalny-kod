@@ -9,7 +9,11 @@
 <div class="container">
     <h1>Przegląd wydarzeń</h1>
 
-    <form method="get" class="options">
+    <form method="get" class="filters-row">
+
+        <label for="q">Szukaj:</label>
+        <input type="text" name="q" id="q" placeholder="kategoria,artysta..." value="{{ request.GET.q }}">
+
         <label for="city">Miasto:</label>
         <input type="text" name="city" id="city" value="{{ request.GET.city }}">
 
@@ -19,7 +23,7 @@
         <label for="to_date">Do:</label>
         <input type="date" name="to_date" id="to_date" value="{{ request.GET.to_date }}">
         <div class="options">
-            <button type="submit">Filtruj</button>
+            <button type="submit">Szukaj</button>
             <a href="?all=1" class="button">Wszystkie wydarzenia</a>
         </div>
 
