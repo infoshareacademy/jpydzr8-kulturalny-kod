@@ -1,34 +1,35 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Rezerwacja potwierdzona{% endblock %}
+{% block title %}{% trans "Rezerwacja potwierdzona" %}{% endblock %}
 
 {% block content %}
 
 <div class="container">
-<h2>Rezerwacja potwierdzona</h2>
+<h2>{% trans "Rezerwacja potwierdzona" %}</h2>
 <hr>
 {% for item in items %}
-  <p>Numer biletu: <strong>{{ item.ticket_number }}</strong></p>
+  <p>{% trans "Numer biletu:" %}<strong>{{ item.ticket_number }}</strong></p>
 
   <div class="booking-details">
-    <p><strong>Wydarzenie:</strong> {{ item.event.name }}</p>
-    <p><strong>Data:</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
-    <p><strong>Miejsce:</strong> {{ item.event.venue }}, {{ item.event.city }}</p>
-    <p><strong>Liczba biletów:</strong> {{ item.quantity }}</p>
-    <p><strong>Cena całkowita:</strong> {{ item.total_price }} PLN</p>
+    <p><strong>{% trans "Wydarzenie: " %}</strong> {{ item.event.name }}</p>
+    <p><strong>{% trans "Data: " %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
+    <p><strong>{% trans "Miejsce: %}</strong> {{ item.event.venue }}, {{ item.event.city }}</p>
+    <p><strong>{% trans "Liczba biletów: " %}</strong> {{ item.quantity }}</p>
+    <p><strong>{% trans "Cena całkowita:  %}</strong> {{ item.total_price }} PLN</p>
   </div>
 
   <div class="options">
     {% if item.pdf_file %}
-      <a href="{{ booking.pdf_file.url }}" target="_blank" class="btn">Pobierz bilet (PDF)</a>
-      <a href="{% url 'events:event_detail' item.event.id %}" class="btn">Zobacz wydarzenie</a>
+      <a href="{{ booking.pdf_file.url }}" target="_blank" class="btn">{% trans "Pobierz bilet PDF" %}</a>
+      <a href="{% url 'events:event_detail' item.event.id %}" class="btn">{% trans "Zobacz wydarzenie" %}</a>
     {% endif %}
   </div>
   <hr>
 {% endfor %}
   <div class="options">
-    <a href="{% url 'booking:my_bookings' %}" class="btn">Moje rezerwacje</a>
+    <a href="{% url 'booking:my_bookings' %}" class="btn">{% trans "Moje rezerwacje" %}</a>
   </div>
 </div>
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block title %} Rejestracja {% endblock title %}
 
@@ -10,12 +11,12 @@
 
 {% block content %}
 <div class="container">
-    <h1>Rejestracja</h1>
+    <h1>{% trans "Rejestracja" %}</h1>
         <form method="post" class="options">
             {% csrf_token %}
             <div class="row align-center align-baseline">
                 <div class="col col-5 stacked center-align">
-                    <label for="id_username">Użytkownik</label>
+                    <label for="id_username">{% trans "Użytkownik" %}</label>
                     <input type="text" class="form-control col-9" name="username" id="id_username">
                     <div class="error">
                         {% if form.username.errors %}
@@ -26,7 +27,7 @@
                     </div>
                 </div>
                 <div class="col col-5 stacked center-align">
-                    <label for="id_email">Email</label>
+                    <label for="id_email">{% trans "E-mail" %}</label>
                     <input type="email" class="form-control col-9" name="email" id="id_email">
                     <div class="error">
                         {% if form.email.errors %}
@@ -40,7 +41,7 @@
 
             <div class="row align-center align-baseline">
                 <div class="col col-5 stacked center-align">
-                    <label for="id_password1">Hasło</label>
+                    <label for="id_password1">{% trans "Hasło" %}</label>
                     <input type="password" class="form-control col-9" name="password1" id="id_password1">
                     <div class="error">
                         {% if form.password1.errors %}
@@ -51,7 +52,7 @@
                     </div>
                 </div>
                 <div class="col col-5 stacked center-align">
-                    <label for="id_password2">Powtórz hasło</label>
+                    <label for="id_password2">{% trans "Powtórz hasło" %}</label>
                     <input type="password" class="form-control col-9" name="password2" id="id_password2">
                     <div class="error">
                         {% if form.password2.errors %}
@@ -65,7 +66,7 @@
 
             <div class="row align-center align-baseline">
                 <div class="col col-5 stacked center-align">
-                    <label for="id_first_name">Imię</label>
+                    <label for="id_first_name">{% trans "Imię" %}</label>
                     <input type="text" class="form-control col-9" name="first_name" id="id_first_name">
                     <div class="error">
                         {% if form.first_name.errors %}
@@ -76,7 +77,7 @@
                     </div>
                 </div>
                 <div class="col col-5 stacked center-align">
-                    <label for="id_last_name">Nazwisko</label>
+                    <label for="id_last_name">{% trans "Nazwisko" %}</label>
                     <input type="text" class="form-control col-9" name="last_name" id="id_last_name">
                     <div class="error">
                         {% if form.last_name.errors %}
@@ -90,10 +91,10 @@
 
             <div class="row align-center equal-buttons">
                 <div class="col col-4 me-3">
-                    <button type="submit">Zarejestruj</button>
+                    <button type="submit">{% trans "Zarejestruj" %}</button>
                 </div>
                 <div class="col col-4 ms-3">
-                    <a href="{% url 'home' %}">Powrót do strony głównej</a>
+                    <a href="{% url 'home' %}">{% trans "Powrót do strony głównej" %}</a>
                 </div>
             </div>
         </form>

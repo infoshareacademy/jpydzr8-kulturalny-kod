@@ -27,19 +27,19 @@
         <span class="username">{{ user.username }}</span>
     </button>
     <ul class="profile-dropdown">
-        <li><a href="{% url 'home' %}">Strona Główna</a></li>
+        <li><a href="{% url 'home' %}">{% trans "Strona główna" %}</a></li>
         {% if user.is_authenticated %}
-        <li><a href="{% url 'payments:cart' %}">Koszyk</a></li>
+        <li><a href="{% url 'payments:cart' %}">{% trans "Koszyk" %}</a></li>
         {% endif %}
         <hr class="dropdown-separator">
-        <li><a href="{% url 'users:info' %}">Profil</a></li>
-        <li><a href="#">Ustawienia</a></li>
+        <li><a href="{% url 'users:info' %}">{% trans "Profil" %}</a></li>
+        <li><a href="#">{% trans "Ustawienia" %}</a></li>
         <li>
             {% if user.is_authenticated %}
             <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display:none;">
                 {% csrf_token %}
             </form>
-            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Wyloguj</a>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{% trans "Wyloguj" %}</a>
             {% endif %}
         </li>
     </ul>
@@ -47,7 +47,7 @@
 {% block content %}{% endblock content %}
 <footer class="site-footer">
     <div class="footer-content">
-        <p>&copy; 2025 Kulturalny Kod</p>
+        <p>&copy; 2025 Kulturalny Kod by iSA</p>
         <form class="language-switcher" action="{% url 'set_language' %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ request.get_full_path }}">

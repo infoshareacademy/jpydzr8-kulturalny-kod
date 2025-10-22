@@ -1,18 +1,19 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Rezerwacja - {{ event.name }}{% endblock %}
+{% block title %}{% trans "Rezerwacja - " %}{{ event.name }}{% endblock %}
 
 {% block extra_css %}
 {% endblock %}
 
 {% block content %}
 <div class="container">
-  <h2>Rezerwacja: {{ event.name }}</h2>
+  <h2>{% trans "Rezerwacja: " %}{{ event.name }}</h2>
 
   <div class="user-info">
-    <p><strong>Użytkownik:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>{% trans "Użytkownik:" %}</strong> {{ user.username }}</p>
+    <p><strong>{% trans "E-mail:" %}</strong> {{ user.email }}</p>
   </div>
 
   <form method="post">
@@ -31,8 +32,8 @@
     </p>
 
     <div class="options">
-      <button type="submit">Potwierdź rezerwację</button>
-      <a href="{% url 'events:event_detail' event.id %}">Anuluj</a>
+      <button type="submit">{% trans "Potwierdź rezerwację" %}</button>
+      <a href="{% url 'events:event_detail' event.id %}">{% trans "Anuluj" %}</a>
     </div>
   </form>
 </div>

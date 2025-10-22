@@ -1,13 +1,14 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block title %} {{ title }} {% endblock title %}
 
 {% block content %}
 <div class="container">
-  <h2>Dziękujemy za rejestrację!</h2>
-  <p>Na Twój adres email została wysłana wiadomość z linkiem aktywacyjnym.</p>
+  <h2>{% trans "Dziękujemy za rejestrację!" %}</h2>
+  <p>{% trans "Na Twój adres e-mail została wysłana wiadomość z linkiem aktywacyjnym." %}</p>
   <div class="options">
-    <a href="{% url 'home' %}">Powrót do strony głównej</a>
+    <a href="{% url 'home' %}">{% trans "Powrót do strony głównej" %}</a>
   </div>
   
 </div>

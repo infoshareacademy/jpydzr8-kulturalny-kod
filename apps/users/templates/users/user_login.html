@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %} Logowanie {% endblock title %}
+{% block title %} {% trans "Logowanie" %} {% endblock title %}
 
 {% block css %}
 {{ block.super }}
@@ -10,12 +11,12 @@
 
 {% block content %}
 <div class="container">
-    <h1>Logowanie</h1>
+    <h1>{% trans "Logowanie" %}</h1>
         <form method="post" class="options">
             {% csrf_token %}
             <div class="row align-center align-baseline">
                 <div class="col right-align">
-                    <label for="id_username">Użytkownik</label>
+                    <label for="id_username">{% trans "Użytkownik" %}</label>
                 </div>
                 <div class="col col-3 left-align">
                     <input type="text" class="form-control col-12" name="username" id="id_username">
@@ -27,9 +28,9 @@
                         {% endif %}
                     </div>
                 </div>
-                
+
                 <div class="col col-1 right-align">
-                    <label for="id_password">Hasło</label>
+                    <label for="id_password">{% trans "Hasło" %}</label>
                 </div>
                 <div class="col col-3 left-align">
                     <input type="password" class="form-control col-12" name="password" id="id_password">
@@ -51,13 +52,13 @@
             </div>
             <div class="row align-center equal-buttons">
                 <div class="col col-3">
-                    <button type="submit">Zaloguj</button>
+                    <button type="submit">{% trans "Zaloguj" %}</button>
                 </div>
                 <div class="col col-3">
-                    <a href="{% url 'users:password_reset' %}">Zapomniałeś hasło?</a>
+                    <a href="{% url 'users:password_reset' %}">{% trans "Zapomniałeś hasło?" %}</a>
                 </div>
                 <div class="col col-3">
-                    <a href="{% url 'home' %}">Powrót do strony głównej</a>
+                    <a href="{% url 'home' %}">{% trans "Powrót do strony głównej" %}</a>
                 </div>
             </div>
         </form>
