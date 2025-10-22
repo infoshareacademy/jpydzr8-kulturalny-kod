@@ -10,7 +10,7 @@
 <h2>{% trans "Rezerwacja potwierdzona" %}</h2>
 <hr>
 {% for item in items %}
-  <p>{% trans "Numer biletu:" %}<strong>{{ item.ticket_number }}</strong></p>
+  <p>{% trans "Numer biletu: " %}<strong>{{ item.ticket_number }}</strong></p>
 
   <div class="booking-details">
     <p><strong>{% trans "Wydarzenie: " %}</strong> {{ item.event.name }}</p>
