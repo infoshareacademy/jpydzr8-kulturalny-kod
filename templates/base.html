@@ -1,49 +1,73 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="pl">
+{% get_current_language as CURRENT_LANG %}
+<html lang="{{ CURRENT_LANG|default:'pl' }}">
 
-    <head>
-        <meta charset="UTF-8">
-        
-        {% block css %}
-            <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
-            <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-            <link rel="stylesheet" type="text/css" href="{% static 'css/profile-menu.css' %}">
-            <link rel="shortcut icon" href="{% static 'kulturalny_kod/favicon.ico' %}" type="image/x-icon">
-        {% endblock css %}
-        <title>{% block title %}{% endblock title %}</title>
-    </head>
-    <body>
-        <div class="profile-menu">
-            <button class="profile-btn" onclick="toggleProfileMenu()">
-                {% if request.session.profile_photo_url %}
-                    <img src="{{ request.session.profile_photo_url }}" alt="Zdjęcie profilowe {{ user.username }}" class="profile-icon">
-                {% else %}
-                    <img src="/static/images/users/random_person.png" class="profile-icon">
-                {% endif %}
-                <span class="username">{{ user.username }}</span>
+<head>
+    <meta charset="UTF-8">
+
+    {% block css %}
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?v=6">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile-menu.css' %}">
+    <link rel="shortcut icon" href="{% static 'kulturalny_kod/favicon.ico' %}" type="image/x-icon">
+    {% endblock css %}
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<body>
+<div class="profile-menu">
+    <button class="profile-btn" onclick="toggleProfileMenu()">
+        {% if request.session.profile_photo_url %}
+        <img src="{{ request.session.profile_photo_url }}" alt="Zdjęcie profilowe {{ user.username }}"
+             class="profile-icon">
+        {% else %}
+        <img src="/static/images/users/random_person.png" class="profile-icon">
+        {% endif %}
+        <span class="username">{{ user.username }}</span>
+    </button>
+    <ul class="profile-dropdown">
+        <li><a href="{% url 'home' %}">{% trans "Strona główna" %}</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'payments:cart' %}">{% trans "Koszyk" %}</a></li>
+        {% endif %}
+        <hr class="dropdown-separator">
+        <li><a href="{% url 'users:info' %}">{% trans "Profil" %}</a></li>
+        <li><a href="#">{% trans "Ustawienia" %}</a></li>
+        <li>
+            {% if user.is_authenticated %}
+            <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display:none;">
+                {% csrf_token %}
+            </form>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{% trans "Wyloguj" %}</a>
+            {% endif %}
+        </li>
+    </ul>
+</div>
+{% block content %}{% endblock content %}
+<footer class="site-footer">
+    <div class="footer-content">
+        <p>&copy; 2025 Kulturalny Kod by iSA</p>
+        <form class="language-switcher" action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            {% get_current_language as LANGUAGE_CODE %}
+
+            <button type="submit" name="language" value="pl"
+                    class="lang-btn {% if LANGUAGE_CODE == 'pl' %}active{% endif %}"
+                    aria-pressed="{% if LANGUAGE_CODE == 'pl' %}true{% else %}false{% endif %}">
+                PL
             </button>
-            <ul class="profile-dropdown">
-                <li><a href="{% url 'home' %}">Strona Główna</a></li>
-                {% if user.is_authenticated %}
-                <li><a href="{% url 'payments:cart' %}">Koszyk</a></li>
-                {% endif %}
-                <hr class="dropdown-separator">
-                <li><a href="{% url 'users:info' %}">Profil</a></li>
-                <li><a href="#">Ustawienia</a></li>
-                <li>
-                    {% if user.is_authenticated %}
-                        <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display:none;">
-                            {% csrf_token %}
-                        </form>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Wyloguj</a>
-                    {% endif %}
-                </li>
-            </ul>
-        </div>
-        {% block content %}{% endblock content %}
-        {% block scripts %}
-            <script src="{% static 'js/profile-menu.js' %}"></script>
-        {% endblock scripts %}
-    </body>
+            <button type="submit" name="language" value="en"
+                    class="lang-btn {% if LANGUAGE_CODE == 'en' %}active{% endif %}"
+                    aria-pressed="{% if LANGUAGE_CODE == 'en' %}true{% else %}false{% endif %}">
+                EN
+            </button>
+        </form>
+    </div>
+</footer>
+{% block scripts %}
+<script src="{% static 'js/profile-menu.js' %}"></script>
+{% endblock scripts %}
+</body>
 </html>
