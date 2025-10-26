@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
-{% block title %}System Rezerwacji Biletów{% endblock %}
+{% load i18n %}
 
 {% block css %}
 {{ block.super }}
@@ -11,11 +10,11 @@
 {% block content %}
 <div class="container">
     <h1>Kulturalny Kod</h1>
-    <p class="desc">System do rezerwacji biletów</p>
+    <p class="desc">{% block title %}{% trans "System do rezerwacji biletów" %}{% endblock title %}</p>
     <div class="options">
-        <a href="{% url 'account:login' %}">Zaloguj się</a>
-        <a href="{% url 'account:register' %}">Zarejestruj się</a>
-        <a href="{% url 'events:events_list' %}">Przegląd wydarzeń</a>
+        <a href="{% url 'account:login' %}">{% trans "Zaloguj się" %}</a>
+        <a href="{% url 'account:register' %}">{% trans "Zarejestruj się" %}</a>
+        <a href="{% url 'events:events_list' %}">{% trans "Przegląd wydarzeń" %}</a>
     </div>
 </div>
 {% endblock %}

@@ -1,36 +1,37 @@
 {% load static %}
 {% load i18n %}
+
+
 <link rel="stylesheet" type="text/css" href="{% static 'css/account/style.css' %}">
 
 <div class="row align-center equal-buttons">
-{% if cancel_url %}
-<div class="col col-3">
-  <a href="{% url 'home' %}">{% trans "Powrót do strony głównej" %}</a>
-</div>
-{% endif %}
-<div class="col col-3">
-{% if wizard.steps.prev %}
-  <button name="wizard_goto_step" type="submit"
-          value="{{ wizard.steps.prev }}"
-          class="btn btn-secondary">{% trans "Cofnij" %}</button>
-{% else %}
-  {% if wizard.steps.current == 'auth' %}
-    <a href="{% url 'users:password_reset' %}">{% trans "Zapomniałeś hasło?" %}</a>
+  {% if cancel_url %}
+  <div class="col col-3">
+    <a href="{% url 'home' %}">{% trans "Powrót do strony głównej" %}</a>
+  </div>
+  {% endif %}
+  <div class="col col-3">
+  {% if wizard.steps.prev %}
+    <button name="wizard_goto_step" type="submit"
+            value="{{ wizard.steps.prev }}"
+            class="btn btn-secondary">{% trans "Cofnij" %}</button>
   {% else %}
-  <button disabled name="" type="button" class="btn">
-    {% trans "Cofnij" %}
-  </button>
-  {% else %}
-{% endif %}
-</div>
-<div class="col col-3">
-  <button type="submit">
     {% if wizard.steps.current == 'auth' %}
-      {% trans "Zaloguj" %}
+      <a href="{% url 'account:password_reset' %}">{% trans "Zapomniałeś hasło?" %}</a>
     {% else %}
-      {% trans "Dalej" %}
+    <button disabled name="" type="button" class="btn">
+      {% trans "Cofnij" %}
+    </button>
     {% endif %}
-  </button>
-</div>
-
+  {% endif %}
+  </div>
+  <div class="col col-3">
+    <button type="submit">
+      {% if wizard.steps.current == 'auth' %}
+        {% trans "Zaloguj" %}
+      {% else %}
+        {% trans "Dalej" %}
+      {% endif %}
+    </button>
+  </div>
 </div>

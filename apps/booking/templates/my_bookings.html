@@ -13,11 +13,11 @@
       <div class="booking-item">
         <h3>{{ item.event.name }}</h3>
         <p><strong>{% trans "Numer biletu: " %}</strong> {{ item.ticket_number }}</p>
-        <p><strong>{% trans "Data wydarzenia: %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
+        <p><strong>{% trans "Data wydarzenia: " %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
         <p><strong>{% trans "Miejsce: " %}</strong> {{ item.event.venue }}, {{ item.event.city }}</p>
-        <p><strong>Liczba biletów:</strong> {{ item.quantity }}</p>
-        <p><strong>{% trans "Cena całkowita: %}</strong> {{ item.total_price }} PLN</p>
-        <p><strong>{% trans "Data rezerwacji: %}</strong> {{ item.booking.created_at|date:"Y-m-d H:i" }}</p>
+        <p><strong>{% trans "Liczba biletów:" %}</strong> {{ item.quantity }}</p>
+        <p><strong>{% trans "Cena całkowita: " %}</strong> {{ item.total_price }} PLN</p>
+        <p><strong>{% trans "Data rezerwacji: " %}</strong> {{ item.booking.created_at|date:"Y-m-d H:i" }}</p>
         
         <div class="options">
           {% if item.pdf_file %}
