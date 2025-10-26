@@ -1,0 +1,3 @@
+ticket_number,event_id,event,user_id,username,full_name,email,quantity,total_price,created_at
+TKT-BAF3E371F0,1,Olsztyn Green Festival 2025,101,andrzej_admin,Andrzej Kowalski,andrzej_admin@example.com,5,1217.50,2025-10-19T16:23:25.788229+00:00
+TKT-27F9DE5DE5,5,Poznań Gamea,101,andrzej_admin,Andrzej Kowalski,andrzej_admin@example.com,1,85.50,2025-10-19T16:23:25.788229+00:00

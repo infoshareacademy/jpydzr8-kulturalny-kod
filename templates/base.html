@@ -19,7 +19,7 @@
                 {% if request.session.profile_photo_url %}
                     <img src="{{ request.session.profile_photo_url }}" alt="Zdjęcie profilowe {{ user.username }}" class="profile-icon">
                 {% else %}
-                    <img src="/static/images/users/random_person.png" class="profile-icon">
+                    <img src="/static/images/account/random_person.png" class="profile-icon">
                 {% endif %}
                 <span class="username">{{ user.username }}</span>
             </button>
@@ -29,11 +29,11 @@
                 <li><a href="{% url 'payments:cart' %}">Koszyk</a></li>
                 {% endif %}
                 <hr class="dropdown-separator">
-                <li><a href="{% url 'users:info' %}">Profil</a></li>
-                <li><a href="#">Ustawienia</a></li>
+                <li><a href="{% url 'account:info' %}">Profil</a></li>
+                <li><a href="{% url 'two_factor:profile' %}">Ustawienia</a></li>
                 <li>
                     {% if user.is_authenticated %}
-                        <form id="logout-form" method="post" action="{% url 'users:logout' %}" style="display:none;">
+                        <form id="logout-form" method="post" action="{% url 'account:logout' %}" style="display:none;">
                             {% csrf_token %}
                         </form>
                         <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Wyloguj</a>

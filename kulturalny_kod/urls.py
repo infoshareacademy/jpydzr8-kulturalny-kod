@@ -14,20 +14,25 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include
+from django.views.generic import RedirectView
+from two_factor.urls import urlpatterns as tf_urls
 from .views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include(('apps.users.urls', 'users'), namespace='users')),
+    path('account/', include(('apps.account.urls', 'account'), namespace='account')),
     path('events/', include('apps.events.urls')),
     path('', home, name='home'),
     path('booking/', include('apps.booking.urls', namespace='booking')),
     path('payments/', include('apps.payments.urls', namespace='payments')),
     path('venues/', include('apps.venues.urls', namespace='venues')),
+    
+    # mfa
+    path('', include(tf_urls)),
 ]
 
 if settings.DEBUG:

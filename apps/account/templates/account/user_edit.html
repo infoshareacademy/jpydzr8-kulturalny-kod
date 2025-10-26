@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'css/account/style.css' %}">
+{% endblock css %}
+
+{% block title %} Edytuj dane {% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="options">
+        <h1>Nazwa użytkownika: {{ user.username }}</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row info-row">
+                <div class="col col-5 stacked left-col p-3">
+                    <div class="info-row flex-grow">
+                        <div class="info-item col-6 stacked m-3">
+                            <label for="first_name" class="info-label">Imię</label>
+                            <input type="text" class="form-control col-12" 
+                                name="first_name" id="id_first_name"
+                                value="{{ user.first_name }}">
+                        </div>
+                        <div class="info-item col-6 stacked m-3">
+                            <label for="last_name" class="info-label">Nazwisko</label>
+                            <input type="text" class="form-control col-12" 
+                                name="last_name" id="id_last_name"
+                                value="{{ user.last_name }}">
+                        </div>
+                    </div>
+                    <div class="info-row flex-grow">
+                        <div class="info-item col-6 stacked m-3">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value">{{ user.email }}</span>
+                        </div>
+                        <div class="info-item col-6 stacked m-3">
+                            <span class="info-label">Data utworzenia:</span>
+                            <span class="info-value">{{ user.date_joined }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col col-5 center-align p-3 stacked">
+                    <div class="photo-upload-container">
+                        <span class="info-label mb-3">Zdjęcie profilowe</span>
+
+                        {% if request.session.profile_photo_url %}
+                            <img src="{{ request.session.profile_photo_url }}" 
+                                alt="Zdjęcie profilowe {{ user.username }}" 
+                                class="profile-img">
+                            <div class="remove-photo">
+                                <input type="checkbox" name="photo-clear" id="id_photo_clear">
+                                <label for="id_photo_clear">Usuń obecne zdjęcie</label>
+                            </div>
+                        {% else %}
+                            <img src="/static/images/account/random_person.png" class="profile-img">
+                        {% endif %}
+
+                        <!-- Hidden input -->
+                        <input type="file" name="photo" id="id_photo" class="file-input">
+                        <!-- Custom button -->
+                        <label for="id_photo" class="file-label">Wybierz zdjęcie</label>
+                        <!-- Filename display -->
+                        <span id="file-name" class="file-name">Brak wybranego pliku</span>
+                    </div>
+                </div>        
+            </div>
+
+        
+
+            <br>
+            <div class="row align-center equal-buttons">
+                <div class="col col-3">
+                    <button type="submit">Zmień dane</button>
+                </div>
+                <div class="col col-3">
+                    <a href="{% url 'account:password_change' %}">Zmień hasło</a>
+                </div>
+                <div class="col col-3">
+                    <button type="button" onclick="history.back()">Cofnij</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/account/file-input.js' %}"></script>
+{% endblock scripts %}

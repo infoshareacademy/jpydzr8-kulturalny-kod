@@ -1,0 +1,26 @@
+[
+  {
+    "ticket_number": "TKT-BAF3E371F0",
+    "event_id": 1,
+    "event": "Olsztyn Green Festival 2025",
+    "user_id": 101,
+    "username": "andrzej_admin",
+    "full_name": "Andrzej Kowalski",
+    "email": "andrzej_admin@example.com",
+    "quantity": 5,
+    "total_price": "1217.50",
+    "created_at": "2025-10-19T16:23:25.788229+00:00"
+  },
+  {
+    "ticket_number": "TKT-27F9DE5DE5",
+    "event_id": 5,
+    "event": "Poznań Gamea",
+    "user_id": 101,
+    "username": "andrzej_admin",
+    "full_name": "Andrzej Kowalski",
+    "email": "andrzej_admin@example.com",
+    "quantity": 1,
+    "total_price": "85.50",
+    "created_at": "2025-10-19T16:23:25.788229+00:00"
+  }
+]
