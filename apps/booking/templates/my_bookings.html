@@ -1,26 +1,27 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}Moje rezerwacje{% endblock %}
 
 {% block content %}
 <div class="container">
-  <h2>Moje rezerwacje</h2>
+  <h2>{% trans "Moje rezerwacje" %}</h2>
   <hr>
   {% if booking_items %}
     {% for item in booking_items %}
       <div class="booking-item">
         <h3>{{ item.event.name }}</h3>
-        <p><strong>Numer biletu:</strong> {{ item.ticket_number }}</p>
-        <p><strong>Data wydarzenia:</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
-        <p><strong>Miejsce:</strong> {{ item.event.venue }}, {{ item.event.city }}</p>
+        <p><strong>{% trans "Numer biletu: " %}</strong> {{ item.ticket_number }}</p>
+        <p><strong>{% trans "Data wydarzenia: %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
+        <p><strong>{% trans "Miejsce: " %}</strong> {{ item.event.venue }}, {{ item.event.city }}</p>
         <p><strong>Liczba biletów:</strong> {{ item.quantity }}</p>
-        <p><strong>Cena całkowita:</strong> {{ item.total_price }} PLN</p>
-        <p><strong>Data rezerwacji:</strong> {{ item.booking.created_at|date:"Y-m-d H:i" }}</p>
+        <p><strong>{% trans "Cena całkowita: %}</strong> {{ item.total_price }} PLN</p>
+        <p><strong>{% trans "Data rezerwacji: %}</strong> {{ item.booking.created_at|date:"Y-m-d H:i" }}</p>
         
         <div class="options">
           {% if item.pdf_file %}
-            <a href="{{ booking.pdf_file.url }}" target="_blank" class="btn">Pobierz bilet (PDF)</a>
+            <a href="{{ booking.pdf_file.url }}" target="_blank" class="btn">{% trans "Pobierz bilet PDF" %}</a>
           {% endif %}
         </div>
       </div>
@@ -28,15 +29,15 @@
     {% endfor %}
   {% else %}
     <div class="no-bookings">
-      <p>Nie masz jeszcze żadnych rezerwacji.</p>
+      <p>{% trans "Nie masz jeszcze żadnych rezerwacji." %}</p>
       <div class="options">
-        <a href="{% url 'events:events_list' %}" class="btn">Przeglądaj wydarzenia</a>
+        <a href="{% url 'events:events_list' %}" class="btn">{% trans "Przeglądaj wydarzenia" %}</a>
       </div>
     </div>
   {% endif %}
   
   <div class="options">
-    <a href="{% url 'account:home' %}" class="btn">Powrót do strony głównej</a>
+    <a href="{% url 'account:home' %}" class="btn">{% trans "Powrót do strony głównej" %}</a>
   </div>
 </div>
 {% endblock %}

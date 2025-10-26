@@ -8,7 +8,7 @@
 
 {% block content %}
 <div class="container">
-  <h1>{% block title %}Logowanie{% endblock %}</h1>
+  <h1>{% block title %}{% trans "Logowanie" %}{% endblock %}</h1>
 
   {% if wizard.steps.current == 'auth' %}
     <p>{% blocktrans %}Enter your credentials.{% endblocktrans %}</p>

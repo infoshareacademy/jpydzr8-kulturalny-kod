@@ -26,8 +26,18 @@ def user_profile_picture_path(instance: models.Model, filename: str) -> str:
     return os.path.join("profile_photos/", filename)
 
 class UserProfile(models.Model):
+    ROLE_CHOICES = [
+        ('user', 'User'),
+        ('super_user', 'Super User'),
+        ('admin', 'Admin'),
+    ]
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     photo = models.ImageField(upload_to=user_profile_picture_path, blank=True, null=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='user')
 
     def __str__(self):
         return f"{self.user.username} Profile"
+
+    @property
+    def is_super_user(self):
+        return self.role == 'super_user'

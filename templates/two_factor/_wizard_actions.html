@@ -12,13 +12,25 @@
 {% if wizard.steps.prev %}
   <button name="wizard_goto_step" type="submit"
           value="{{ wizard.steps.prev }}"
-          class="btn btn-secondary">{% trans "Back" %}</button>
+          class="btn btn-secondary">{% trans "Cofnij" %}</button>
 {% else %}
-  <button disabled name="" type="button" class="btn">{% trans "Back" %}</button>
+  {% if wizard.steps.current == 'auth' %}
+    <a href="{% url 'users:password_reset' %}">{% trans "Zapomniałeś hasło?" %}</a>
+  {% else %}
+  <button disabled name="" type="button" class="btn">
+    {% trans "Cofnij" %}
+  </button>
+  {% else %}
 {% endif %}
 </div>
 <div class="col col-3">
-<button type="submit" class="btn btn-primary">{% trans "Next" %}</button>
+  <button type="submit">
+    {% if wizard.steps.current == 'auth' %}
+      {% trans "Zaloguj" %}
+    {% else %}
+      {% trans "Dalej" %}
+    {% endif %}
+  </button>
 </div>
 
 </div>

@@ -29,13 +29,22 @@ from kulturalny_kod.mailer import notify_admin
 
 class CustomLoginView(LoginView):
     def get_success_url(self):
-        user = self.request.user
+        user = self.request.user if self.request.user.is_authenticated else "Anonymous"
+
+        try:
+            role = user.profile.role
+        except Exception:
+            role = "user"
+
+        if role == "super_user":
+            return reverse_lazy('account:super_user_dashboard')
+
         # Check if the user has MFA devices
         if user.totpdevice_set.exists():
             # MFA enabled → go to main page
             return reverse_lazy('account:home')
-        return super().get_success_url()
 
+        return super().get_success_url()
 
 class CustomRegisterView(FormView):
     form_class = CustomUserCreationForm

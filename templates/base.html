@@ -1,6 +1,8 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="pl">
+{% get_current_language as CURRENT_LANG %}
+<html lang="{{ CURRENT_LANG|default:'pl' }}">
 
     <head>
         <meta charset="UTF-8">
@@ -24,26 +26,48 @@
                 <span class="username">{{ user.username }}</span>
             </button>
             <ul class="profile-dropdown">
-                <li><a href="{% url 'home' %}">Strona Główna</a></li>
+                <li><a href="{% url 'home' %}">{% trans "Strona główna" %}</a></li>
                 {% if user.is_authenticated %}
-                <li><a href="{% url 'payments:cart' %}">Koszyk</a></li>
+                    <li><a href="{% url 'payments:cart' %}">{% trans "Koszyk" %}</a></li>
                 {% endif %}
                 <hr class="dropdown-separator">
-                <li><a href="{% url 'account:info' %}">Profil</a></li>
-                <li><a href="{% url 'two_factor:profile' %}">Ustawienia</a></li>
+                <li><a href="{% url 'account:info' %}">{% trans "Profil" %}</a></li>
+                <li><a href="{% url 'two_factor:profile' %}">{% trans "Ustawienia" %}</a></li>
                 <li>
                     {% if user.is_authenticated %}
                         <form id="logout-form" method="post" action="{% url 'account:logout' %}" style="display:none;">
                             {% csrf_token %}
                         </form>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Wyloguj</a>
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{% trans "Wyloguj" %}</a>
                     {% endif %}
                 </li>
             </ul>
         </div>
         {% block content %}{% endblock content %}
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; 2025 Kulturalny Kod by iSA</p>
+                <form class="language-switcher" action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    {% get_current_language as LANGUAGE_CODE %}
+
+                    <button type="submit" name="language" value="pl"
+                            class="lang-btn {% if LANGUAGE_CODE == 'pl' %}active{% endif %}"
+                            aria-pressed="{% if LANGUAGE_CODE == 'pl' %}true{% else %}false{% endif %}">
+                        PL
+                    </button>
+                    <button type="submit" name="language" value="en"
+                            class="lang-btn {% if LANGUAGE_CODE == 'en' %}active{% endif %}"
+                            aria-pressed="{% if LANGUAGE_CODE == 'en' %}true{% else %}false{% endif %}">
+                        EN
+                    </button>
+                </form>
+            </div>
+        </footer>
         {% block scripts %}
-            <script src="{% static 'js/profile-menu.js' %}"></script>
+        <script src="{% static 'js/profile-menu.js' %}"></script>
         {% endblock scripts %}
     </body>
 </html>
+

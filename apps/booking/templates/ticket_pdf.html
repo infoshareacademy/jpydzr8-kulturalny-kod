@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -6,16 +7,16 @@
 </head>
 <body>
   <div class="ticket">
-    <div class="header">Bilet wstępu</div>
+    <div class="header">{% trans "Bilet wstępu" %}</div>
 
     <div class="content">
       <div class="left">
-        <div class="row">Wydarzenie: {{ event.title|default:event.name }}</div>
-        <div class="row">Numer biletu: {{ booking.ticket_number }}</div>
-        <div class="row">Nazwisko: {{ booking.full_name }}</div>
-        <div class="row">Liczba miejsc: {{ booking.quantity }}</div>
-        <div class="row">Suma: {{ booking.total_price }} PLN</div>
-        <div class="row" style="margin-top:12px;">Okazać przy wejściu. Dziękujemy!</div>
+        <div class="row">{% trans "Wydarzenie: " %}{{ event.title|default:event.name }}</div>
+        <div class="row">{% trans "Numer biletu: " %}{{ booking.ticket_number }}</div>
+        <div class="row">{% trans "Imię i nazwisko: " %}{{ booking.full_name }}</div>
+        <div class="row">{% trans "Liczba miejsc: " %}{{ booking.quantity }}</div>
+        <div class="row">{% trans "Suma: " %}{{ booking.total_price }} PLN</div>
+        <div class="row" style="margin-top:12px;">{% trans "Bilet prosimy okazać przy wejściu. Dziękujemy!" %}</div>
       </div>
 
       <div class="right">

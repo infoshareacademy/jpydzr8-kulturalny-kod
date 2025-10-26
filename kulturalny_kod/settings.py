@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+from django.utils.translation import gettext_lazy as _
 from pathlib import Path
 import environ
 import os
@@ -19,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 print(BASE_DIR)
 
 env = environ.Env(
-    DEBUG=(bool, False)
+    DEBUG=(bool, False),
 )
 env.read_env(env_file=BASE_DIR / ".env")
 
@@ -33,7 +34,6 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
-
 
 # Application definition
 
@@ -64,6 +64,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -87,13 +88,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.i18n',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'kulturalny_kod.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -122,7 +123,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -134,6 +134,11 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+LANGUAGES = [
+    ('pl', _('Polski')),
+    ('en', _('Angielski')),
+]
+LOCALE_PATHS = [BASE_DIR / 'locale']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -146,7 +151,6 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
@@ -172,7 +176,6 @@ LOGIN_REDIRECT_URL = 'two_factor:profile'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 PAYMENTS_DEFAULT_PROVIDER = env("PAYMENTS_DEFAULT_PROVIDER", default="dummy")
-
 
 # Expire sessions after 30 minutes of inactivity
 SESSION_COOKIE_AGE = 30 * 60  # seconds
