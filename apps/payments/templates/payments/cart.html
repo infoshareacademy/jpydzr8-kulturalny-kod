@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block css %}
 {{ block.super }}
@@ -7,18 +8,18 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/payments/cart.css' %}">
 {% endblock css %}
 
-{% block title %} Twoj Koszyk {% endblock title %}
+{% block title %}{% trans "Twój Koszyk" %}{% endblock title %}
 
 {% block content %}
 <div class="container wide">
-    <h1>Twój Koszyk</h1>
+    <h1>{% trans "Twój Koszyk" %}</h1>
     <table class="cart-table">
         <thead>
             <tr>
-                <th>Nazwa wydarzenia</th>
-                <th>Ilość biletów</th>
-                <th>Cena za bilet</th>
-                <th>Usuń</th>
+                <th>{% trans "Nazwa wydarzenia" %}</th>
+                <th>{% trans "Ilość biletów" %}</th>
+                <th>{% trans "Cena za bilet" %}</th>
+                <th>{% trans "Usuń" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -28,32 +29,31 @@
                 <td>{{ item.quantity }}</td>
                 <td>{{ item.event.price }}</td>
                 <td>
-                    
                     <form method="post" action="{% url 'payments:remove_from_cart' item.event.pk %}">
                         {% csrf_token %}
-                        <button type="submit">Usuń</button>
+                        <button type="submit">{% trans "Usuń" %}</button>>
                     </form>
                 </td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="4">Twój koszyk jest pusty.</td>
+                <td colspan="4">{% trans "Twój koszyk jest pusty." %}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% if total_price %}
-    <h3>Wartość koszyka: {{ total_price }}</h3>
+    <h3>{% trans "Wartość koszyka:" %} {{ total_price }}</h3>
     {% endif %}
     <div class="options">
-        <a href="{% url 'events:events_list' %}">Kontynuuj zakupy</a>
+        <a href="{% url 'events:events_list' %}">{% trans "Kontynuuj zakupy" %}</a>
+
         <form method="post" action="{% url 'booking:cart_checkout' %}">
             {% csrf_token %}
-            <button>
-                Potwierdź rezerwacje
-            </button>
+            <button>{% trans "Potwierdź rezerwacje" %}</button>
         </form>
-        <a href="#">Rezygnuj</a>
+
+        <a href="#">{% trans "Rezygnuj" %}</a>
     </div>
 </div>
 {% endblock content %}

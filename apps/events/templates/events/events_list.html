@@ -10,21 +10,27 @@
 <div class="container">
     <h1>{% trans "Przegląd wydarzeń" %}</h1>
 
-    <form method="get" class="options">
-        <label for="city">{% trans "Miasto: " %}</label>
-        <input type="text" name="city" id="city" value="{{ request.GET.city }}">
+    <form method="get" class="filter-form">
+    <label for="q">{% trans "Szukaj: " %}</label>
+    <input type="text" name="q" id="q" value="{{ request.GET.q }}"
+           placeholder="{% trans 'np. koncert, kino…' %}">
 
-        <label for="from_date">{% trans "Od: "%}</label>
-        <input type="date" name="from_date" id="from_date" value="{{ request.GET.from_date }}">
+    <label for="city">{% trans "Miasto: " %}</label>
+    <input type="text" name="city" id="city" value="{{ request.GET.city }}">
 
-        <label for="to_date">{% trans "Do: " %}</label>
-        <input type="date" name="to_date" id="to_date" value="{{ request.GET.to_date }}">
-        <div class="options">
-            <button type="submit">{% trans "Filtruj" %}</button>
-            <a href="?all=1" class="button">{% trans "Wszystkie wydarzenia" %}</a>
-        </div>
+    <label for="from_date">{% trans "Od: " %}</label>
+    <input type="date" name="from_date" id="from_date" value="{{ request.GET.from_date }}">
 
-    </form>
+    <label for="to_date">{% trans "Do: " %}</label>
+    <input type="date" name="to_date" id="to_date" value="{{ request.GET.to_date }}">
+
+    <div></div>
+
+    <div class="options" style="margin-top: 10px;">
+        <button type="submit">{% trans "Filtruj" %}</button>
+        <a href="?all=1" class="button">{% trans "Wszystkie wydarzenia" %}</a>
+    </div>
+</form>
 
     <hr>
 

@@ -1,26 +1,27 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="utf-8" />
-  <title>Płatność #{{ payment.id }} — start</title>
+  <title>{% trans "Płatność" %} #{{ payment.id }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 </head>
 <body>
   <main class="container">
     <h1>Płatność #{{ payment.id }}</h1>
-    <p>Rezerwacja: <strong>{{ payment.booking.ticket_number }}</strong></p>
-    <p>Kwota: <strong>{{ payment.amount }} {{ payment.currency }}</strong></p>
-    <p>Opis: {{ payment.description|default:"—" }}</p>
-    <p class="event meta">Status: <code>{{ payment.status }}</code></p>
+    <p>{% trans "Rezerwacja" %}: <strong>{{ payment.booking.ticket_number }}</strong></p>
+    <p>{% trans "Kwota" %}: <strong>{{ payment.amount }} {{ payment.currency }}</strong></p>
+    <p>{% trans "Opis" %}: {{ payment.description|default:"—" }}</p>
+    <p class="event meta">{% trans "Status" %}: <code>{{ payment.status }}</code></p>
 
     <div class="divider"></div>
 
-    <p>Symulacja (Dummy):</p>
+    <p>{% trans "Symulacja (Dummy):" %}</p>
     <div class="options">
-      <a href="{% url 'payments:simulate_success' payment.id %}">Zasymuluj SUKCES</a>
-      <a href="{% url 'payments:simulate_fail' payment.id %}">Zasymuluj PORAŻKĘ</a>
+      <a href="{% url 'payments:simulate_success' payment.id %}">{% trans "Zasymuluj SUKCES" %}</a>
+      <a href="{% url 'payments:simulate_fail' payment.id %}">{% trans "Zasymuluj PORAŻKĘ" %}</a>
     </div>
   </main>
 </body>

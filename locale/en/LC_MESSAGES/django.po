@@ -12,6 +12,82 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+msgid "System Rezerwacji Biletów"
+msgstr "Ticket Reservation System"
+
+msgid "System do rezerwacji biletów"
+msgstr "Ticket booking system"
+
+msgid "Zaloguj się"
+msgstr "Log in"
+
+msgid "Zarejestruj się"
+msgstr "Register"
+
+msgid "Twój Koszyk"
+msgstr "Your Cart"
+
+msgid "Nazwa wydarzenia"
+msgstr "Event name"
+
+msgid "Ilość biletów"
+msgstr "Number of tickets"
+
+msgid "Cena za bilet"
+msgstr "Price per ticket"
+
+msgid "Usuń"
+msgstr "Remove"
+
+msgid "Szukaj: "
+msgstr "Find: "
+
+msgid "Twój koszyk jest pusty."
+msgstr "Your cart is empty."
+
+msgid "Wartość koszyka:"
+msgstr "Cart total:"
+
+msgid "Kontynuuj zakupy"
+msgstr "Continue shopping"
+
+msgid "Potwierdź rezerwacje"
+msgstr "Confirm reservation"
+
+msgid "Rezygnuj"
+msgstr "Cancel"
+
+msgid "Wynik płatności"
+msgstr "Payment result"
+
+msgid "Błąd"
+msgstr "Error"
+
+msgid "Kwota"
+msgstr "Amount"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "płatność przyjęta"
+msgstr "payment accepted"
+
+msgid "płatność nieudana"
+msgstr "payment failed"
+
+msgid "Wróć do płatności"
+msgstr "Back to payment"
+
+msgid "Symulacja (Dummy):"
+msgstr "Simulation (Dummy):"
+
+msgid "Zasymuluj SUKCES"
+msgstr "Simulate SUCCESS"
+
+msgid "Zasymuluj PORAŻKĘ"
+msgstr "Simulate FAILURE"
+
+
 #: apps/booking/templates/booking_form.html:5
 msgid "Rezerwacja - "
 msgstr "Booking - "
