@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <head>
     <meta charset="UTF-8">
     <title>{{ event.name }}</title>
@@ -8,17 +9,17 @@
 <body>
 <div class="container">
     <h1>{{ event.name }}</h1>
-    <p><strong>Data:</strong> {{ event.date|date:"Y-m-d" }}</p>
-    <p><strong>Miasto:</strong> {{ event.city }}</p>
-    <p><strong>Miejsce:</strong> {{ event.venue }}</p>
-    <p><strong>Dostępnych miejsc:</strong> {{ event.available_seats }}</p>
+    <p><strong>{% trans "Data: " %}</strong> {{ event.date|date:"Y-m-d" }}</p>
+    <p><strong>{% trans "Miasto: " %}</strong> {{ event.city }}</p>
+    <p><strong>{% trans "Miejsce: " %}</strong> {{ event.venue }}</p>
+    <p><strong>{% trans "Dostępnych miejsc: " %}</strong> {{ event.available_seats }}</p>
 
     {% if event.description %}
-        <p><strong>Opis:</strong> {{ event.description }}</p>
+        <p><strong>{% trans "Opis: " %}</strong> {{ event.description }}</p>
     {% endif %}
 
     {% if event.highlights %}
-        <p><strong>Najważniejsze atrakcje:</strong></p>
+        <p><strong>{% trans "Najważniejsze atrakcje: " %}</strong></p>
         {% for point in event.highlights %}
             <p>{{ point }}</p>
         {% endfor %}
@@ -26,11 +27,11 @@
 
 
     <div class="options" style="margin-top: 30px;">
-        <a class="btn" href="{% url 'booking:create' event.id %}">Kup bilety od {{ event.price }} zł</a>
+        <a class="btn" href="{% url 'booking:create' event.id %}">{% trans "Kup bilety od " %}{{ event.price }} zł</a>
     </div>
 
     <div class="options" style="margin-top: 30px;">
-        <a href="{% url 'events:events_list' %}" class="button">Powrót</a>
+        <a href="{% url 'events:events_list' %}" class="button">{% trans "Powrót" %}</a>
     </div>
 </div>
 </body>
