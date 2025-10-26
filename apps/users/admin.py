@@ -7,8 +7,8 @@ from .models import UserProfile
 # Option 1: Simple registration
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'photo')
-    search_fields = ('user__username', 'user__email')
+    list_display = ('user', 'photo', 'role')
+    search_fields = ('user__username', 'user__email', 'role')
 
 # Option 2: Inline UserProfile in User admin
 class UserProfileInline(admin.StackedInline):
