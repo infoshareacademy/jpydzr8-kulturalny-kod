@@ -2,12 +2,11 @@ from django.db import models
 
 
 class SectionType(models.TextChoices):
-    SEATED   = "seated",  "Miejsca siedzące"
-    STANDING = "standing","Miejsca stojące"
+    SEATED = "seated", "Miejsca siedzące"
+    STANDING = "standing", "Miejsca stojące"
 
 
 class Venue(models.Model):
-    # Obiekt / budynek
     name = models.CharField("Nazwa obiektu", max_length=200)
     city = models.CharField("Miejscowość", max_length=100)
     address = models.CharField("Adres", max_length=200, blank=True)
@@ -89,6 +88,13 @@ class Section(models.Model):
         "Maksymalna liczba miejsc",
         default=0,
         help_text="Dotyczy miejsc stojących.",
+    )
+    price_modifier = models.DecimalField(
+        "Dopłata do ceny bazowej",
+        max_digits=8,
+        decimal_places=2,
+        default=0,
+        help_text="VIP +150, Balkon +60, Płyta 0",
     )
 
     class Meta:

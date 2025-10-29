@@ -10,5 +10,7 @@ urlpatterns = [
     path("<int:pk>/simulate-fail/", views.simulate_fail, name="simulate_fail"),
     path("webhook/<str:provider>/", views.webhook, name="webhook"),
     path("cart/", views.cart_view, name="cart"),
-    path("cart/remove/<int:event_id>/", views.remove_from_cart, name="remove_from_cart"),
+    path(
+        "cart/remove/<int:event_id>/", views.remove_from_cart, name="remove_from_cart"
+    ),
 ]

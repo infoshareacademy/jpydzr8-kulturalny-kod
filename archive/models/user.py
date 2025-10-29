@@ -6,10 +6,16 @@ import os
 
 def calculate_age(birthdate):
     today = date.today()
-    return today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+    return (
+        today.year
+        - birthdate.year
+        - ((today.month, today.day) < (birthdate.month, birthdate.day))
+    )
+
 
 class ValidationError(Exception):
     pass
+
 
 class User:
     def __init__(self, login, password, email, data_urodzenia, id):
@@ -47,15 +53,19 @@ class User:
                 print("\nDostępne wydarzenia:")
                 for event in event_list.events:
                     details = event.get_details()
-                    print(f"ID: {details['event_id']}, Nazwa: {details['name']}, "
-                          f"Data: {details['date']}, Miejsca dostępne: {details['available_seats']}, "
-                          f"Cena: {details['price']} PLN")
+                    print(
+                        f"ID: {details['event_id']}, Nazwa: {details['name']}, "
+                        f"Data: {details['date']}, Miejsca dostępne: {details['available_seats']}, "
+                        f"Cena: {details['price']} PLN"
+                    )
 
             elif choice == "2":
                 try:
                     event_id = int(input("Podaj ID wydarzenia: "))
                     seats = int(input("Podaj liczbę miejsc: "))
-                    event = next((e for e in event_list.events if e.event_id == event_id), None)
+                    event = next(
+                        (e for e in event_list.events if e.event_id == event_id), None
+                    )
                     if event:
                         self.add_booking(event, seats)
                     else:
@@ -69,7 +79,9 @@ class User:
                 else:
                     print("\nTwoje rezerwacje:")
                     for b in self.booking_list:
-                        print(f"ID: {b.id}, Wydarzenie: {b.event_id}, Miejsca: {b.seats}, Data: {b.date}")
+                        print(
+                            f"ID: {b.id}, Wydarzenie: {b.event_id}, Miejsca: {b.seats}, Data: {b.date}"
+                        )
 
             elif choice == "4":
                 booking_id = input("Podaj ID rezerwacji do anulowania: ").strip()
@@ -97,9 +109,7 @@ class User:
         for b in data:
             if b["user_name"] == self.login:
                 booking = Booking(
-                    event_id=b["event_id"],
-                    user_name=b["user_name"],
-                    seats=b["seats"]
+                    event_id=b["event_id"], user_name=b["user_name"], seats=b["seats"]
                 )
                 booking.id = b["id"]
                 booking.date = b["date"]
@@ -132,15 +142,20 @@ class User:
         print("Nie znaleziono rezerwacji.")
         return False
 
-
     @property
     def age(self):
         return calculate_age(self.data_urodzenia)
 
+
 class Admin(User):
-    def __init__(self, user_login, user_password, user_email_address, birthdate, user_id):
-        super().__init__(user_login, user_password, user_email_address, birthdate, user_id)
+    def __init__(
+        self, user_login, user_password, user_email_address, birthdate, user_id
+    ):
+        super().__init__(
+            user_login, user_password, user_email_address, birthdate, user_id
+        )
         self.is_admin = True
+
 
 class UsersManagement:
     def __init__(self):
@@ -213,7 +228,7 @@ class UsersManagement:
                     password=u["password"],
                     email=u["email"],
                     data_urodzenia=birthdate,
-                    id=u["id"]
+                    id=u["id"],
                 )
                 self.users[user.login] = user
                 loaded_count += 1
@@ -226,7 +241,7 @@ class UsersManagement:
                 if verbose:
                     print(f"Inny błąd dla {u.get('login', '?')}: {e}")
 
-        print(f"Załadowano {loaded_count} użytkowników.", end=' ')
+        print(f"Załadowano {loaded_count} użytkowników.", end=" ")
         if skipped_count:
             print(f"Pominięto {skipped_count} z powodu błędów.")
         else:

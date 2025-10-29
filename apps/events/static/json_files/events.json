@@ -3,6 +3,7 @@
         "event_id": 1,
         "name": "Olsztyn Green Festival 2025",
         "date": "2025-08-15",
+        "time": "20:00",
         "city": "Olsztyn",
         "venue": "CRS Ukiel",
         "total_seats": 500,
@@ -22,7 +23,8 @@
     {
         "event_id": 2,
         "name": "Warsaw Tech Days",
-        "date": "2025-09-10",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Warszawa",
         "venue": "EXPO XXI",
         "total_seats": 1200,
@@ -42,7 +44,8 @@
     {
         "event_id": 3,
         "name": "Craco Night",
-        "date": "2025-10-02",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Kraków",
         "venue": "ICE Congress Centre",
         "total_seats": 800,
@@ -61,7 +64,8 @@
     {
         "event_id": 4,
         "name": "Gdańsk Startup Weekend",
-        "date": "2025-07-28",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Gdansk",
         "venue": "Olivia Business Centre",
         "total_seats": 300,
@@ -81,7 +85,8 @@
     {
         "event_id": 5,
         "name": "Poznań Gamea",
-        "date": "2025-10-17",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Poznań",
         "venue": "Miedzynarodowe Targi",
         "total_seats": 2500,
@@ -102,7 +107,8 @@
     {
         "event_id": 6,
         "name": "Wrocław Rock Fest",
-        "date": "2025-09-05",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Wrocław",
         "venue": "Hala Stulecia",
         "total_seats": 1200,
@@ -122,7 +128,8 @@
         {
         "event_id": 7,
         "name": "Warszawa Food Truck Festival",
-        "date": "2025-08-22",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Warszawa",
         "venue": "Manufaktura",
         "total_seats": 600,
@@ -142,7 +149,8 @@
     {
         "event_id": 8,
         "name": "Katowice E-sport Clash",
-        "date": "2025-11-01",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Katowice",
         "venue": "Spodek",
         "total_seats": 3500,
@@ -162,7 +170,8 @@
     {
         "event_id": 9,
         "name": "Toruń Folk Festival",
-        "date": "2025-08-30",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Toruń",
         "venue": "Rynek Staromiejski",
         "total_seats": 700,
@@ -182,7 +191,8 @@
     {
         "event_id": 10,
         "name": "Szczecin Stand-up Night",
-        "date": "2025-09-20",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Szczecin",
         "venue": "Zamek Ksiazat Pomorskich",
         "total_seats": 400,
@@ -202,7 +212,8 @@
     {
         "event_id": 11,
         "name": "Bydgoszcz Science Fair",
-        "date": "2025-10-11",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Bydgoszcz",
         "venue": "Centrum Nauki",
         "total_seats": 1000,
@@ -222,7 +233,8 @@
     {
         "event_id": 12,
         "name": "Rzeszów Drone Expo",
-        "date": "2025-11-14",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Rzeszów",
         "venue": "Hala Podpromie",
         "total_seats": 750,
@@ -242,7 +254,8 @@
     {
         "event_id": 13,
         "name": "Opole Classic Music Evening",
-        "date": "2025-08-18",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Opole",
         "venue": "Amfiteatr",
         "total_seats": 550,
@@ -262,7 +275,8 @@
     {
         "event_id": 14,
         "name": "Kielce Eco Days",
-        "date": "2025-09-07",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Kielce",
         "venue": "Park Miejski",
         "total_seats": 800,
@@ -282,7 +296,8 @@
     {
         "event_id": 15,
         "name": "Lublin Light Festival",
-        "date": "2025-12-12",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Lublin",
         "venue": "Stare Miasto",
         "total_seats": 1000,
@@ -302,7 +317,8 @@
     {
         "event_id": 16,
         "name": "Zielona Góra Winobranie",
-        "date": "2025-09-10",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Zielona Góra",
         "venue": "Centrum",
         "total_seats": 1500,
@@ -322,7 +338,8 @@
     {
         "event_id": 17,
         "name": "Radom Design Days",
-        "date": "2025-10-20",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Radom",
         "venue": "ROKiS",
         "total_seats": 350,
@@ -342,7 +359,8 @@
     {
         "event_id": 18,
         "name": "Gorzów Wielkopolski Blues Night",
-        "date": "2025-08-25",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Gorzów Wlkp.",
         "venue": "Amfiteatr",
         "total_seats": 400,
@@ -362,7 +380,8 @@
     {
         "event_id": 19,
         "name": "Legnica Theater Weekend",
-        "date": "2025-09-18",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Legnica",
         "venue": "Teatr Modrzejewskiej",
         "total_seats": 300,
@@ -382,7 +401,8 @@
     {
         "event_id": 20,
         "name": "Elbląg Art Show",
-        "date": "2025-11-22",
+        "date": "2025-08-15",
+        "time": "20:00",
         "city": "Elbląg",
         "venue": "Galeria EL",
         "total_seats": 600,

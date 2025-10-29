@@ -11,9 +11,7 @@ def test_user(db):
     Create a test user in the database.
     """
     user = User.objects.create_user(
-        username="testuser",
-        password="password123",
-        email="testuser@example.com"
+        username="testuser", password="password123", email="testuser@example.com"
     )
     return user
 
@@ -34,6 +32,7 @@ def test_unauthorized_user_redirected_to_login():
     assert response.status_code == 200
     assert "users/user_login.html" in [t.name for t in response.templates]
 
+
 @pytest.mark.django_db
 def test_authorized_user_can_access_home(test_user):
     """
@@ -49,12 +48,14 @@ def test_authorized_user_can_access_home(test_user):
     assert response.status_code == 200
     assert "users/user_home.html" in [t.name for t in response.templates]
 
+
 def test_authorized_user_is_redirected_to_home_uses_correct_template(test_user):
     client = Client()
     client.login(username=test_user.username, password="password123")
     response = client.get("/users/login/", follow=True)
     assert response.status_code == 200
     assert "users/user_home.html" in [t.name for t in response.templates]
+
 
 def test_authorized_user_can_access_logout(test_user):
     client = Client()
@@ -68,6 +69,7 @@ def test_authorized_user_can_access_logout(test_user):
     assert response.status_code == 302
     assert response.url == "/"
 
+
 def test_authorized_user_can_access_logout_uses_correct_template(test_user):
     client = Client()
     client.login(username=test_user.username, password="password123")
@@ -76,11 +78,12 @@ def test_authorized_user_can_access_logout_uses_correct_template(test_user):
     assert final_response.status_code == 200
     assert "home.html" in [t.name for t in final_response.templates]
 
+
 def test_authorized_user_is_redirected_to_home(test_user):
     client = Client()
     client.login(username=test_user.username, password="password123")
     response = client.get("/users/login/")
     response = cast(HttpResponseRedirect, response)
-    
+
     assert response.status_code == 302
     assert response.url == "/users/home/"

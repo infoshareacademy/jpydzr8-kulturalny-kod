@@ -12,17 +12,14 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] [%(name)s] %(message)s",
     handlers=[
         RotatingFileHandler(
-            LOG_FILE,
-            maxBytes=5_000_000,
-            backupCount=5,
-            encoding="utf-8"
+            LOG_FILE, maxBytes=5_000_000, backupCount=5, encoding="utf-8"
         )
     ],
-
 )
 
 logging.getLogger("fontTools").setLevel(logging.WARNING)
 logging.getLogger("django").setLevel(logging.WARNING)
+
 
 def get_logger(name: str) -> logging.Logger:
     return logging.getLogger(name)

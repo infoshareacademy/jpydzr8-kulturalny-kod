@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Payment(models.Model):
     class Provider(models.TextChoices):
         DUMMY = "dummy", "Dummy"
@@ -31,8 +32,7 @@ class Payment(models.Model):
         max_length=20, choices=Provider.choices, default=Provider.DUMMY
     )
     external_id = models.CharField(
-        max_length=255, null=True, blank=True,
-        help_text="External ID for this payment"
+        max_length=255, null=True, blank=True, help_text="External ID for this payment"
     )
     status = models.CharField(
         max_length=20, choices=Status.choices, default=Status.CREATED, db_index=True

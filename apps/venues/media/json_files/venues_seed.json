@@ -65,5 +65,93 @@
       "number": "2",
       "is_wheelchair": true
     }
+  },
+
+  {
+    "model": "venues.venue",
+    "pk": 2,
+    "fields": {
+      "name": "Hala Toruń",
+      "city": "Toruń",
+      "address": "ul. Sportowa 5",
+      "pets_friendly": false,
+      "description": "Centrum konferencyjne i widowiskowe."
+    }
+  },
+  {
+    "model": "venues.venuearea",
+    "pk": 2,
+    "fields": {
+      "venue": 2,
+      "name": "Sala Główna"
+    }
+  },
+  {
+    "model": "venues.seatingplan",
+    "pk": 2,
+    "fields": {
+      "area": 2,
+      "title": "Konferencja"
+    }
+  },
+  {
+    "model": "venues.section",
+    "pk": 3,
+    "fields": {
+      "plan": 2,
+      "name": "Lewy",
+      "type": "seated",
+      "capacity": 0
+    }
+  },
+  {
+    "model": "venues.section",
+    "pk": 4,
+    "fields": {
+      "plan": 2,
+      "name": "Prawy",
+      "type": "seated",
+      "capacity": 0
+    }
+  },
+  {
+    "model": "venues.seat",
+    "pk": 3,
+    "fields": {
+      "section": 3,
+      "row": "1",
+      "number": "1",
+      "is_wheelchair": false
+    }
+  },
+  {
+    "model": "venues.seat",
+    "pk": 4,
+    "fields": {
+      "section": 3,
+      "row": "1",
+      "number": "2",
+      "is_wheelchair": false
+    }
+  },
+  {
+    "model": "venues.seat",
+    "pk": 5,
+    "fields": {
+      "section": 4,
+      "row": "1",
+      "number": "1",
+      "is_wheelchair": false
+    }
+  },
+  {
+    "model": "venues.seat",
+    "pk": 6,
+    "fields": {
+      "section": 4,
+      "row": "1",
+      "number": "2",
+      "is_wheelchair": false
+    }
   }
 ]

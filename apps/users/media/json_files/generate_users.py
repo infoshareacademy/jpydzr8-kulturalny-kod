@@ -23,7 +23,7 @@ def generate_data(
     password_length: int = 12,
     oldest_date_of_birth: datetime = datetime(1950, 1, 1),
     seed: int = 42,
-    output_file_name: str = "users.json"
+    output_file_name: str = "users.json",
 ) -> None:
     random.seed(seed)
     imiona_link = os.path.join(SCRIPT_DIR, "imiona.txt")
@@ -69,7 +69,9 @@ def generate_data(
         if plec == "m":
             nazwisko = choices(nazwiska_meskie, weights=nazwiska_meskie_weights, k=1)[0]
         else:
-            nazwisko = choices(nazwiska_zenskie, weights=nazwiska_zenskie_weights, k=1)[0]
+            nazwisko = choices(nazwiska_zenskie, weights=nazwiska_zenskie_weights, k=1)[
+                0
+            ]
         user["last_name"] = nazwisko
         # user["plec"] = plec
         data_urodzenia = datetime.now() - timedelta(days=randint(0, day_to_today))

@@ -4,6 +4,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 
+
 class Ticket:
     def __init__(self, booking, event):
         self.booking = booking
@@ -60,7 +61,9 @@ class Ticket:
         qr_img = ImageReader(self.qr_path)
         qr_size = 120
         qr_x = width - text_x - qr_size  # margines z prawej
-        qr_y = height - 100 - qr_size  # dokładnie górna krawędź QR == tekst_y początkowy
+        qr_y = (
+            height - 100 - qr_size
+        )  # dokładnie górna krawędź QR == tekst_y początkowy
         c.drawImage(qr_img, qr_x, qr_y, width=qr_size, height=qr_size)
 
         # Stopka
@@ -69,4 +72,4 @@ class Ticket:
 
         c.save()
 
-        os.remove(self.qr_path) # usuń tymczasowy plik QR
+        os.remove(self.qr_path)  # usuń tymczasowy plik QR

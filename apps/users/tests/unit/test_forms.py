@@ -9,13 +9,17 @@ def test_valid_form():
     form = CustomUserChangeForm(instance=user, data={"username": "anna_now"})
     assert form.is_valid()
 
+
 def test_user_change_valid_form_names():
     user = User(username="anna")
-    form = CustomUserChangeForm(instance=user, data={"first_name": "anna", "last_name": "kowalska"})
-    
+    form = CustomUserChangeForm(
+        instance=user, data={"first_name": "anna", "last_name": "kowalska"}
+    )
+
     assert form.is_valid()
     assert form.cleaned_data["first_name"] == "Anna"  # capitalized
     assert form.cleaned_data["last_name"] == "Kowalska"  # capitalized
+
 
 def test_user_change_valid_form_names_empty():
     user = User(username="XXXX")

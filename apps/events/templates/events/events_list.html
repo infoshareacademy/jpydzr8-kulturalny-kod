@@ -38,8 +38,15 @@
                 <h2>{{ event.name }}</h2>
                 <p><strong>{% trans "Data: " %}</strong> {{ event.date|date:"Y-m-d" }}</p>
                 <p><strong>{% trans "Miasto: " %}</strong> {{ event.city }}</p>
-                <p><strong>{% trans "Miejsce: " %}</strong> {{ event.venue }}</p>
-
+                <p><strong>{% trans "Miejsce: " %}</strong>
+                    {% if event.venue_area %}
+                        {{ event.venue_area.venue.name }} — {{ event.venue_area.name }}
+                    {% elif event.venue %}
+                        {{ event.venue.name }}
+                    {% else %}
+                        {{ event.city }}
+                    {% endif %}
+                </p>
                 <div class="options" style="margin-top: 30px;">
                     <a href="{% url 'events:event_detail' event.pk %}" class="button">{% trans "Sprawdź bilety" %}</a>
                 </div>
