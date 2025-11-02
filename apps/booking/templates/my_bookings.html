@@ -61,3 +61,8 @@
 </div>
 
 {% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'booking/js/popup.js' %}"></script>
+{% endblock scripts %}
