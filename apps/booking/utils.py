@@ -2,14 +2,12 @@ from decimal import Decimal
 import io
 import qrcode
 from pathlib import Path
-from typing import Tuple
 
 from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.files import File
-from django.http import HttpRequest
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 
 from .models import Booking, BookingItem
 from .services import (
@@ -17,6 +15,8 @@ from .services import (
     save_booking_to_json,
     render_ticket_pdf_to_content,
 )
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 from apps.events.models import Event
 from kulturalny_kod.logger import get_logger
 
@@ -108,3 +108,28 @@ def create_single_booking_item(
     save_booking_to_csv(booking, booking_item)
     save_booking_to_json(booking, booking_item)
     return total_price
+
+
+def send_booking_confirmation_email(booking):
+    user = booking.user
+
+    message = render_to_string(
+        "emails/booking_confirmation.html",
+        {
+            "user": user,
+            "booking": booking,
+        },
+    )
+
+    email = EmailMessage(
+        subject="Potwierdzenie rezerwacji",
+        body=message,
+        to=[user.email],
+    )
+    email.content_subtype = "html"
+
+    for item in booking.items.all():
+        if item.pdf_file:
+            email.attach_file(item.pdf_file.path)
+
+    email.send()
