@@ -100,3 +100,16 @@
 .fc-list-item.fc-event .fc-event-main {
     background-color: rgba(53, 23, 221, 0.2) !important;
 }
+
+.fc .fc-toolbar.fc-header-toolbar {
+    position: relative
+}
+
+.fc .fc-toolbar .fc-toolbar-title#fc-dom-1 {
+    /* font-size: 1.75em;
+    margin: 0px; */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+}
