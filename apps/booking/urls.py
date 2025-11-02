@@ -9,5 +9,6 @@ urlpatterns = [
     # path('success/<str:ticket_number>/', views.booking_success, name='success'),
     path('success/<str:booking_number>/', views.booking_success_multiple, name='success_multiple'),
     path('my-bookings/', views.my_bookings, name='my_bookings'),
-    path('checkout/', views.cart_checkout, name='cart_checkout')
+    path('checkout/', views.cart_checkout, name='cart_checkout'),
+    path('cancel_item/<int:booking_item_id>/', views.booking_item_cancel, name='cancel_item'),
 ]
