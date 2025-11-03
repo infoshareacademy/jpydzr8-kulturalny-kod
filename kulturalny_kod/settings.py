@@ -44,8 +44,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'apps.users',
+    
+    # two-factor authentication
+    'django_otp',
+    'django_otp.plugins.otp_static',
+    'django_otp.plugins.otp_totp',
+    'django_otp.plugins.otp_email',  # <- for email capability.
+    'two_factor',
+    'two_factor.plugins.email',  # <- for email capability.
+    
+    # custom apps
+    'apps.account',
     'apps.events',
     'apps.booking',
     'apps.payments',
@@ -61,6 +70,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    # two-factor authentication
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_otp.middleware.OTPMiddleware',
 ]
 
 ROOT_URLCONF = 'kulturalny_kod.urls'
@@ -153,7 +166,10 @@ ADMINS = [
 ]
 
 LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = '/users/login/'
+
+LOGIN_URL = 'two_factor:login'
+LOGIN_REDIRECT_URL = 'two_factor:profile'
+# LOGIN_REDIRECT_URL = 'account:home'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

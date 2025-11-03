@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'css/account/style.css' %}">
+{% endblock css %}
+
+{% block title %} {% trans "Profil użytkownika" %} {% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="options">
+        <h1>{% trans "Nazwa użytkownika: " %}{{ user.username }}</h1>
+        <div class="row info-row">
+            <div class="col col-5 stacked left-col p-3">
+                <div class="info-row flex-grow">
+                    <div class="info-item col-6 stacked m-3">
+                        <span class="info-label">{% trans "Imię" %}</span>
+                        <span class="info-value">{{ user.first_name }}</span>
+                    </div>
+                    <div class="info-item col-6 stacked m-3">
+                        <span class="info-label">{% trans "Nazwisko" %}</span>
+                        <span class="info-value">{{ user.last_name }}</span>
+                    </div>
+                </div>
+                <div class="info-row flex-grow">
+                    <div class="info-item col-6 stacked m-3">
+                        <span class="info-label">{% trans "E-mail" %}</span>
+                        <span class="info-value">{{ user.email }}</span>
+                    </div>
+                    <div class="info-item col-6 stacked m-3">
+                        <span class="info-label">{% trans "Data utworzenia" %}</span>
+                        <span class="info-value">{{ user.date_joined }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col col-5 center-align p-3 stacked">
+                <span class="info-label mb-3">{% trans "Zdjęcie profilowe" %}</span>
+                {% if profile.photo %}
+                    <img src="{{ profile.photo.url }}" alt="Zdjęcie profilowe {{ user.username }}" class="profile-img">
+                {% else %}
+                    <img src="/static/images/account/random_person.png" class="profile-img">
+                    
+                {% endif %}        
+            </div>        
+        </div>
+
+
+
+        <br>
+        <div class="row align-center equal-buttons">
+            <div class="col col-3">
+                <a href="{% url 'account:edit' %}">{% trans "Edytuj dane" %}</a>
+            </div>
+            <div class="col col-3">
+                <a href="{% url 'account:password_change' %}">{% trans "Zmień hasło" %}</a>
+            </div>
+            <div class="col col-3">
+                <button type="button" onclick="history.back()">{% trans "Cofnij" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
