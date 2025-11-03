@@ -6,6 +6,7 @@ cssselect2==0.8.0
 Django==5.2.4
 django-environ==0.12.0
 django-qrcode==0.3
+django-two-factor-auth==1.18.1
 fonttools==4.59.1
 iniconfig==2.1.0
 packaging==25.0
