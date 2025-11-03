@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
     def _load_users(self, file_name: str, *args, **kwargs):
         file_path = os.path.join(
-            settings.BASE_DIR, "apps", "users", "media", "json_files", file_name
+            settings.BASE_DIR, "apps", "account", "media", "json_files", file_name
         )
 
         with open(file_path, "r", encoding="utf-8") as f:

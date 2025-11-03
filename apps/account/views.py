@@ -36,8 +36,6 @@ logger = get_logger(__name__)
 from kulturalny_kod.mailer import notify_admin
 
 class CustomLoginView(LoginView):
-    redirect_authenticated_user = True
-
     def get_success_url(self):
         user = self.request.user if self.request.user.is_authenticated else "Anonymous"
 
