@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'css/account/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/account/calendar.css' %}">
+{% endblock css %}
+
+{% block title %} Panel Super Usera {% endblock title %}
+
+{% block content %}
+<div class="container wide">
+    <h1>Panel Super Usera</h1>
+
+    <div class="row align-center align-stretch">
+        <div class="col col-12 border table-col blend">
+            <h2>Rezerwacje</h2>
+
+            <table id="bookingsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Użytkownik</th>
+                        <th>Wydarzenie</th>
+                        <th>Data wydarzenia</th>
+                        <th>Miejsce</th>
+                        <th>Kwota</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in booking_items %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.booking.user.username }}</td>
+                        <td>{{ item.event.name }}</td>
+                        <td>{{ item.event.date|date:"Y-m-d H:i" }}</td>
+                        <td>
+                            {% if item.seat %}
+                                {{ item.seat.seat.section.name }},
+                                Rząd {{ item.seat.seat.row }},
+                                Miejsce {{ item.seat.seat.number }}
+                            {% else %}
+                                wejście ogólne
+                            {% endif %}
+                        </td>
+                        <td>{{ item.total_price }} PLN</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6">Brak rezerwacji.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row align-center align-stretch">
+        <div class="col col-12 border table-col blend">
+            <h2>Rezerwacje</h2>
+
+            <div class="filter-row">
+                <input type="text" id="bookingUserFilter" class="filter-input" placeholder="Filtruj po użytkowniku...">
+                <input type="text" id="bookingEventFilter" class="filter-input" placeholder="Filtruj po wydarzeniu...">
+                <input type="text" id="bookingDateFilter" class="filter-input" placeholder="Filtruj po dacie...">
+            </div>
+
+            <table id="bookingsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Użytkownik</th>
+                        <th>Wydarzenie</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for b in bookings %}
+                    <tr>
+                        <td>{{ b.id }}</td>
+                        <td>{{ b.user.username }}</td>
+                        <td>{{ b.event.name }}</td>
+                        <td>{{ b.event.date }}</td>
+                        <td>{{ b.status }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5">Brak rezerwacji.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="options">
+        <div class="col">
+            <a href="{% url 'account:super_user_events_list' %}">Zarządzaj wydarzeniami</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+function filterTable(tableId, filters) {
+    const table = document.getElementById(tableId);
+    const rows = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < rows.length; i++) {
+        let show = true;
+
+        filters.forEach(({ index, value }) => {
+            const cell = rows[i].getElementsByTagName("td")[index];
+            if (cell && value) {
+                const text = cell.textContent.toLowerCase();
+                if (!text.includes(value.toLowerCase())) {
+                    show = false;
+                }
+            }
+        });
+
+        rows[i].style.display = show ? "" : "none";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const userFilters = [
+        { input: document.getElementById("userLoginFilter"), index: 1 },
+        { input: document.getElementById("userEmailFilter"), index: 2 },
+        { input: document.getElementById("userRoleFilter"), index: 3 }
+    ];
+
+    userFilters.forEach(f => {
+        f.input.addEventListener("input", () => {
+            filterTable("usersTable", userFilters.map(fl => ({
+                index: fl.index,
+                value: fl.input.value
+            })));
+        });
+    });
+
+    const bookingFilters = [
+        { input: document.getElementById("bookingUserFilter"), index: 1 },
+        { input: document.getElementById("bookingEventFilter"), index: 2 },
+        { input: document.getElementById("bookingDateFilter"), index: 3 }
+    ];
+
+    bookingFilters.forEach(f => {
+        f.input.addEventListener("input", () => {
+            filterTable("bookingsTable", bookingFilters.map(fl => ({
+                index: fl.index,
+                value: fl.input.value
+            })));
+        });
+    });
+
+    const deleteLinks = document.querySelectorAll(".delete-link");
+    deleteLinks.forEach(link => {
+        link.addEventListener("click", e => {
+            if (!confirm("Czy na pewno chcesz usunąć tego użytkownika?")) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+</script>
+{% endblock scripts %}

@@ -1,0 +1,60 @@
+{% load static %}
+{% load i18n %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/account/style.css' %}">
+
+{{ wizard.management_form }}
+{% if wizard.form.otp_token %}
+<div class="row align-center align-baseline">
+    <div class="col right-align">
+        <label for="id_token-otp_token">Token</label>
+    </div>
+    <div class="col col-3 left-align">
+        <input type="text" class="form-control col-12" name="token-otp_token" required id="id_token-otp_token">
+        <div class="error">
+            {% if wizard.form.otp_token.errors %}
+                {{ error }}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% else %}
+
+<div class="row align-center align-baseline">
+  <input type="hidden" name="setup_view-current_step" value="welcome" id="id_setup_view-current_step">
+    <div class="col right-align">
+        <label for="id_auth-username">{% trans "Użytkownik" %}</label>
+    </div>
+    <div class="col col-3 left-align">
+        <input type="text" class="form-control col-12" name="auth-username" required id="id_auth-username">
+        <div class="error">
+            {% if wizard.form.username.errors %}
+                {% for error in wizard.form.username.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="col col-1 right-align">
+        <label for="id_auth-password">{% trans "Hasło" %}</label>
+    </div>
+    <div class="col col-3 left-align">
+        <input type="password" class="form-control col-12" name="auth-password" required id="id_auth-password">
+        <div class="error">
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="error">
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            {{ error }}
+        {% endfor %}
+    {% endif %}
+</div>

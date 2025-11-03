@@ -1,5 +1,7 @@
 from decimal import Decimal
 
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db import transaction
@@ -190,3 +192,18 @@ def booking_success_multiple(request, booking_number):
     return render(
         request, "booking_success_multiple.html", {"items": booking.items.all()}
     )
+
+
+@require_http_methods(["POST"])
+@login_required
+def booking_item_cancel(request, booking_item_id: int):
+    booking_item = get_object_or_404(BookingItem, pk=booking_item_id, booking__user=request.user)
+    if booking_item.booking.user != request.user:
+        return HttpResponseBadRequest("Nie jesteś właścicielem tego zamówienia.")
+    if request.method == "POST":
+        booking_item.delete()
+        messages.success(request, f"Rezerwacja '{booking_item.event.name}' została anulowana.")
+        logger.info(f"Anulowano rezerwację: [booking_item_id={booking_item_id}, user={request.user.username}]")
+        return redirect('booking:my_bookings')
+    return redirect('booking:my_bookings')
+
