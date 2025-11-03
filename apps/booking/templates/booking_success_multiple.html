@@ -15,9 +15,9 @@
   <div class="booking-details">
     <p><strong>{% trans "Wydarzenie: " %}</strong> {{ item.event.name }}</p>
     <p><strong>{% trans "Data: " %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
-    <p><strong>{% trans "Miejsce: %}</strong> {{ item.event.venue }}, {{ item.event.city }}</p>
+    <p><strong>{% trans "Miejsce: " %}</strong> {{ item.event.venue }}, {{ item.event.city }}</p>
     <p><strong>{% trans "Liczba biletów: " %}</strong> {{ item.quantity }}</p>
-    <p><strong>{% trans "Cena całkowita:  %}</strong> {{ item.total_price }} PLN</p>
+    <p><strong>{% trans "Cena całkowita: " %}</strong> {{ item.total_price }} PLN</p>
   </div>
 
   <div class="options">

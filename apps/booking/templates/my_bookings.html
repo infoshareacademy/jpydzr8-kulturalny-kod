@@ -2,9 +2,24 @@
 {% load static %}
 {% load i18n %}
 
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'booking/css/popup_style.css' %}">
+{% endblock css %}
+
 {% block title %}Moje rezerwacje{% endblock %}
 
 {% block content %}
+
+{% if messages %}
+  <div id="message-popup" class="message-popup">
+    {% for message in messages %}
+      <div class="popup {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
 <div class="container">
   <h2>{% trans "Moje rezerwacje" %}</h2>
   <hr>
@@ -23,6 +38,10 @@
           {% if item.pdf_file %}
             <a href="{{ booking.pdf_file.url }}" target="_blank" class="btn">{% trans "Pobierz bilet PDF" %}</a>
           {% endif %}
+          <form method="post" action="{% url 'booking:cancel_item' item.id %}">
+            {% csrf_token %}
+            <button type="submit">{% trans "Anuluj rezerwację" %}</button>
+          </form>
         </div>
       </div>
       <hr>
@@ -40,4 +59,10 @@
     <a href="{% url 'account:home' %}" class="btn">{% trans "Powrót do strony głównej" %}</a>
   </div>
 </div>
+
 {% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% static 'booking/js/popup.js' %}"></script>
+{% endblock scripts %}
