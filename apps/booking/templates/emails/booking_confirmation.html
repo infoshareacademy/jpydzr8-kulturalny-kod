@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <title>Potwierdzenie rezerwacji</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #222;">
+
+    <h2>Dziękujemy za zakup, {{ user.get_full_name|default:user.username }}! </h2>
+
+    <p>
+        Twoja rezerwacja została pomyślnie zrealizowana.<br>
+        Numer zamówienia: <strong>#{{ booking.pk }}</strong><br>
+        Łączna kwota: <strong>{{ booking.total_price }} PLN</strong>
+    </p>
+
+    <h3>Twoje bilety:</h3>
+    <ul>
+        {% for item in booking.items.all %}
+            <li>
+                <strong>{{ item.event.name }}</strong><br>
+                Termin: {{ item.event.date|date:"Y-m-d H:i" }}<br>
+                {% if item.seat %}
+                    Miejsce: {{ item.seat.seat.section.name }} – Rząd {{ item.seat.seat.row }}, Nr {{ item.seat.seat.number }}
+                {% else %}
+                    Strefa stojąca
+                {% endif %}<br>
+                Nr biletu: <strong>{{ item.ticket_number }}</strong>
+            </li>
+            <br>
+        {% endfor %}
+    </ul>
+
+    <p>Pliki PDF z biletami zostały dołączone do tej wiadomości.</p>
+
+    <p>Do zobaczenia na wydarzeniu! </p>
+
+</body>
+</html>

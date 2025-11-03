@@ -10,11 +10,21 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.conf import settings
-from apps.events.models import Event, EventSeat
+from apps.events.models import (
+    Event,
+    EventSeat
+)
 from .forms import BookingForm
-from .models import Booking, BookingItem
-from .utils import generate_ticket_number, render_ticket_pdf_to_content, default_storage, make_qr_code
-
+from .models import (
+    Booking,
+    BookingItem
+)
+from .utils import (
+    generate_ticket_number,
+    render_ticket_pdf_to_content,
+    default_storage, make_qr_code,
+    send_booking_confirmation_email
+)
 from kulturalny_kod.logger import get_logger
 
 import os
@@ -174,6 +184,8 @@ def cart_checkout(request: HttpRequest) -> HttpResponse:
 
             booking.total_price = total_price
             booking.save(update_fields=["total_price"])
+
+        send_booking_confirmation_email(booking)
 
         request.session["cart"] = {}
         request.session.modified = True

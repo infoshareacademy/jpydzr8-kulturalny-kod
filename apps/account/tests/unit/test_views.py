@@ -79,6 +79,7 @@ class TestUserHomeView:
             assert template_name == "account/user_home.html"
 
 
+
 class TestCustomLoginView:
     def test_custom_login_page_returns_200(self):
         factory = RequestFactory()

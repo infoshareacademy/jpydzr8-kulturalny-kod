@@ -59,6 +59,7 @@ class CustomLoginView(LoginView):
         return super().get_success_url()
 
 
+
 class CustomRegisterView(FormView):
     form_class = CustomUserCreationForm
     template_name = 'account/user_registration.html'
