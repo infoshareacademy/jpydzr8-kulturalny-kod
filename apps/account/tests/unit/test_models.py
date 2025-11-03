@@ -13,10 +13,13 @@ def test_user_profile_picture_path_generates_correct_path(monkeypatch):
     filename = "photo.png"
 
     # Patch timezone for predictable timestamp
-    monkeypatch.setattr(timezone, "now", lambda: datetime.datetime(2025, 9, 5, 12, 0, 0))
+    monkeypatch.setattr(
+        timezone, "now", lambda: datetime.datetime(2025, 9, 5, 12, 0, 0)
+    )
 
     path = user_profile_picture_path(user_profile, filename)
     assert path == "profile_photos/XXX_20250905120000.png"
+
 
 def test_userprofile_str_unit():
     user = User(username="XXX")

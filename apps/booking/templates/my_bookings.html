@@ -23,20 +23,31 @@
 <div class="container">
   <h2>{% trans "Moje rezerwacje" %}</h2>
   <hr>
-  {% if booking_items %}
+   {% if booking_items %}
     {% for item in booking_items %}
       <div class="booking-item">
         <h3>{{ item.event.name }}</h3>
-        <p><strong>{% trans "Numer biletu: " %}</strong> {{ item.ticket_number }}</p>
-        <p><strong>{% trans "Data wydarzenia: " %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
-        <p><strong>{% trans "Miejsce: " %}</strong> {{ item.event.venue }}, {{ item.event.city }}</p>
-        <p><strong>{% trans "Liczba biletów:" %}</strong> {{ item.quantity }}</p>
-        <p><strong>{% trans "Cena całkowita: " %}</strong> {{ item.total_price }} PLN</p>
-        <p><strong>{% trans "Data rezerwacji: " %}</strong> {{ item.booking.created_at|date:"Y-m-d H:i" }}</p>
-        
+
+        <p><strong>{% trans "Numer biletu:" %}</strong> {{ item.ticket_number }}</p>
+        <p><strong>{% trans "Data wydarzenia:" %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
+
+        {% if item.seat %}
+          <p><strong>{% trans "Miejsce:" %}</strong>
+            {{ item.event.venue.name }} – {{ item.event.city }},
+            Sektor: {{ item.seat.seat.section.name }},
+            Rząd: {{ item.seat.seat.row }},
+            Miejsce: {{ item.seat.seat.number }}
+          </p>
+        {% endif %}
+
+        <p><strong>{% trans "Cena:" %}</strong> {{ item.total_price }} PLN</p>
+        <p><strong>{% trans "Zarezerwowano:" %}</strong> {{ item.booking.created_at|date:"Y-m-d H:i" }}</p>
+
         <div class="options">
           {% if item.pdf_file %}
-            <a href="{{ booking.pdf_file.url }}" target="_blank" class="btn">{% trans "Pobierz bilet PDF" %}</a>
+            <a href="{{ item.pdf_file.url }}" target="_blank" class="btn">
+              {% trans "Pobierz bilet PDF" %}
+            </a>
           {% endif %}
           <form method="post" action="{% url 'booking:cancel_item' item.id %}">
             {% csrf_token %}
@@ -47,11 +58,9 @@
       <hr>
     {% endfor %}
   {% else %}
-    <div class="no-bookings">
-      <p>{% trans "Nie masz jeszcze żadnych rezerwacji." %}</p>
-      <div class="options">
-        <a href="{% url 'events:events_list' %}" class="btn">{% trans "Przeglądaj wydarzenia" %}</a>
-      </div>
+    <p>{% trans "Nie masz jeszcze żadnych rezerwacji." %}</p>
+    <div class="options">
+      <a href="{% url 'events:events_list' %}" class="btn">{% trans "Przeglądaj wydarzenia" %}</a>
     </div>
   {% endif %}
   

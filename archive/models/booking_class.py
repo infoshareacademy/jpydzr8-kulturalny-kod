@@ -9,13 +9,16 @@ class Booking:
         Inicjalizuje nową rezerwację.
 
         """
-        self.id = str(uuid.uuid4()) # Unikalne ID rezerwacji
+        self.id = str(uuid.uuid4())  # Unikalne ID rezerwacji
         self.event_id = event_id
         self.user_name = user_name
         self.seats = seats
-        self.date = datetime.now().strftime("%Y-%m-%d %H:%M:%S") # Data utworzenia rezerwacji
-        self.ticket = None # Obiekt Ticket przypisany do rezerwacji (może być ustawiony później)
-
+        self.date = datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )  # Data utworzenia rezerwacji
+        self.ticket = (
+            None  # Obiekt Ticket przypisany do rezerwacji (może być ustawiony później)
+        )
 
     def to_dict(self):
         """
@@ -28,7 +31,7 @@ class Booking:
             "user_name": self.user_name,
             "seats": self.seats,
             "date": self.date,
-            "ticket_path": self.ticket.file_path if self.ticket else None
+            "ticket_path": self.ticket.file_path if self.ticket else None,
         }
 
     @classmethod
@@ -41,9 +44,9 @@ class Booking:
             with open(filename, "r") as f:
                 data = json.load(f)
         except FileNotFoundError:
-            data = [] # Jeśli plik nie istnieje, tworzymy pustą listę
+            data = []  # Jeśli plik nie istnieje, tworzymy pustą listę
 
         data.append(booking.to_dict())
 
         with open(filename, "w") as f:
-            json.dump(data, f, indent=4) # Zapisuje z wcięciami dla czytelności
+            json.dump(data, f, indent=4)  # Zapisuje z wcięciami dla czytelności

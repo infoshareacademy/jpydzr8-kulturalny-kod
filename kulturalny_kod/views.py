@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 
+
 def home(request):
     if request.user.is_authenticated:
         # Redirect logged-in users to a users home page

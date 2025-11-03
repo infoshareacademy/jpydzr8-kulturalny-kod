@@ -4,13 +4,19 @@ from django.http import HttpResponseForbidden
 from apps.events.models import Event
 from apps.events.forms import EventForm
 
+
 def role_required(role):
     def decorator(view_func):
         def wrapper(request, *args, **kwargs):
-            if not hasattr(request.user, "profile") or request.user.profile.role != role:
+            if (
+                not hasattr(request.user, "profile")
+                or request.user.profile.role != role
+            ):
                 return HttpResponseForbidden("Brak uprawnień do tej sekcji.")
             return view_func(request, *args, **kwargs)
+
         return wrapper
+
     return decorator
 
 
@@ -31,7 +37,9 @@ def super_user_event_create(request):
             return redirect("account:super_user_events_list")
     else:
         form = EventForm()
-    return render(request, "account/super_user_event_form.html", {"form": form, "mode": "create"})
+    return render(
+        request, "account/super_user_event_form.html", {"form": form, "mode": "create"}
+    )
 
 
 @login_required
@@ -45,7 +53,11 @@ def super_user_event_edit(request, pk):
             return redirect("account:super_user_events_list")
     else:
         form = EventForm(instance=event)
-    return render(request, "account/super_user_event_form.html", {"form": form, "mode": "edit", "event": event})
+    return render(
+        request,
+        "account/super_user_event_form.html",
+        {"form": form, "mode": "edit", "event": event},
+    )
 
 
 @login_required
@@ -55,4 +67,6 @@ def super_user_event_delete(request, pk):
     if request.method == "POST":
         event.delete()
         return redirect("account:super_user_events_list")
-    return render(request, "account/super_user_event_delete_confirm.html", {"event": event})
+    return render(
+        request, "account/super_user_event_delete_confirm.html", {"event": event}
+    )

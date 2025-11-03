@@ -83,11 +83,11 @@ class Admin:
     @property
     def is_admin(self) -> bool:
         return self.__is_admin
-    
+
     @property
     def password(self) -> bool:
         return self.__password
-    
+
     @property
     def login(self) -> bool:
         return self.__login
@@ -129,9 +129,7 @@ class Admin:
                 )
 
                 if action_result:
-                    print(
-                        f"Action {action} was successful with result {action_result}"
-                    )
+                    print(f"Action {action} was successful with result {action_result}")
                     self.run(user_management=user_management, event_list=event_list)
 
             except AttributeError:
@@ -175,7 +173,9 @@ class Admin:
         required_attributes = "name:XXX,date:yyyy-mm-dd,venue:XXX,total_seats:XXX,available_seats:XXX,price:float"
         print(required_attributes)
         event_data = input("Enter event data: ")
-        event_attr_dict = self.__get_dict_from_string(required_attributes=required_attributes, string=event_data)
+        event_attr_dict = self.__get_dict_from_string(
+            required_attributes=required_attributes, string=event_data
+        )
         event_attr_dict["event_id"] = id
         event_list.events.append(Event(**event_attr_dict))
         return id
@@ -191,10 +191,14 @@ class Admin:
     def create_user(self, user_management: UsersManagement, **kwargs) -> str:
         print("Potrzebne dane:")
         id = str(uuid4())
-        required_attributes = "login:XXX,password:XXX,email:XXX,data_urodzenia:yyyy-mm-dd"
+        required_attributes = (
+            "login:XXX,password:XXX,email:XXX,data_urodzenia:yyyy-mm-dd"
+        )
         print(required_attributes)
         user_data = input("Enter event data: ")
-        user_attr_dict = self.__get_dict_from_string(required_attributes=required_attributes, string=user_data)
+        user_attr_dict = self.__get_dict_from_string(
+            required_attributes=required_attributes, string=user_data
+        )
         user_attr_dict["id"] = id
         result = user_management.create_user(current_user=self, **user_attr_dict)
         return result

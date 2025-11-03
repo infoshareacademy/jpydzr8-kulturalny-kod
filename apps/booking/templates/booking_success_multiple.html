@@ -15,14 +15,20 @@
   <div class="booking-details">
     <p><strong>{% trans "Wydarzenie: " %}</strong> {{ item.event.name }}</p>
     <p><strong>{% trans "Data: " %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
-    <p><strong>{% trans "Miejsce: " %}</strong> {{ item.event.venue }}, {{ item.event.city }}</p>
+    {% if item.seat %}
+    <p><strong>Miejsce: </strong>
+      {{ item.seat.seat.section.name }} — Rząd {{ item.seat.seat.row }} — Miejsce {{ item.seat.seat.number }}
+    </p>
+    {% endif %}
     <p><strong>{% trans "Liczba biletów: " %}</strong> {{ item.quantity }}</p>
-    <p><strong>{% trans "Cena całkowita: " %}</strong> {{ item.total_price }} PLN</p>
+    <p><strong>{% trans "Cena całkowita:  "%}</strong> {{ item.total_price }} PLN</p>
   </div>
 
   <div class="options">
     {% if item.pdf_file %}
-      <a href="{{ booking.pdf_file.url }}" target="_blank" class="btn">{% trans "Pobierz bilet PDF" %}</a>
+      <a href="{{ item.pdf_file.url }}" target="_blank" class="btn">
+            Pobierz bilet (PDF)
+        </a>
       <a href="{% url 'events:event_detail' item.event.id %}" class="btn">{% trans "Zobacz wydarzenie" %}</a>
     {% endif %}
   </div>

@@ -9,6 +9,7 @@ from apps.account.views import UserHomeView
 
 class DummySession(SessionBase, dict):
     """dict-like session for unit tests"""
+
     def __init__(self):
         super().__init__()
 
@@ -26,14 +27,14 @@ class TestUserHomeView:
     def test_user_home_page_returns_200(self):
         factory = RequestFactory()
         request = factory.get("/account/home/")
-        
+
         # Mock an authenticated user
         request.user = Mock(is_authenticated=True)
         request.session = DummySession()  # dict-like session
-        
+
         # Call the view
         response = UserHomeView.as_view()(request)
-        
+
         # Assert response code
         assert response.status_code == 200
 
@@ -76,6 +77,7 @@ class TestUserHomeView:
             args, kwargs = mock_render.call_args
             template_name = args[1]  # render(request, template_name, context)
             assert template_name == "account/user_home.html"
+
 
 class TestCustomLoginView:
     def test_custom_login_page_returns_200(self):

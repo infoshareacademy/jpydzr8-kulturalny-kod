@@ -4,6 +4,7 @@ from apps.account.models import UserProfile
 
 User = get_user_model()
 
+
 @pytest.mark.django_db
 def test_user_creation_creates_profile():
     # Create a user

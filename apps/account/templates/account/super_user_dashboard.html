@@ -14,49 +14,40 @@
     <h1>Panel Super Usera</h1>
 
     <div class="row align-center align-stretch">
-        <div class="col col-12 border blend">
-            <h2>Witaj, {{ user.username }}!</h2>
-            <p>Masz uprawnienia do zarządzania użytkownikami i rezerwacjami.</p>
-        </div>
-    </div>
-
-    <div class="row align-center align-stretch">
         <div class="col col-12 border table-col blend">
-            <h2>Lista użytkowników</h2>
+            <h2>Rezerwacje</h2>
 
-            <div class="filter-row">
-                <input type="text" id="userLoginFilter" class="filter-input" placeholder="Filtruj po loginie...">
-                <input type="text" id="userEmailFilter" class="filter-input" placeholder="Filtruj po e-mailu...">
-                <input type="text" id="userRoleFilter" class="filter-input" placeholder="Filtruj po roli...">
-            </div>
-
-            <table id="usersTable">
+            <table id="bookingsTable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Login</th>
-                        <th>Email</th>
-                        <th>Rola</th>
-                        <th>Akcje</th>
+                        <th>Użytkownik</th>
+                        <th>Wydarzenie</th>
+                        <th>Data wydarzenia</th>
+                        <th>Miejsce</th>
+                        <th>Kwota</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for u in users %}
+                    {% for item in booking_items %}
                     <tr>
-                        <td>{{ u.id }}</td>
-                        <td>{{ u.username }}</td>
-                        <td>{{ u.email }}</td>
-                        <td>{{ u.profile.role }}</td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.booking.user.username }}</td>
+                        <td>{{ item.event.name }}</td>
+                        <td>{{ item.event.date|date:"Y-m-d H:i" }}</td>
                         <td>
-                            {% if u != request.user %}
-                                <a href="{% url 'account:super_user_delete' u.id %}" class="delete-link">Usuń</a>
+                            {% if item.seat %}
+                                {{ item.seat.seat.section.name }},
+                                Rząd {{ item.seat.seat.row }},
+                                Miejsce {{ item.seat.seat.number }}
                             {% else %}
-                                <span class="disabled-action">—</span>
+                                wejście ogólne
                             {% endif %}
                         </td>
+                        <td>{{ item.total_price }} PLN</td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="5">Brak użytkowników.</td></tr>
+                    <tr><td colspan="6">Brak rezerwacji.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>

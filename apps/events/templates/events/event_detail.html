@@ -11,7 +11,15 @@
     <h1>{{ event.name }}</h1>
     <p><strong>{% trans "Data: " %}</strong> {{ event.date|date:"Y-m-d" }}</p>
     <p><strong>{% trans "Miasto: " %}</strong> {{ event.city }}</p>
-    <p><strong>{% trans "Miejsce: " %}</strong> {{ event.venue }}</p>
+    <p><strong>Miejsce: </strong>
+        {% if event.venue_area %}
+            {{ event.venue_area.venue.name }} — {{ event.venue_area.name }}
+        {% elif event.venue %}
+            {{ event.venue.name }} ({{ event.venue.city }})
+        {% else %}
+            {{ event.city }}
+        {% endif %}
+    </p>
     <p><strong>{% trans "Dostępnych miejsc: " %}</strong> {{ event.available_seats }}</p>
 
     {% if event.description %}

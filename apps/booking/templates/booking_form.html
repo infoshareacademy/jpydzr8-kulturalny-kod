@@ -15,20 +15,29 @@
     <p><strong>{% trans "Użytkownik: " %}</strong> {{ user.username }}</p>
     <p><strong>{% trans "E-mail: " %}</strong> {{ user.email }}</p>
   </div>
-
   <form method="post">
     {% csrf_token %}
-
     <p>
-      {{ form.quantity.label_tag }}<br>
-      {{ form.quantity }}
-      {% if form.quantity.errors %}
-        <ul class="errorlist">
-          {% for error in form.quantity.errors %}
-            <li>{{ error }}</li>
+        {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+            <p class="alert alert-warning">{{ message }}</p>
           {% endfor %}
-        </ul>
-      {% endif %}
+        </div>
+        {% endif %}
+      <label for="seat_id">Wybierz miejsce:</label><br>
+      <select name="seat_id" id="seat_id" required>
+        <option value="">-- wybierz --</option>
+        {% for s in seats %}
+            <option value="{{ s.id }}">
+                {% if s.is_seated %}
+                    {{ s.section }} — Rząd {{ s.row }} / Miejsce {{ s.number }} — {{ s.price }} PLN
+                {% else %}
+                    {{ s.section }} — Strefa stojąca — {{ s.price }} PLN
+                {% endif %}
+            </option>
+        {% endfor %}
+      </select>
     </p>
 
     <div class="options">

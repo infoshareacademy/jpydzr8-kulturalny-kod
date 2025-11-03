@@ -34,6 +34,7 @@ def load_users(users_file):
         print(f"Plik {users_file} nie istnieje. Tworzę pustą bazę użytkowników.")
     return um
 
+
 def load_events(events_file):
     el = EventList()
     if os.path.exists(events_file):
@@ -45,6 +46,7 @@ def load_events(events_file):
         print(f"Plik {events_file} nie istnieje. Tworzę pustą bazę wydarzeń.")
     return el
 
+
 def main_menu():
     print("\n=== SYSTEM REZERWACJI WYDARZEŃ ===")
     print("1. Zaloguj się jako użytkownik")
@@ -52,6 +54,7 @@ def main_menu():
     print("3. Zarejestruj się jako nowy użytkownik")
     print("4. Wyjdź z programu")
     return input("Wybierz opcję: ").strip()
+
 
 def admin_login(users_management):
     print("\n--- Logowanie administratora ---")
@@ -63,6 +66,7 @@ def admin_login(users_management):
         return user
     print("Błędny login lub brak uprawnień administratora.")
     return None
+
 
 def user_login(users_management):
     print("\n--- Logowanie użytkownika ---")
@@ -99,6 +103,7 @@ def register_user(users_management):
         except Exception as e:
             print(f"Błąd: {e}")
 
+
 def create_first_admin(users_management):
     print("\n--- Tworzenie pierwszego administratora ---")
     while True:
@@ -114,25 +119,29 @@ def create_first_admin(users_management):
         except Exception as e:
             print(f"Błąd: {e}")
 
+
 def save_all(users_management, event_list):
     # Zapisuje użytkowników
     users_data = {"users": []}
     for user in users_management.users.values():
         if hasattr(user, "data_urodzenia") and hasattr(user, "id"):
-            users_data["users"].append({
-                "login": user.login,
-                "password": user.password,
-                "email": user.email,
-                "data_urodzenia": str(user.data_urodzenia),
-                "id": user.id,
-                "is_admin": getattr(user, "is_admin", False)
-            })
+            users_data["users"].append(
+                {
+                    "login": user.login,
+                    "password": user.password,
+                    "email": user.email,
+                    "data_urodzenia": str(user.data_urodzenia),
+                    "id": user.id,
+                    "is_admin": getattr(user, "is_admin", False),
+                }
+            )
 
     os.makedirs(DATA_DIR, exist_ok=True)
     with open(USERS_FILE, "w") as f:
         json.dump(users_data, f, indent=4)
     # Zapisz wydarzenia
     event_list.save_to_file(EVENTS_FILE)
+
 
 def run():
     users_management = load_users(USERS_FILE)
@@ -153,7 +162,9 @@ def run():
 
         if user.add_booking(event, seats):
             successful += 1
-            print(f"{successful}. {user.login} zarezerwował {seats} miejsce(a) na '{event.name}' ({event.date})")
+            print(
+                f"{successful}. {user.login} zarezerwował {seats} miejsce(a) na '{event.name}' ({event.date})"
+            )
         attempts += 1
 
     print(f"\n Utworzono {successful} rezerwacji (próby: {attempts}).")
@@ -174,7 +185,7 @@ def run():
         elif choice == "2":
             admin = admin_login(users_management)
             if admin:
-                
+
                 admin_menu = Admin(admin.login, admin.password)
                 admin_menu.run(user_management=users_management, event_list=event_list)
                 save_all(users_management, event_list)
@@ -187,6 +198,7 @@ def run():
             sys.exit(0)
         else:
             print("Nieznana opcja. Spróbuj ponownie.")
+
 
 if __name__ == "__main__":
     try:

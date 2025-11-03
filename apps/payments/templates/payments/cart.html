@@ -3,7 +3,6 @@
 
 {% block css %}
 {{ block.super }}
-<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/users/style.css' %}"> -->
 <link rel="stylesheet" type="text/css" href="{% static 'css/payments/cart.css' %}">
 {% endblock css %}
 
@@ -22,31 +21,48 @@
             </tr>
         </thead>
         <tbody>
-            {% for item in cart %}
-            <tr>
-                <td>{{ item.event.name }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.event.price }}</td>
-                <td>
-                    
-                    <form method="post" action="{% url 'payments:remove_from_cart' item.event.pk %}">
-                        {% csrf_token %}
-                        <button type="submit">Usuń</button>
-                    </form>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4">Twój koszyk jest pusty.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+            {% if cart %}
+                {% for item in cart %}
+                    {% for seat in item.seats %}
+                    <tr>
+                        <td>{{ item.event.name }}
+                            <br>
+                            <small>
+                            {% if seat.is_standing %}
+                                {{ seat.section }} — Strefa stojąca
+                            {% else %}
+                                {{ seat.section }} — Rząd {{ seat.row }} — Miejsce {{ seat.number }}
+                            {% endif %}
+                            </small>
+                        </td>
+                        <td>1</td>
+                        <td>{{ seat.price }} PLN</td>
+                        <td>
+                            <form method="post" action="{% url 'payments:remove_from_cart' item.event.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="seat_id" value="{{ seat.id }}">
+                                <button type="submit">Usuń</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="4">Twój koszyk jest pusty.</td>
+                </tr>
+            {% endif %}
+            </tbody>
     </table>
     {% if total_price %}
     <h3>Wartość koszyka: {{ total_price }}</h3>
     {% endif %}
     <div class="options">
-        <a href="{% url 'events:events_list' %}">Kontynuuj zakupy</a>
+        {% if event_back_url %}
+            <a href="{{ event_back_url }}">Kontynuuj zakupy</a>
+        {% else %}
+            <a href="{% url 'events:events_list' %}">Kontynuuj zakupy</a>
+        {% endif %}
         <form method="post" action="{% url 'booking:cart_checkout' %}">
             {% csrf_token %}
             <button>

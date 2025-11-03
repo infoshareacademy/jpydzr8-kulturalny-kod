@@ -11,8 +11,16 @@ def default_serializer(obj):
 
 
 class Event:
-    def __init__(self, event_id: int, name: str, date: str, venue: str,
-                 total_seats: int, available_seats: int, price: float):
+    def __init__(
+        self,
+        event_id: int,
+        name: str,
+        date: str,
+        venue: str,
+        total_seats: int,
+        available_seats: int,
+        price: float,
+    ):
         """
         Inicjalizuje obiekt wydarzenia z podstawowymi informacjami.
         """
@@ -25,14 +33,13 @@ class Event:
         self.price = price
         self.bookings = []
 
-
     def has_available_seats(self):
         """
         Sprawdza czy są dostępne miejsca na wydarzenie.
         """
         return self.available_seats > 0
 
-    def add_booking(self,booking: Booking) -> bool:
+    def add_booking(self, booking: Booking) -> bool:
         """
         Dodaje rezerwację do wydarzenia, jeśli są wystarczające wolne miejsca.
         Tworzy również bilet dla rezerwacji.
@@ -63,14 +70,14 @@ class Event:
         Zwraca szczegóły wydarzenia jako słownik.
         """
         return {
-            "event_id" : self.event_id,
-            "name" : self.name,
-            "date" : self.date,
-            "venue" : self.venue,
-            "total_seats" : self.total_seats,
-            "available_seats" : self.available_seats,
-            "price" : self.price,
-            "bookings" : len(self.bookings)
+            "event_id": self.event_id,
+            "name": self.name,
+            "date": self.date,
+            "venue": self.venue,
+            "total_seats": self.total_seats,
+            "available_seats": self.available_seats,
+            "price": self.price,
+            "bookings": len(self.bookings),
         }
 
     def to_dict(self):
@@ -90,12 +97,12 @@ class Event:
             data["date"],
             data["venue"],
             data["total_seats"],
-            data.get("available_seats",
-            data["total_seats"]),
-            data["price"]
+            data.get("available_seats", data["total_seats"]),
+            data["price"],
         )
         event.available_seats = data.get("available_seats", event.total_seats)
         return event
+
 
 class EventList:
     def __init__(self):
@@ -121,5 +128,5 @@ class EventList:
             "venue": data.get("venue"),
             "total_seats": data.get("total_seats"),
             "available_seats": data.get("available_seats"),
-            "price": data.get("price")
+            "price": data.get("price"),
         }
