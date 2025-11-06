@@ -1,7 +1,6 @@
 from decimal import Decimal
+import os
 
-from django.conf import settings
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db import transaction
@@ -10,24 +9,21 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.conf import settings
-from apps.events.models import (
-    Event,
-    EventSeat
-)
+from django.utils.translation import gettext as _
+
+from apps.events.models import Event, EventSeat
 from .forms import BookingForm
-from .models import (
-    Booking,
-    BookingItem
-)
+from .models import Booking, BookingItem
 from .utils import (
     generate_ticket_number,
     render_ticket_pdf_to_content,
-    default_storage, make_qr_code,
-    send_booking_confirmation_email
+    default_storage,
+    make_qr_code,
+    send_booking_confirmation_email,
 )
 from kulturalny_kod.logger import get_logger
-
-import os
+from django.db.models import Q
+from apps.payments.models import Payment
 logger = get_logger(__name__)
 
 
@@ -41,12 +37,47 @@ def booking_success(request, ticket_number):
     return render(request, "booking_success.html", {"booking": booking})
 
 
+from django.db.models import Q
+from apps.payments.models import Payment  # import Status
+
 @login_required
 def my_bookings(request):
-    booking_items = BookingItem.objects.filter(booking__user=request.user).order_by(
-        "-booking__created_at"
+    status = request.GET.get("status", "all")
+
+    qs = (
+        BookingItem.objects
+        .filter(booking__user=request.user)
+        .select_related("booking", "booking__payment", "event")
+        .order_by("-booking__created_at")
     )
-    return render(request, "my_bookings.html", {"booking_items": booking_items})
+
+    if status == "paid":
+        qs = qs.filter(
+            Q(booking__payment__status=Payment.Status.SUCCEEDED)
+            | (Q(booking__payment__isnull=True) & ~Q(pdf_file="") & Q(pdf_file__isnull=False))
+        )
+    elif status == "unpaid":
+        qs = qs.filter(
+            Q(booking__payment__isnull=True) & (Q(pdf_file="") | Q(pdf_file__isnull=True))
+        )
+    elif status == "pending":
+        qs = qs.filter(
+            booking__payment__status__in=[
+                Payment.Status.CREATED,
+                Payment.Status.PENDING,
+                Payment.Status.AUTHORIZED,
+            ]
+        )
+    elif status == "canceled":
+        qs = qs.filter(
+            booking__payment__status__in=[
+                Payment.Status.FAILED,
+                Payment.Status.CANCELED,
+            ]
+        )
+
+    return render(request, "my_bookings.html", {"booking_items": qs, "status": status})
+
 
 
 @require_http_methods(["GET", "POST"])
@@ -71,30 +102,32 @@ def booking_view(request, event_id):
             section = ev.section
             row = None
             number = None
-        seat_price = event.price + section.price_modifier
+        seat_price = (event.price or Decimal(0)) + (section.price_modifier or Decimal(0))
 
-        seats.append({
-            "id": ev.id,
-            "section": section.name,
-            "row": ev.seat.row if ev.seat else None,
-            "number": ev.seat.number if ev.seat else None,
-            "price": seat_price,
-            "is_seated": bool(ev.seat),
-        })
+        seats.append(
+            {
+                "id": ev.id,
+                "section": section.name,
+                "row": ev.seat.row if ev.seat else None,
+                "number": ev.seat.number if ev.seat else None,
+                "price": seat_price,
+                "is_seated": bool(ev.seat),
+            }
+        )
 
     if request.method == "POST":
         form = BookingForm(request.POST)
         seat_id = request.POST.get("seat_id")
 
         if not seat_id:
-            messages.error(request, "Musisz wybrać miejsce.")
-            return render(request, "booking_form.html", {
-                "event": event, "form": form, "seats": seats
-            })
+            messages.error(request, _("Musisz wybrać miejsce."))
+            return render(
+                request, "booking_form.html", {"event": event, "form": form, "seats": seats}
+            )
 
         if form.is_valid():
             if str(event_id) in cart and int(seat_id) in cart[str(event_id)]:
-                messages.warning(request, "To miejsce jest już w Twoim koszyku.")
+                messages.warning(request, _("To miejsce jest już w Twoim koszyku."))
                 return redirect("payments:cart")
 
             cart.setdefault(str(event_id), [])
@@ -102,27 +135,118 @@ def booking_view(request, event_id):
             request.session["cart"] = cart
             request.session.modified = True
 
-            messages.success(request, "Miejsce dodane do koszyka")
+            messages.success(request, _("Miejsce dodane do koszyka."))
             return redirect("payments:cart")
-
     else:
         form = BookingForm()
 
-    return render(request, "booking_form.html", {
-        "event": event,
-        "form": form,
-        "seats": seats,
-    })
+    return render(request, "booking_form.html", {"event": event, "form": form, "seats": seats})
 
 
+def finalize_booking_after_payment(request):
+    user = request.user
+    cart = request.session.get("cart", {})
+    if not cart:
+        raise ValueError(_("Koszyk jest pusty."))
 
+    total_price = Decimal(0)
+    with transaction.atomic():
+        booking = Booking.objects.create(
+            user=user,
+            email=user.email,
+            total_price=0,
+        )
+
+        for event_id, seat_ids in cart.items():
+            event = Event.objects.get(pk=int(event_id))
+
+            for seat_id in seat_ids:
+                evseat = EventSeat.objects.select_for_update().get(pk=seat_id)
+
+                if evseat.is_reserved:
+                    raise Exception(_("Miejsce {seat_id} już zajęte.").format(seat_id=seat_id))
+
+                evseat.is_reserved = True
+                evseat.save(update_fields=["is_reserved"])
+
+                section_modifier = (
+                    evseat.seat.section.price_modifier if evseat.seat else Decimal(0)
+                ) or Decimal(0)
+                seat_price = (event.price or Decimal(0)) + section_modifier
+
+                booking_item = BookingItem.objects.create(
+                    booking=booking,
+                    event=event,
+                    full_name=user.get_full_name() or user.username,
+                    quantity=1,
+                    total_price=seat_price,
+                    ticket_number=generate_ticket_number(),
+                    seat=evseat if evseat.seat else None,
+                )
+
+                total_price += seat_price
+
+                qr_content = make_qr_code(booking_item.ticket_number)
+                qr_path = f"qr_codes/{booking_item.ticket_number}.png"
+                qr_saved_path = default_storage.save(qr_path, qr_content)
+                qr_url = os.path.join(settings.MEDIA_URL, qr_saved_path)
+
+                pdf_content = render_ticket_pdf_to_content(
+                    event=event,
+                    booking_item=booking_item,
+                    qr_url=qr_url,
+                )
+                pdf_path = f"tickets/{booking_item.ticket_number}.pdf"
+                pdf_saved_path = default_storage.save(pdf_path, pdf_content)
+
+                booking_item.pdf_file.name = pdf_saved_path
+                booking_item.save(update_fields=["pdf_file"])
+
+        booking.total_price = total_price
+        booking.save(update_fields=["total_price"])
+
+    transaction.on_commit(lambda: send_booking_confirmation_email(booking))
+    return booking
+
+
+@login_required
+def booking_success_multiple(request, booking_number):
+    booking = get_object_or_404(Booking, pk=booking_number, user=request.user)
+    return render(
+        request, "booking_success_multiple.html", {"items": booking.items.all()}
+    )
+
+
+@require_http_methods(["POST"])
+@login_required
+def booking_item_cancel(request, booking_item_id: int):
+    booking_item = get_object_or_404(
+        BookingItem, pk=booking_item_id, booking__user=request.user
+    )
+    if booking_item.booking.user != request.user:
+        return HttpResponseBadRequest(_("Nie jesteś właścicielem tego zamówienia."))
+
+    booking_item.delete()
+    messages.success(
+        request,
+        _("Rezerwacja „{event}” została anulowana.").format(
+            event=booking_item.event.name
+        ),
+    )
+    logger.info(
+        f"Anulowano rezerwację: [booking_item_id={booking_item_id}, user={request.user.username}]"
+    )
+    return redirect("booking:my_bookings")
+
+
+# (opcjonalnie) zostawiasz do testów; jeśli nie używasz w UI, możesz usunąć z URL-i
 @require_http_methods(["POST"])
 @login_required
 def cart_checkout(request: HttpRequest) -> HttpResponse:
     user = request.user
     cart = request.session.get("cart", {})
     if not cart:
-        return HttpResponseBadRequest("Koszyk jest pusty")
+        return HttpResponseBadRequest(_("Koszyk jest pusty."))
 
     total_price = Decimal(0)
 
@@ -141,17 +265,15 @@ def cart_checkout(request: HttpRequest) -> HttpResponse:
                     evseat = EventSeat.objects.select_for_update().get(pk=seat_id)
 
                     if evseat.is_reserved:
-                        raise Exception(f"Miejsce {seat_id} już zajęte")
+                        raise Exception(_("Miejsce {seat_id} już zajęte.").format(seat_id=seat_id))
 
                     evseat.is_reserved = True
                     evseat.save(update_fields=["is_reserved"])
 
-                    if evseat.seat:
-                        section_modifier = evseat.seat.section.price_modifier
-                    else:
-                        section_modifier = Decimal(0)
-
-                    seat_price = event.price + section_modifier
+                    section_modifier = (
+                        evseat.seat.section.price_modifier if evseat.seat else Decimal(0)
+                    ) or Decimal(0)
+                    seat_price = (event.price or Decimal(0)) + section_modifier
 
                     booking_item = BookingItem.objects.create(
                         booking=booking,
@@ -175,7 +297,6 @@ def cart_checkout(request: HttpRequest) -> HttpResponse:
                         booking_item=booking_item,
                         qr_url=qr_url,
                     )
-
                     pdf_path = f"tickets/{booking_item.ticket_number}.pdf"
                     pdf_saved_path = default_storage.save(pdf_path, pdf_content)
 
@@ -185,7 +306,7 @@ def cart_checkout(request: HttpRequest) -> HttpResponse:
             booking.total_price = total_price
             booking.save(update_fields=["total_price"])
 
-        send_booking_confirmation_email(booking)
+        transaction.on_commit(lambda: send_booking_confirmation_email(booking))
 
         request.session["cart"] = {}
         request.session.modified = True
@@ -193,29 +314,5 @@ def cart_checkout(request: HttpRequest) -> HttpResponse:
         return redirect("booking:success_multiple", booking_number=booking.pk)
 
     except Exception as e:
-        print("Failed to create bookings:", e)
-        return HttpResponseBadRequest("Nie udało się zrealizować rezerwacji.")
-
-
-
-@login_required
-def booking_success_multiple(request, booking_number):
-    booking = get_object_or_404(Booking, pk=booking_number, user=request.user)
-    return render(
-        request, "booking_success_multiple.html", {"items": booking.items.all()}
-    )
-
-
-@require_http_methods(["POST"])
-@login_required
-def booking_item_cancel(request, booking_item_id: int):
-    booking_item = get_object_or_404(BookingItem, pk=booking_item_id, booking__user=request.user)
-    if booking_item.booking.user != request.user:
-        return HttpResponseBadRequest("Nie jesteś właścicielem tego zamówienia.")
-    if request.method == "POST":
-        booking_item.delete()
-        messages.success(request, f"Rezerwacja '{booking_item.event.name}' została anulowana.")
-        logger.info(f"Anulowano rezerwację: [booking_item_id={booking_item_id}, user={request.user.username}]")
-        return redirect('booking:my_bookings')
-    return redirect('booking:my_bookings')
-
+        logger.error(f"Failed to create bookings: {e}")
+        return HttpResponseBadRequest(_("Nie udało się zrealizować rezerwacji."))

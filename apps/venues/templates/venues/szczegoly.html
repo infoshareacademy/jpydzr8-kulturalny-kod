@@ -3,14 +3,14 @@
 
 {% block content %}
 <div class="container wide">
-  <p><a href="{% url 'venues:lista' %}">← Wróć do listy</a></p>
+  <p><a href="{% url 'venues:lista' %}">Wróć do listy</a></p>
 
   <h1>{{ obiekt.name }}</h1>
   <p><strong>Miejscowość:</strong> {{ obiekt.city }}</p>
   <p><strong>Adres:</strong> {{ obiekt.address|default:"—" }}</p>
   <p><strong>Opis:</strong> {{ obiekt.description|default:"—"|linebreaks }}</p>
 
-  <h2>Sale / obszary</h2>
+  <h2>Sale</h2>
   <ul>
     {% for sala in obiekt.areas.all %}
       <li>{{ sala.name }}</li>

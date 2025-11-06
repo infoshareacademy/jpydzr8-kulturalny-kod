@@ -1,0 +1,134 @@
+/* Układ: równe szerokości, bez ramek, bez podkreślenia */
+.filters {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: .6rem;
+  margin: 1rem 0 1.5rem;
+  width: 100%;
+}
+
+.filters .btn {
+  display: inline-block;
+  white-space: nowrap;
+  text-align: center;
+  padding: .6rem .8rem;
+  border-radius: 999px;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  background: transparent;
+  border: none;
+  line-height: 1;
+  transition: background .18s ease, transform .12s ease;
+}
+
+.filters .btn:hover {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+}
+
+/* aktywny filtr – żółty jak tło projektu */
+.filters .btn.active {
+  color: #fcbf49;
+  background: transparent;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 700px) {
+  .filters {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.status-badge {
+  display: inline-flex;          /* wyrównanie tekstu w środku */
+  align-items: center;           /* pionowe wyśrodkowanie */
+  justify-content: center;       /* poziome wyśrodkowanie */
+  min-width: 5.2rem;             /* minimalna szerokość — żeby pastylka nie skakała */
+  height: 1.3rem;                /* stała wysokość niezależnie od tekstu */
+  padding: 0 .5rem;              /* tylko poziomy padding */
+  border-radius: .65rem;         /* mocne zaokrąglenie, ale zachowane proporcje */
+  margin-left: .5rem;
+  font-size: .75rem;
+  font-weight: 500;              /* cieńsza, nowocześniejsza czcionka */
+  text-transform: lowercase;     /* opcjonalnie – nadaje lekkości */
+  letter-spacing: .02em;
+  white-space: nowrap;           /* zapobiega łamaniu tekstu w badge */
+  line-height: 1;                /* zapewnia równą wysokość tekstu */
+  vertical-align: middle;
+}
+
+.status-paid {
+    background: #2e7d32;
+    color: #fff;
+}
+
+.status-cart {
+    background: #9c6b00;
+    color: #fff;
+}
+
+.status-unpaid {
+    background: #b71c1c;
+    color: #fff;
+}
+
+.status-pending {
+    background: #fbc02d;
+    color: #000;
+}
+
+.status-canceled {
+    background: #616161;
+    color: #fff;
+}
+
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: .25rem;
+}
+
+.booking-header .event-title {
+  flex: 1;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #fff;
+  text-align: left;
+}
+
+.status-badge {
+  flex-shrink: 0;
+}
+
+.booking-item,
+.cart-item {
+    padding: 1rem 0;
+}
+
+.booking-actions {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+    margin-top: .75rem;
+}
+
+.divider {
+  width: 100%;
+  height: 2px;
+  display: block;
+  background: linear-gradient(
+    to right,
+    transparent 5%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 95%
+  );
+  margin: 1.5rem 0 1rem;
+}

@@ -103,9 +103,9 @@ p {
     user-select: none;
 
     /* min-width: clamp(160px, 42vw, 220px); */
-    padding: clamp(12px, 2.8vw, 16px) clamp(14px, 3.2vw, 22px);
+    padding: clamp(10px, 2.8vw, 14px) clamp(14px, 3.2vw, 22px);
     font-size: clamp(1rem, 2.6vw, 1.125rem);
-    font-weight: 800;
+    font-weight: 600;
     letter-spacing: .5px;
 
     color: #262626;

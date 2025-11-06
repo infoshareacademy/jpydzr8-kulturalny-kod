@@ -28,3 +28,4 @@ Unidecode==1.4.0
 weasyprint==66.0
 webencodings==0.5.1
 zopfli==0.2.3.post1
+django-otp==1.6.3

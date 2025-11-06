@@ -1,23 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block css %}
 {{ block.super }}
 <link rel="stylesheet" type="text/css" href="{% static 'css/payments/cart.css' %}">
 {% endblock css %}
 
-{% block title %} Twoj Koszyk {% endblock title %}
+{% block title %}{% trans "Twoj koszyk" %}{% endblock title %}
 
 {% block content %}
 <div class="container wide">
-    <h1>Twój Koszyk</h1>
+    <h1>{% trans "Twój koszyk" %}</h1>
     <table class="cart-table">
         <thead>
             <tr>
-                <th>Nazwa wydarzenia</th>
-                <th>Ilość biletów</th>
-                <th>Cena za bilet</th>
-                <th>Usuń</th>
+                <th>{% trans "Nazwa wydarzenia" %}</th>
+                <th>{% trans "Liczba biletów" %}</th>
+                <th>{% trans "Cena za bilet" %}</th>
+                <th>{% trans "Usuń" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -49,7 +50,7 @@
                 {% endfor %}
             {% else %}
                 <tr>
-                    <td colspan="4">Twój koszyk jest pusty.</td>
+                    <td colspan="4">{% trans "Twój koszyk jest pusty." %}</td>
                 </tr>
             {% endif %}
             </tbody>
@@ -59,17 +60,17 @@
     {% endif %}
     <div class="options">
         {% if event_back_url %}
-            <a href="{{ event_back_url }}">Kontynuuj zakupy</a>
+            <a href="{{ event_back_url }}">{% trans "Kontynuuj zakupy" %}</a>
         {% else %}
-            <a href="{% url 'events:events_list' %}">Kontynuuj zakupy</a>
+            <a href="{% url 'events:events_list' %}">{% trans "Kontynuuj zakupy" %}</a>
         {% endif %}
         <form method="post" action="{% url 'booking:cart_checkout' %}">
             {% csrf_token %}
             <button>
-                Potwierdź rezerwacje
+                {% trans "Potwierdź rezerwacje" %}
             </button>
         </form>
-        <a href="#">Rezygnuj</a>
+        <a href="#">{% trans "Rezygnuj" %}</a>
     </div>
 </div>
 {% endblock content %}
