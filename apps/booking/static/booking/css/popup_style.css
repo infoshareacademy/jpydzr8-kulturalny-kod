@@ -24,3 +24,67 @@
   10%, 90% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(-10px); }
 }
+
+.kk-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.kk-modal {
+  background-color: #fffaf2;
+  color: #1b1b1b;
+  border: 2px solid #ffb300;
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  animation: kkModalFadeIn 0.25s ease;
+}
+
+.kk-modal h4 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ff8c00;
+}
+
+.kk-modal p {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.kk-modal .actions .btn {
+  background-color: #ffb300;
+  color: #1b1b1b;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 28px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.kk-modal .actions .btn:hover {
+  background-color: #ffca3a;
+  transform: translateY(-1px);
+}
+
+.kk-modal-backdrop .kk-modal {
+  padding-left: 40px !important;
+  padding-right: 40px !important;
+  box-sizing: border-box;
+  max-width: 460px; /* ułatwia łamanie do 2 linii */
+  width: 90%;
+  word-break: break-word; /* zabezpiecza długie słowa */
+}

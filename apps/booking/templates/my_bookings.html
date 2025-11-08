@@ -5,68 +5,105 @@
 {% block css %}
 {{ block.super }}
 <link rel="stylesheet" type="text/css" href="{% static 'booking/css/popup_style.css' %}">
+<style>
+    /* FIX: delikatny styl przycisków i modala */
+    .btn { display:inline-block; padding:.55rem 1rem; border-radius:999px; text-decoration:none; font-weight:600; }
+    .btn-primary { background:#ffbf1a; color:#111; }
+    .btn-ghost { background:transparent; border:1px solid #ddd; color:#222; }
+    .btn + .btn, .btn + form, form + .btn { margin-left:.5rem; }
+
+    .kk-modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; z-index:9999; }
+    .kk-modal { background:#fff; border-radius:16px; padding:18px 20px; max-width:520px; box-shadow:0 10px 30px rgba(0,0,0,.25); }
+    .kk-modal h4 { margin:0 0 .5rem 0; }
+    .kk-modal .actions { text-align:right; margin-top:1rem; }
+</style>
 {% endblock css %}
 
-{% block title %}Moje rezerwacje{% endblock %}
+{% block title %}{% trans "Moje rezerwacje" %}{% endblock %}
 
 {% block content %}
 
 {% if messages %}
-  <div id="message-popup" class="message-popup">
+<div id="message-popup" class="message-popup">
     {% for message in messages %}
-      <div class="popup {{ message.tags }}">{{ message }}</div>
+    <div class="popup {{ message.tags }}">{{ message }}</div>
     {% endfor %}
-  </div>
+</div>
 {% endif %}
 
-
 <div class="container">
-  <h2>{% trans "Moje rezerwacje" %}</h2>
-  <hr>
-   {% if booking_items %}
+    <h2>{% trans "Moje rezerwacje" %}</h2>
+    <hr>
+
+    {% if booking_items %}
     {% for item in booking_items %}
-      <div class="booking-item">
-        <h3>{{ item.event.name }}</h3>
+    {# FIX: pokazuj tylko opłacone (gdy payment istnieje i status == succeeded) #}
+    {% if item.booking.payment and item.booking.payment.status == 'succeeded' %}
+    <div class="booking-item">
+        <!-- FIX: numer rezerwacji przed nazwą wydarzenia -->
+        <h3>
+            {% trans "Rezerwacja" %} #{{ item.booking.id }} — {{ item.event.name }}
+        </h3>
 
         <p><strong>{% trans "Numer biletu:" %}</strong> {{ item.ticket_number }}</p>
         <p><strong>{% trans "Data wydarzenia:" %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
 
         {% if item.seat %}
-          <p><strong>{% trans "Miejsce:" %}</strong>
+        <p><strong>{% trans "Miejsce:" %}</strong>
             {{ item.event.venue.name }} – {{ item.event.city }},
-            Sektor: {{ item.seat.seat.section.name }},
-            Rząd: {{ item.seat.seat.row }},
-            Miejsce: {{ item.seat.seat.number }}
-          </p>
+            {% trans "Sektor" %}: {{ item.seat.seat.section.name }},
+            {% trans "Rząd" %}: {{ item.seat.seat.row }},
+            {% trans "Miejsce" %}: {{ item.seat.seat.number }}
+        </p>
         {% endif %}
 
         <p><strong>{% trans "Cena:" %}</strong> {{ item.total_price }} PLN</p>
         <p><strong>{% trans "Zarezerwowano:" %}</strong> {{ item.booking.created_at|date:"Y-m-d H:i" }}</p>
 
-        <div class="options">
-          {% if item.pdf_file %}
-            <a href="{{ item.pdf_file.url }}" target="_blank" class="btn">
-              {% trans "Pobierz bilet PDF" %}
+        <div class="options" style="margin-top:.5rem">
+            {% if item.pdf_file %}
+            <a href="{{ item.pdf_file.url }}" target="_blank" class="btn btn-primary">
+                {% trans "Pobierz bilet" %}
             </a>
-          {% endif %}
-          <form method="post" action="{% url 'booking:cancel_item' item.id %}">
-            {% csrf_token %}
-            <button type="submit">{% trans "Anuluj rezerwację" %}</button>
-          </form>
+            {% else %}
+            <a href="{% url 'booking:ticket_pdf' item.id %}" target="_blank" class="btn btn-primary">
+                {% trans "Pobierz bilet" %}
+            </a>
+            {% endif %}
+
+            <a href="{% url 'events:event_detail' item.event.id %}" class="btn btn-ghost">
+                {% trans "Szczegóły wydarzenia" %}
+            </a>
+
+            <button type="button" class="btn btn-ghost js-refund" data-event="{{ item.event.name }}">
+                {% trans "Zwróć bilet" %}
+            </button>
         </div>
-      </div>
-      <hr>
+
+    </div>
+    <hr>
+    {% endif %}
     {% endfor %}
-  {% else %}
+    {% else %}
     <p>{% trans "Nie masz jeszcze żadnych rezerwacji." %}</p>
     <div class="options">
-      <a href="{% url 'events:events_list' %}" class="btn">{% trans "Przeglądaj wydarzenia" %}</a>
+        <a href="{% url 'events:events_list' %}" class="btn btn-primary">{% trans "Przeglądaj wydarzenia" %}</a>
     </div>
-  {% endif %}
-  
-  <div class="options">
-    <a href="{% url 'account:home' %}" class="btn">{% trans "Powrót do strony głównej" %}</a>
-  </div>
+    {% endif %}
+
+    <div class="options" style="margin-top:1rem">
+        <a href="{% url 'home' %}" class="btn btn-ghost">{% trans "Powrót do strony głównej" %}</a>
+    </div>
+</div>
+
+<div class="kk-modal-backdrop" id="kkRefundModal">
+    <div class="kk-modal" role="dialog" aria-modal="true" aria-labelledby="kkRefundTitle">
+        <h4 id="kkRefundTitle">{% trans "Zwrot biletu" %}</h4>
+        <p>{% trans "W sprawie zwrotu biletu należy skontaktować się bezpośrednio z organizatorem wydarzenia." %}</p>
+        <div class="actions">
+            <button type="button" class="btn btn-primary" id="kkRefundClose">{% trans "Rozumiem" %}</button>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
@@ -74,4 +111,25 @@
 {% block scripts %}
 {{ block.super }}
 <script src="{% static 'booking/js/popup.js' %}"></script>
+<script>
+    (function () {
+      var modal = document.getElementById('kkRefundModal');
+      var closeBtn = document.getElementById('kkRefundClose');
+
+      function openModal() {
+        modal.style.display = 'flex';
+      }
+      function closeModal() {
+        modal.style.display = 'none';
+      }
+
+      document.querySelectorAll('.js-refund').forEach(function(btn){
+        btn.addEventListener('click', openModal);
+      });
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      modal && modal.addEventListener('click', function(e){
+        if (e.target === modal) closeModal();
+      });
+    })();
+</script>
 {% endblock scripts %}

@@ -1,30 +1,45 @@
-{% load i18n %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="utf-8">
   <title>Bilet</title>
+  <link rel="stylesheet" href="{% static 'booking/css/ticket.css' %}">
 </head>
 <body>
   <div class="ticket">
     <div class="header">{% trans "Bilet wstępu" %}</div>
 
+    <div class="row">{% trans "Numer biletu:" %} {{ booking_item.ticket_number }}</div>
+
     <div class="content">
       <div class="left">
-        <div class="row">{% trans "Wydarzenie: " %}{{ event.name }}</div>
-        <div class="row">{% trans "Numer biletu: " %}{{ booking_item.ticket_number }}</div>
-        <div class="row">{% trans "Imię i nazwisko: " %}{{ booking_item.full_name }}</div>
+        <div class="event-title">{{ event.name }}</div>
+
+        <div class="row">
+          {{ event.date|date:"Y-m-d H:i" }}
+        </div>
+
+        <div class="row">
+          {% if event.venue %}
+            {{ event.venue.name }} — {{ event.city }}
+          {% elif event.venue_area %}
+            {{ event.venue_area.venue.name }} — {{ event.city }}
+          {% else %}
+            {{ event.city }}
+          {% endif %}
+        </div>
 
         {% if booking_item.seat %}
         <div class="row">
-          {% trans "Miejsce: " %}
+          {% trans "Miejsce:" %}
           {{ booking_item.seat.seat.section.name }},
-          Rząd {{ booking_item.seat.seat.row }},
-          Nr {{ booking_item.seat.seat.number }}
+          {% trans "Rząd" %} {{ booking_item.seat.seat.row }},
+          {% trans "Nr" %} {{ booking_item.seat.seat.number }}
         </div>
         {% endif %}
 
-        <div class="row">{% trans "Cena: " %}{{ booking_item.total_price }} PLN</div>
+        <div class="row">{% trans "Cena:" %} {{ booking_item.total_price }} PLN</div>
         <div class="row" style="margin-top:12px;">{% trans "Dziękujemy za zakup!" %}</div>
       </div>
 
