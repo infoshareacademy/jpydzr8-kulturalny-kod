@@ -21,7 +21,7 @@
     </script> -->
 {% endblock css %}
 
-{% block title %} {% trans "Strona Główna" %} {% endblock title %}
+{% block title %} {% trans "Strona główna" %} {% endblock title %}
 
 {% block content %}
     <div class="container wide">
@@ -40,9 +40,9 @@
                 <h2>{% trans "Najbliższe rezerwacje" %}</h2>
                 <table>
                     <tr>
-                        <th>{% trans "Co" %}</th>
-                        <th>{% trans "Gdzie" %}</th>
-                        <th>{% trans "Kiedy" %}</th>
+                        <th>{% trans "Co?" %}</th>
+                        <th>{% trans "Gdzie?" %}</th>
+                        <th>{% trans "Kiedy?" %}</th>
                     </tr>
                     {% for booking in nearest_3_bookings %}
                     <tr>
@@ -62,9 +62,9 @@
                 <h2>{% trans "Ostatnie rezerwacje" %}</h2>
                 <table>
                     <tr>
-                        <th>{% trans "Co" %}</th>
-                        <th>{% trans "Gdzie" %}</th>
-                        <th>{% trans "Kiedy" %}</th>
+                        <th>{% trans "Co?" %}</th>
+                        <th>{% trans "Gdzie?" %}</th>
+                        <th>{% trans "Kiedy?" %}</th>
                     </tr>
                     {% for booking in last_3_bookings %}
                     <tr>
@@ -97,7 +97,7 @@
                     <a href="{% url 'events:events_list' %}">{% trans "Przegląd wydarzeń" %}</a>
                 </div>
                 <div class="col">
-                    <a href="{% url 'booking:my_bookings' %}">{% trans "Moje wydarzenia" %}</a>
+                    <a href="{% url 'booking:my_bookings' %}">{% trans "Moje rezerwacje" %}</a>
                 </div>
 
             </div>
