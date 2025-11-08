@@ -14,63 +14,59 @@
     <h1>{% trans "Twój koszyk" %}</h1>
     <table class="cart-table">
         <thead>
-            <tr>
-                <th>{% trans "Nazwa wydarzenia" %}</th>
-                <th>{% trans "Liczba biletów" %}</th>
-                <th>{% trans "Cena za bilet" %}</th>
-                <th>{% trans "Usuń" %}</th>
-            </tr>
+        <tr>
+            <th>{% trans "Nazwa wydarzenia" %}</th>
+            <th>{% trans "Liczba biletów" %}</th>
+            <th>{% trans "Cena za bilet" %}</th>
+            <th>{% trans "Usuń" %}</th>
+        </tr>
         </thead>
         <tbody>
-            {% if cart %}
-                {% for item in cart %}
-                    {% for seat in item.seats %}
-                    <tr>
-                        <td>{{ item.event.name }}
-                            <br>
-                            <small>
-                            {% if seat.is_standing %}
-                                {{ seat.section }} — Strefa stojąca
-                            {% else %}
-                                {{ seat.section }} — Rząd {{ seat.row }} — Miejsce {{ seat.number }}
-                            {% endif %}
-                            </small>
-                        </td>
-                        <td>1</td>
-                        <td>{{ seat.price }} PLN</td>
-                        <td>
-                            <form method="post" action="{% url 'payments:remove_from_cart' item.event.id %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="seat_id" value="{{ seat.id }}">
-                                <button type="submit">Usuń</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                {% endfor %}
-            {% else %}
-                <tr>
-                    <td colspan="4">{% trans "Twój koszyk jest pusty." %}</td>
-                </tr>
-            {% endif %}
-            </tbody>
+        {% if cart %}
+        {% for item in cart %}
+        {% for seat in item.seats %}
+        <tr>
+            <td>{{ item.event.name }}
+                <br>
+                <small>
+                    {% if seat.is_standing %}
+                    {{ seat.section }} — Strefa stojąca
+                    {% else %}
+                    {{ seat.section }} — Rząd {{ seat.row }} — Miejsce {{ seat.number }}
+                    {% endif %}
+                </small>
+            </td>
+            <td>1</td>
+            <td>{{ seat.price }} PLN</td>
+            <td>
+                <form method="post" action="{% url 'payments:remove_from_cart' item.event.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="seat_id" value="{{ seat.id }}">
+                    <button type="submit">Usuń</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="4">{% trans "Twój koszyk jest pusty." %}</td>
+        </tr>
+        {% endif %}
+        </tbody>
     </table>
     {% if total_price %}
     <h3>Wartość koszyka: {{ total_price }}</h3>
     {% endif %}
-    <div class="options">
-        {% if event_back_url %}
-            <a href="{{ event_back_url }}">{% trans "Kontynuuj zakupy" %}</a>
-        {% else %}
-            <a href="{% url 'events:events_list' %}">{% trans "Kontynuuj zakupy" %}</a>
+    <div class="options" style="margin-top: 1.25rem; display:flex; gap:.75rem; flex-wrap:wrap;">
+        <a class="btn" href="{% url 'events:events_list' %}">{% trans "Kontynuuj zakupy" %}</a>
+
+        {% if cart %}
+        <a class="btn btn-accent" href="{% url 'payments:confirm' %}">{% trans "Przejdź do płatności" %}</a>
         {% endif %}
-        <form method="post" action="{% url 'booking:cart_checkout' %}">
-            {% csrf_token %}
-            <button>
-                {% trans "Potwierdź rezerwacje" %}
-            </button>
-        </form>
-        <a href="#">{% trans "Rezygnuj" %}</a>
+
+        <a class="btn" href="{% url 'account:home' %}">{% trans "Powrót do strony głównej" %}</a>
     </div>
+
 </div>
 {% endblock content %}

@@ -14,169 +14,128 @@
 
 {% if messages %}
 <div id="message-popup" class="message-popup">
-    {% for message in messages %}
+  {% for message in messages %}
     <div class="popup {{ message.tags }}">{{ message }}</div>
-    {% endfor %}
+  {% endfor %}
 </div>
 {% endif %}
 
 <div class="container">
-    <h2>{% trans "Moje rezerwacje" %}</h2>
+  <h2>{% trans "Moje rezerwacje" %}</h2>
 
-    <div class="filters">
-        <a href="?status=all" data-filter="all" class="btn {% if status == 'all' %}active{% endif %}">
-            {% trans "Wszystkie" %}</a>
-        <a href="?status=paid" data-filter="paid" class="btn {% if status == 'paid' %}active{% endif %}">
-            {% trans "Opłacone" %}</a>
-        <a href="?status=unpaid" data-filter="unpaid" class="btn {% if status == 'unpaid' %}active{% endif %}">
-            {% trans "Nieopłacone" %}</a>
-        <a href="?status=pending" data-filter="pending" class="btn {% if status == 'pending' %}active{% endif %}">
-            {% trans "W trakcie płatności" %}</a>
-        <a href="?status=canceled" data-filter="canceled" class="btn {% if status == 'canceled' %}active{% endif %}">
-            {% trans "Anulowane" %}</a>
-    </div>
+  <div class="filters">
+    <a href="?status=all"     class="btn {% if status == 'all' %}active{% endif %}">{% trans "Wszystkie" %}</a>
+    <a href="?status=paid"    class="btn {% if status == 'paid' %}active{% endif %}">{% trans "Opłacone" %}</a>
+    <a href="?status=unpaid"  class="btn {% if status == 'unpaid' %}active{% endif %}">{% trans "Nieopłacone" %}</a>
+    <a href="?status=canceled" class="btn {% if status == 'canceled' %}active{% endif %}">{% trans "Anulowane" %}</a>
+  </div>
 
-    <div class="divider" role="separator" aria-hidden="true"></div>
+  <div class="divider" role="separator" aria-hidden="true"></div>
 
-    {% if booking_items %}
+  {% if booking_items %}
     {% for item in booking_items %}
-    <div class="booking-item" data-status="{% if item.pdf_file %}paid{% else %}unpaid{% endif %}">
+      {% with p=item.booking.payment %}
+      <div class="booking-item"
+           data-status="{% if p and p.status == 'succeeded' %}paid{% elif item.is_canceled %}canceled{% elif p and p.status == 'canceled' %}canceled{% elif p and p.status == 'failed' %}canceled{% else %}unpaid{% endif %}">
         <div class="booking-header">
-            <h3 class="event-title">
-                #{{ item.booking.id }} – {{ item.event.name }}</h3>
+          <h3 class="event-title">#{{ item.booking.id }} – {{ item.event.name }}</h3>
 
-            {% if item.booking.payment.status == "succeeded" %}
+          {% if p and p.status == "succeeded" %}
             <span class="status-badge status-paid">{% trans "opłacona" %}</span>
-            {% elif item.booking.payment.status == "pending" %}
-            <span class="status-badge status-pending">{% trans "płatność w toku" %}</span>
-            {% elif item.booking.payment.status == "failed" %}
-            <span class="status-badge status-unpaid">{% trans "nieopłacona" %}</span>
-            {% elif item.booking.payment.status == "canceled" %}
+          {% elif item.is_canceled %}
             <span class="status-badge status-canceled">{% trans "anulowana" %}</span>
-            {% endif %}
+          {% elif p and p.status == "canceled" %}
+            <span class="status-badge status-canceled">{% trans "anulowana" %}</span>
+          {% elif p and p.status == "failed" %}
+            <span class="status-badge status-canceled">{% trans "anulowana" %}</span>
+          {% else %}
+            <span class="status-badge status-unpaid">{% trans "nieopłacona" %}</span>
+          {% endif %}
         </div>
-
 
         <p><strong>{% trans "Numer biletu:" %}</strong> {{ item.ticket_number }}</p>
         <p><strong>{% trans "Data wydarzenia:" %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
 
         {% if item.seat %}
-        <p><strong>{% trans "Miejsce:" %}</strong>
+          <p><strong>{% trans "Miejsce:" %}</strong>
             {{ item.event.venue.name }} – {{ item.event.city }},
             {% trans "Sektor" %}: {{ item.seat.seat.section.name }},
             {% trans "Rząd" %}: {{ item.seat.seat.row }},
             {% trans "Miejsce" %}: {{ item.seat.seat.number }}
-        </p>
+          </p>
         {% endif %}
 
         <p><strong>{% trans "Cena:" %}</strong> {{ item.total_price }} PLN</p>
         <p><strong>{% trans "Zarezerwowano:" %}</strong> {{ item.booking.created_at|date:"Y-m-d H:i" }}</p>
 
         <div class="options">
-            {% if item.pdf_file %}
+          {# Pobierz bilet tylko po sukcesie i gdy PDF istnieje #}
+          {% if p and p.status == "succeeded" and item.pdf_file %}
             <a href="{{ item.pdf_file.url }}" target="_blank">{% trans "Pobierz bilet" %}</a>
-            {% endif %}
-            <a href="{% url 'events:event_detail' item.event.id %}">{% trans "Szczegóły wydarzenia" %}</a>
+          {% endif %}
 
-            {% if item.booking.payment.status == "succeeded" %}
-            <button type="button" class="refund-btn">{% trans "Zwróć bilet" %}</button>
+          <a href="{% url 'events:event_detail' item.event.id %}">{% trans "Szczegóły wydarzenia" %}</a>
+
+          {# Przyciski akcji: brak dla anulowanych; brak „Zapłać teraz” po sukcesie #}
+          {% if not item.is_canceled %}
+            {% if p %}
+              {% if p.status == "succeeded" %}
+                {# nic więcej – opcjonalnie: przycisk zwrotu jako placeholder #}
+              {% elif p.status == "canceled" or p.status == "failed" %}
+                {# anulowana/nieudana – nie pokazuj „Zapłać teraz” ani „Anuluj” #}
+              {% else %}
+                <a class="btn btn-accent" href="{% url 'payments:start_for_booking' item.booking.id %}">
+                  {% trans "Zapłać teraz" %}
+                </a>
+                <form method="post" action="{% url 'booking:cancel_item' item.id %}" style="display:inline">
+                  {% csrf_token %}
+                  <button type="submit">{% trans "Anuluj rezerwację" %}</button>
+                </form>
+              {% endif %}
             {% else %}
-            <form method="post" action="{% url 'booking:cancel_item' item.id %}">
+              {# Brak Payment – traktuj jako nieopłacone #}
+              <a class="btn btn-accent" href="{% url 'payments:start_for_booking' item.booking.id %}">
+                {% trans "Zapłać teraz" %}
+              </a>
+              <form method="post" action="{% url 'booking:cancel_item' item.id %}" style="display:inline">
                 {% csrf_token %}
                 <button type="submit">{% trans "Anuluj rezerwację" %}</button>
-            </form>
+              </form>
             {% endif %}
+          {% endif %}
         </div>
-    </div>
+      </div>
 
-    {% if not forloop.last %}
-    <div class="divider" role="separator" aria-hidden="true"></div>
-    {% endif %}
+      {% if not forloop.last %}
+        <div class="divider" role="separator" aria-hidden="true"></div>
+      {% endif %}
+
+      {% endwith %}
     {% endfor %}
+
     <div class="divider" role="separator" aria-hidden="true"></div>
-    {% else %}
+  {% else %}
     {% if status == 'paid' %}
-    <p>{% trans "Nie masz jeszcze żadnych opłaconych rezerwacji." %}</p>
+      <p>{% trans "Nie masz jeszcze żadnych opłaconych rezerwacji." %}</p>
     {% elif status == 'unpaid' %}
-    <p>{% trans "Nie masz żadnych nieopłaconych rezerwacji." %}</p>
-    {% elif status == 'pending' %}
-    <p>{% trans "Nie masz żadnych rezerwacji w trakcie płatności." %}</p>
+      <p>{% trans "Nie masz żadnych nieopłaconych rezerwacji." %}</p>
     {% elif status == 'canceled' %}
-    <p>{% trans "Nie masz żadnych anulowanych rezerwacji." %}</p>
+      <p>{% trans "Nie masz żadnych anulowanych rezerwacji." %}</p>
     {% else %}
-    <p>{% trans "Nie masz jeszcze żadnych rezerwacji." %}</p>
+      <p>{% trans "Nie masz jeszcze żadnych rezerwacji." %}</p>
     {% endif %}
-    {% endif %}
+  {% endif %}
 
-
-    {% if cart %}
-    <h3 style="margin-top:1.5rem">{% trans "Rezerwacje w koszyku" %}</h3>
-    {% for entry in cart %}
-    <div class="cart-item" data-status="cart">
-        <h4>
-            {{ entry.event.name }}
-            <span class="status-badge status-cart">{% trans "w koszyku" %}</span>
-        </h4>
-
-        <ul>
-            {% for s in entry.seats %}
-            <li>
-                {% if s.is_standing %}
-                {% trans "Wejściówka stojąca" %}
-                {% else %}
-                {% trans "Sektor" %}: {{ s.section }}
-                {% if s.row %} • {% trans "Rząd" %}: {{ s.row }}{% endif %}
-                {% if s.number %} • {% trans "Miejsce" %}: {{ s.number }}{% endif %}
-                {% endif %}
-                — {{ s.price }} PLN
-            </li>
-            {% endfor %}
-        </ul>
-
-        <div class="options">
-            <a href="{% url 'payments:confirm' %}">{% trans "Przejdź do płatności" %}</a>
-            <a href="{% url 'events:event_detail' entry.event.id %}">{% trans "Szczegóły wydarzenia" %}</a>
-        </div>
-    </div>
-    {% endfor %}
-    {% endif %}
-
-    <div class="options">
-        <a href="{% url 'events:events_list' %}">{% trans "Przeglądaj wydarzenia" %}</a>
-        <a href="{% url 'account:home' %}">{% trans "Powrót do strony głównej" %}</a>
-    </div>
+  <div class="options" style="margin-top:1rem">
+    <a href="{% url 'events:events_list' %}">{% trans "Przeglądaj wydarzenia" %}</a>
+    <a href="{% url 'account:home' %}">{% trans "Powrót do strony głównej" %}</a>
+  </div>
 </div>
 
 {% endblock %}
 
 {% block scripts %}
 {{ block.super }}
-<script>
-    (function () {
-      const buttons = document.querySelectorAll('.filters .btn');
-      const sections = document.querySelectorAll('[data-status]');
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const wanted = btn.getAttribute('data-filter');
-          sections.forEach(el => {
-            const st = el.getAttribute('data-status');
-            el.style.display = (wanted === 'all' || st === wanted) ? '' : 'none';
-          });
-        });
-      });
-    })();
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const refundButtons = document.querySelectorAll(".refund-btn");
-
-      refundButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          alert("{% trans 'W sprawie zwrotu biletu, skontaktuj się z organizatorem wydarzenia.' %}");
-        });
-      });
-    });
-</script>
 <script src="{% static 'booking/js/bookings_filter.js' %}"></script>
 <script src="{% static 'booking/js/popup.js' %}"></script>
 {% endblock scripts %}

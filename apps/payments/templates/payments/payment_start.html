@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static i18n l10n %}
+
+{% block title %}{% trans "Rozpoczęcie płatności" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>{% trans "Rozpoczęcie płatności" %}</h2>
+
+    {% if payment %}
+    <section class="card payment-summary" style="margin-top:.75rem;">
+        <div class="summary-line"><span>{% trans "Płatność" %}</span> <strong>#{{ payment.id }}</strong></div>
+        {% if payment.booking %}
+        <div class="summary-line"><span>{% trans "Rezerwacja" %}</span> <strong>#{{ payment.booking.id }}</strong></div>
+        {% endif %}
+        <div class="summary-line">
+            <span>{% trans "Kwota" %}</span>
+            <strong>{% localize on %}{{ payment.amount }}{% endlocalize %} {{ payment.currency }}</strong>
+        </div>
+        {% if payment.description %}
+        <div class="summary-line"><span>{% trans "Opis" %}</span> <strong>{{ payment.description }}</strong></div>
+        {% endif %}
+        <div class="summary-line"><span>{% trans "Status" %}</span> <code>{{ payment.status }}</code></div>
+    </section>
+    {% endif %}
+
+    {# --- WYBÓR METODY PŁATNOŚCI (placeholder) --- #}
+    <section class="card" style="margin-top:1rem;">
+        <h3 class="section-title">{% trans "Wybierz metodę płatności" %}</h3>
+
+        <form method="post" action="#" onsubmit="return false" class="pay-form">
+            {% csrf_token %}
+            <div class="methods" style="display:grid; gap:.5rem;">
+                <label class="method">
+                    <input type="radio" name="method" value="dummy" checked>
+                    <span>🧪 {% trans "Tryb testowy (Dummy)" %}</span>
+                </label>
+                <label class="method">
+                    <input type="radio" name="method" value="payu" disabled>
+                    <span>PayU — {% trans "wkrótce" %}</span>
+                </label>
+                <label class="method">
+                    <input type="radio" name="method" value="p24" disabled>
+                    <span>Przelewy24 — {% trans "wkrótce" %}</span>
+                </label>
+                <label class="method">
+                    <input type="radio" name="method" value="portfele elektroniczne" disabled>
+                    <span>Portfele elektroniczne — {% trans "wkrótce" %}</span>
+                </label>
+            </div>
+        </form>
+    </section>
+
+    <section class="card sandbox" style="margin-top:1rem;">
+        <p class="sandbox-note">
+            {% trans "Tryb testowy: wykonaj symulację bez prawdziwej płatności." %}
+        </p>
+        <div class="options" style="display:flex; gap:.5rem; flex-wrap:wrap;">
+            <a class="btn btn-accent" href="{% url 'payments:success' %}">{% trans "Zasymuluj sukces" %}</a>
+            <a class="btn" href="{% url 'payments:fail' %}">{% trans "Zasymuluj porażkę" %}</a>
+        </div>
+    </section>
+
+    {# --- NAWIGACJA --- #}
+    <div class="options" style="display:flex; gap:.5rem; flex-wrap:wrap; margin-top:1rem;">
+        <a class="btn" href="{% url 'payments:cart' %}">{% trans "Wróć do koszyka" %}</a>
+        <a class="btn" href="{% url 'booking:my_bookings' %}">{% trans "Moje rezerwacje" %}</a>
+    </div>
+</div>
+{% endblock %}

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kulturalny Kod\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-06 00:21+0100\n"
+"POT-Creation-Date: 2025-11-08 01:22+0100\n"
 "PO-Revision-Date: 2025-10-18 17:30+0200\n"
 "Last-Translator: Anna Dominiak <ad.teksty@o2.pl>\n"
 "Language-Team: English\n"
@@ -26,8 +26,9 @@ msgstr "An email with an activation link has been sent to your address."
 #: apps/account/templates/account/user_reset_password.html:31
 #: apps/account/templates/account/user_reset_password_confirm.html:38
 #: apps/account/templates/account/user_reset_password_done.html:18
-#: apps/booking/templates/my_bookings.html:136
+#: apps/booking/templates/my_bookings.html:162
 #: apps/events/templates/events/events_list.html:60
+#: apps/payments/templates/payments/cart.html:68
 #: templates/two_factor/_wizard_actions.html:10
 msgid "Powrót do strony głównej"
 msgstr "Back to home"
@@ -173,9 +174,7 @@ msgstr "My bookings calendar"
 
 #: apps/account/templates/account/user_home.html:97
 #: apps/events/templates/events/events_list.html:5
-#: apps/events/templates/events/events_list.html:11
-#: apps/payments/templates/payments/payment_failure.html:10
-#: templates/home.html:17
+#: apps/events/templates/events/events_list.html:11 templates/home.html:17
 msgid "Przegląd wydarzeń"
 msgstr "Browse events"
 
@@ -279,7 +278,6 @@ msgstr "Event: "
 
 #: apps/booking/templates/booking_success.html:14
 #: apps/booking/templates/booking_success_multiple.html:17
-#: apps/events/templates/events/event_detail.html:12
 #: apps/events/templates/events/events_list.html:39
 msgid "Data: "
 msgstr "Date: "
@@ -300,7 +298,6 @@ msgid "Cena całkowita: "
 msgstr "Total price: "
 
 #: apps/booking/templates/booking_success.html:22
-#: apps/booking/templates/my_bookings.html:73
 msgid "Pobierz bilet PDF"
 msgstr "Download PDF ticket"
 
@@ -312,6 +309,7 @@ msgstr "Back to events"
 #: apps/booking/templates/booking_success_multiple.html:38
 #: apps/booking/templates/my_bookings.html:11
 #: apps/booking/templates/my_bookings.html:24
+#: apps/payments/templates/payments/payment_start.html:67
 msgid "Moje rezerwacje"
 msgstr "My bookings"
 
@@ -323,135 +321,170 @@ msgstr "Total price: "
 msgid "Zobacz wydarzenie"
 msgstr "View event"
 
-#: apps/booking/templates/my_bookings.html:27
+#: apps/booking/templates/my_bookings.html:28
 msgid "Wszystkie"
 msgstr "All events"
 
-#: apps/booking/templates/my_bookings.html:28
+#: apps/booking/templates/my_bookings.html:30
 msgid "Opłacone"
 msgstr "Paid"
 
-#: apps/booking/templates/my_bookings.html:29
+#: apps/booking/templates/my_bookings.html:32
 msgid "Nieopłacone"
 msgstr "Unpaid"
 
-#: apps/booking/templates/my_bookings.html:30
+#: apps/booking/templates/my_bookings.html:34
 msgid "W trakcie płatności"
-msgstr ""
+msgstr "Payment in progress"
 
-#: apps/booking/templates/my_bookings.html:31
+#: apps/booking/templates/my_bookings.html:36
 msgid "Anulowane"
 msgstr "Canceled"
 
-#: apps/booking/templates/my_bookings.html:44
-msgid "opłacone"
-msgstr ""
-
-#: apps/booking/templates/my_bookings.html:46
-msgid "w trakcie płatności"
-msgstr ""
-
-#: apps/booking/templates/my_bookings.html:48
-msgid "nieopłacone"
-msgstr "unpaid"
-
 #: apps/booking/templates/my_bookings.html:50
-msgid "anulowane"
+#, fuzzy
+#| msgid "opłacone"
+msgid "opłacona"
+msgstr "paid"
+
+#: apps/booking/templates/my_bookings.html:52
+msgid "płatność w toku"
+msgstr ""
+
+#: apps/booking/templates/my_bookings.html:54
+#, fuzzy
+#| msgid "anulowane"
+msgid "anulowana"
 msgstr "canceled"
 
 #: apps/booking/templates/my_bookings.html:56
+#, fuzzy
+#| msgid "nieopłacone"
+msgid "nieopłacona"
+msgstr "unpaid"
+
+#: apps/booking/templates/my_bookings.html:60
 msgid "Numer biletu:"
 msgstr "Ticket number:"
 
-#: apps/booking/templates/my_bookings.html:57
+#: apps/booking/templates/my_bookings.html:61
 msgid "Data wydarzenia:"
-msgstr ""
+msgstr "Event date:"
 
-#: apps/booking/templates/my_bookings.html:60
+#: apps/booking/templates/my_bookings.html:64
+#: apps/events/templates/events/event_detail.html:18
 msgid "Miejsce:"
 msgstr ""
 
-#: apps/booking/templates/my_bookings.html:62
-#: apps/booking/templates/my_bookings.html:117
+#: apps/booking/templates/my_bookings.html:66
+#: apps/booking/templates/my_bookings.html:143
+#: apps/payments/templates/payments/order_review.html:27
 msgid "Sektor"
-msgstr ""
+msgstr "Section"
 
-#: apps/booking/templates/my_bookings.html:63
-#: apps/booking/templates/my_bookings.html:118
+#: apps/booking/templates/my_bookings.html:67
+#: apps/booking/templates/my_bookings.html:144
+#: apps/payments/templates/payments/order_review.html:28
 msgid "Rząd"
-msgstr ""
+msgstr "Row"
 
-#: apps/booking/templates/my_bookings.html:64
-#: apps/booking/templates/my_bookings.html:119
+#: apps/booking/templates/my_bookings.html:68
+#: apps/booking/templates/my_bookings.html:145
+#: apps/payments/templates/payments/order_review.html:29
 msgid "Miejsce"
 msgstr ""
 
-#: apps/booking/templates/my_bookings.html:68
+#: apps/booking/templates/my_bookings.html:72
 msgid "Cena:"
 msgstr "Price:"
 
-#: apps/booking/templates/my_bookings.html:69
+#: apps/booking/templates/my_bookings.html:73
 msgid "Zarezerwowano:"
 msgstr ""
 
-#: apps/booking/templates/my_bookings.html:75
-#: apps/booking/templates/my_bookings.html:128
+#: apps/booking/templates/my_bookings.html:78
+#, fuzzy
+#| msgid "Pobierz bilet PDF"
+msgid "Pobierz bilet"
+msgstr "Download PDF ticket"
+
+#: apps/booking/templates/my_bookings.html:81
+#: apps/booking/templates/my_bookings.html:154
 msgid "Szczegóły wydarzenia"
 msgstr "About event"
 
-#: apps/booking/templates/my_bookings.html:78
+#: apps/booking/templates/my_bookings.html:86
+msgid "Zapłać teraz"
+msgstr ""
+
+#: apps/booking/templates/my_bookings.html:89
+msgid "Przejdź do koszyka"
+msgstr ""
+
+#: apps/booking/templates/my_bookings.html:96
+msgid "Zwróć bilet"
+msgstr ""
+
+#: apps/booking/templates/my_bookings.html:100
 msgid "Anuluj rezerwację"
 msgstr "Cancel"
 
-#: apps/booking/templates/my_bookings.html:89
+#: apps/booking/templates/my_bookings.html:115
 #, fuzzy
 #| msgid "Nie masz jeszcze żadnych rezerwacji."
 msgid "Nie masz jeszcze żadnych opłaconych rezerwacji."
 msgstr "You don't have any bookings yet."
 
-#: apps/booking/templates/my_bookings.html:91
+#: apps/booking/templates/my_bookings.html:117
 msgid "Nie masz żadnych nieopłaconych rezerwacji."
 msgstr "You don't have any unpaid bookings."
 
-#: apps/booking/templates/my_bookings.html:93
+#: apps/booking/templates/my_bookings.html:119
 #, fuzzy
 #| msgid "Nie masz jeszcze żadnych rezerwacji."
 msgid "Nie masz żadnych rezerwacji w trakcie płatności."
 msgstr "You don't have any bookings."
 
-#: apps/booking/templates/my_bookings.html:95
+#: apps/booking/templates/my_bookings.html:121
 #, fuzzy
 #| msgid "Nie masz jeszcze żadnych rezerwacji."
 msgid "Nie masz żadnych anulowanych rezerwacji."
 msgstr "You don't have any bookings yet."
 
-#: apps/booking/templates/my_bookings.html:97
+#: apps/booking/templates/my_bookings.html:123
 msgid "Nie masz jeszcze żadnych rezerwacji."
 msgstr "You don't have any bookings yet."
 
-#: apps/booking/templates/my_bookings.html:103
+#: apps/booking/templates/my_bookings.html:129
 #, fuzzy
 #| msgid "Rezerwacja - "
 msgid "Rezerwacje w koszyku"
 msgstr "Booking - "
 
-#: apps/booking/templates/my_bookings.html:108
+#: apps/booking/templates/my_bookings.html:134
 #, fuzzy
 #| msgid "Koszyk"
 msgid "w koszyku"
 msgstr "Cart"
 
-#: apps/booking/templates/my_bookings.html:115
+#: apps/booking/templates/my_bookings.html:141
 msgid "Wejściówka stojąca"
 msgstr ""
 
-#: apps/booking/templates/my_bookings.html:127
+#: apps/booking/templates/my_bookings.html:153
+#: apps/payments/templates/payments/cart.html:65
 msgid "Przejdź do płatności"
 msgstr ""
 
-#: apps/booking/templates/my_bookings.html:135
+#: apps/booking/templates/my_bookings.html:161
+#: apps/payments/templates/payments/order_review.html:51
+#: apps/payments/templates/payments/payment_result.html:28
 msgid "Przeglądaj wydarzenia"
 msgstr "Browse events"
+
+#: apps/booking/templates/my_bookings.html:175
+msgid "W sprawie zwrotu biletu, skontaktuj się z organizatorem wydarzenia."
+msgstr ""
 
 #: apps/booking/templates/ticket_pdf.html:10
 msgid "Bilet wstępu"
@@ -471,65 +504,75 @@ msgstr ""
 msgid "Dziękujemy za zakup!"
 msgstr "Thank you for registering!"
 
-#: apps/booking/views.py:123
+#: apps/booking/views.py:121
 msgid "Musisz wybrać miejsce."
 msgstr ""
 
-#: apps/booking/views.py:130
-msgid "To miejsce jest już w Twoim koszyku."
+#: apps/booking/views.py:143
+msgid "To miejsce jest już zajęte."
 msgstr ""
 
-#: apps/booking/views.py:138
-msgid "Miejsce dodane do koszyka."
+#: apps/booking/views.py:168
+msgid "Dodano do koszyka."
 msgstr ""
 
-#: apps/booking/views.py:150 apps/booking/views.py:249
-msgid "Koszyk jest pusty."
-msgstr ""
-
-#: apps/booking/views.py:167 apps/booking/views.py:268
-#, python-brace-format
-msgid "Miejsce {seat_id} już zajęte."
-msgstr ""
-
-#: apps/booking/views.py:227
+#: apps/booking/views.py:196
 msgid "Nie jesteś właścicielem tego zamówienia."
 msgstr ""
 
-#: apps/booking/views.py:232
+#: apps/booking/views.py:200
+msgid "Ta pozycja jest już anulowana."
+msgstr ""
+
+#: apps/booking/views.py:227
 #, python-brace-format
-msgid "Rezerwacja „{event}” została anulowana."
+msgid "Rezerwacja „{event}” została anulowana i miejsce zwolnione."
 msgstr ""
 
-#: apps/booking/views.py:318
-msgid "Nie udało się zrealizować rezerwacji."
+#: apps/events/templates/events/event_detail.html:15
+#, fuzzy
+#| msgid "Data: "
+msgid "Data:"
+msgstr "Date: "
+
+#: apps/events/templates/events/event_detail.html:16
+#, fuzzy
+#| msgid "Miasto: "
+msgid "Miasto:"
+msgstr "City: "
+
+#: apps/events/templates/events/event_detail.html:28
+#, fuzzy
+#| msgid "Dostępnych miejsc: "
+msgid "Dostępnych miejsc:"
+msgstr "Available seats: "
+
+#: apps/events/templates/events/event_detail.html:31
+#, fuzzy
+#| msgid "Opis: "
+msgid "Opis:"
+msgstr "Description: "
+
+#: apps/events/templates/events/event_detail.html:35
+#, fuzzy
+#| msgid "Najważniejsze atrakcje: "
+msgid "Najważniejsze atrakcje:"
+msgstr "Highlights: "
+
+#: apps/events/templates/events/event_detail.html:43
+#, fuzzy
+#| msgid "Kup bilety od "
+msgid "Kup bilety od"
+msgstr "Buy tickets from "
+
+#: apps/events/templates/events/event_detail.html:43
+msgid "zł"
 msgstr ""
 
-#: apps/events/templates/events/event_detail.html:13
 #: apps/events/templates/events/events_list.html:18
 #: apps/events/templates/events/events_list.html:40
 msgid "Miasto: "
 msgstr "City: "
-
-#: apps/events/templates/events/event_detail.html:23
-msgid "Dostępnych miejsc: "
-msgstr "Available seats: "
-
-#: apps/events/templates/events/event_detail.html:26
-msgid "Opis: "
-msgstr "Description: "
-
-#: apps/events/templates/events/event_detail.html:30
-msgid "Najważniejsze atrakcje: "
-msgstr "Highlights: "
-
-#: apps/events/templates/events/event_detail.html:38
-msgid "Kup bilety od "
-msgstr "Buy tickets from "
-
-#: apps/events/templates/events/event_detail.html:42
-msgid "Powrót"
-msgstr "Back"
 
 #: apps/events/templates/events/events_list.html:21
 msgid "Od: "
@@ -570,7 +613,6 @@ msgid "Nazwa wydarzenia"
 msgstr "View event"
 
 #: apps/payments/templates/payments/cart.html:19
-#: apps/payments/templates/payments/order_review.html:16
 #, fuzzy
 #| msgid "Liczba biletów: "
 msgid "Liczba biletów"
@@ -584,173 +626,146 @@ msgstr ""
 msgid "Usuń"
 msgstr ""
 
-#: apps/payments/templates/payments/cart.html:53 apps/payments/views.py:228
-#: apps/payments/views.py:254
+#: apps/payments/templates/payments/cart.html:53
+#: apps/payments/templates/payments/order_review.html:50
+#: apps/payments/views.py:110 apps/payments/views.py:156
+#: apps/payments/views.py:190 apps/payments/views.py:219
 msgid "Twój koszyk jest pusty."
 msgstr ""
 
-#: apps/payments/templates/payments/cart.html:63
-#: apps/payments/templates/payments/cart.html:65
+#: apps/payments/templates/payments/cart.html:62
 msgid "Kontynuuj zakupy"
 msgstr ""
 
-#: apps/payments/templates/payments/cart.html:70
-#, fuzzy
-#| msgid "Potwierdź rezerwację"
-msgid "Potwierdź rezerwacje"
-msgstr "Confirm booking"
-
-#: apps/payments/templates/payments/cart.html:73
-msgid "Rezygnuj"
-msgstr ""
-
 #: apps/payments/templates/payments/order_review.html:4
+msgid "Potwierdzenie koszyka"
+msgstr ""
+
 #: apps/payments/templates/payments/order_review.html:8
-#, fuzzy
-#| msgid "Ostatnie rezerwacje"
-msgid "Podsumowanie rezerwacji"
-msgstr "Recent bookings"
-
-#: apps/payments/templates/payments/order_review.html:26
-msgid "Łączna kwota do zapłaty"
+msgid "Potwierdzenie zamówienia"
 msgstr ""
 
-#: apps/payments/templates/payments/order_review.html:33
-msgid "Potwierdzam i przechodzę do płatności"
-msgstr ""
-
-#: apps/payments/templates/payments/order_review.html:39
-msgid "Wróć - chcę poprawić"
-msgstr ""
-
-#: apps/payments/templates/payments/order_review.html:46
-msgid "Anuluj i wyczyść koszyk"
-msgstr ""
-
-#: apps/payments/templates/payments/order_review.html:51
-#, fuzzy
-#| msgid "Brak rezerwacji."
-msgid "Brak pozycji w tej rezerwacji."
-msgstr "No bookings."
-
-#: apps/payments/templates/payments/payment_detail.html:4
-#: apps/payments/templates/payments/payment_detail.html:13
-msgid "Podsumowanie płatności"
-msgstr ""
-
-#: apps/payments/templates/payments/payment_detail.html:17
+#: apps/payments/templates/payments/order_review.html:19
+#: apps/payments/templates/payments/payment_result.html:16
+#: apps/payments/templates/payments/payment_start.html:14
 #, fuzzy
 #| msgid "Rezerwacja: "
 msgid "Rezerwacja"
 msgstr "Booking: "
 
-#: apps/payments/templates/payments/payment_detail.html:21
-msgid "Kwota do zapłaty"
+#: apps/payments/templates/payments/order_review.html:36
+msgid "Razem"
 msgstr ""
 
-#: apps/payments/templates/payments/payment_detail.html:31
+#: apps/payments/templates/payments/order_review.html:40
+msgid "Wróć"
+msgstr ""
+
+#: apps/payments/templates/payments/order_review.html:45
+msgid "Potwierdź i przejdź do płatności"
+msgstr ""
+
+#: apps/payments/templates/payments/payment_result.html:4
+#: apps/payments/templates/payments/payment_result.html:8
+#, fuzzy
+#| msgid "W trakcie płatności"
+msgid "Wynik płatności"
+msgstr "Payment in progress"
+
+#: apps/payments/templates/payments/payment_result.html:11
+msgid "Błąd:"
+msgstr ""
+
+#: apps/payments/templates/payments/payment_result.html:18
+#: apps/payments/templates/payments/payment_start.html:17
+msgid "Kwota"
+msgstr ""
+
+#: apps/payments/templates/payments/payment_result.html:19
+#: apps/payments/templates/payments/payment_start.html:23
+msgid "Status"
+msgstr ""
+
+#: apps/payments/templates/payments/payment_result.html:23
+msgid "Za chwilę nastąpi przekierowanie do listy Twoich rezerwacji."
+msgstr ""
+
+#: apps/payments/templates/payments/payment_result.html:27
+#, fuzzy
+#| msgid "Ostatnie rezerwacje"
+msgid "Przejdź do moich rezerwacji"
+msgstr "Recent bookings"
+
+#: apps/payments/templates/payments/payment_start.html:4
+#: apps/payments/templates/payments/payment_start.html:8
+#, fuzzy
+#| msgid "W trakcie płatności"
+msgid "Rozpoczęcie płatności"
+msgstr "Payment in progress"
+
+#: apps/payments/templates/payments/payment_start.html:12
+msgid "Płatność"
+msgstr ""
+
+#: apps/payments/templates/payments/payment_start.html:21
 #, fuzzy
 #| msgid "Opis: "
 msgid "Opis"
 msgstr "Description: "
 
-#: apps/payments/templates/payments/payment_detail.html:36
-msgid "Status"
-msgstr ""
-
-#: apps/payments/templates/payments/payment_detail.html:50
+#: apps/payments/templates/payments/payment_start.html:29
 #, fuzzy
 #| msgid "Wybierz zdjęcie"
 msgid "Wybierz metodę płatności"
 msgstr "Choose photo"
 
-#: apps/payments/templates/payments/payment_detail.html:56
-msgid "Karta płatnicza"
+#: apps/payments/templates/payments/payment_start.html:36
+msgid "Tryb testowy (Dummy)"
 msgstr ""
 
-#: apps/payments/templates/payments/payment_detail.html:64
-msgid "Przelew online"
+#: apps/payments/templates/payments/payment_start.html:40
+#: apps/payments/templates/payments/payment_start.html:44
+#: apps/payments/templates/payments/payment_start.html:48
+msgid "wkrótce"
 msgstr ""
 
-#: apps/payments/templates/payments/payment_detail.html:68
-msgid "Tryb testowy (dummy)"
+#: apps/payments/templates/payments/payment_start.html:56
+msgid "Tryb testowy: wykonaj symulację bez prawdziwej płatności."
 msgstr ""
 
-#: apps/payments/templates/payments/payment_detail.html:73
-msgid "Zapłać teraz"
+#: apps/payments/templates/payments/payment_start.html:59
+msgid "Zasymuluj sukces"
 msgstr ""
 
-#: apps/payments/templates/payments/payment_detail.html:84
-msgid "Zasymuluj SUKCES"
+#: apps/payments/templates/payments/payment_start.html:60
+msgid "Zasymuluj porażkę"
 msgstr ""
 
-#: apps/payments/templates/payments/payment_detail.html:88
-msgid "Zasymuluj PORAŻKĘ"
+#: apps/payments/templates/payments/payment_start.html:66
+msgid "Wróć do koszyka"
 msgstr ""
 
-#: apps/payments/templates/payments/payment_failure.html:3
-msgid "Płatność nie powiodła się"
-msgstr ""
-
-#: apps/payments/templates/payments/payment_failure.html:6
-msgid "Płatność nie została zrealizowana."
-msgstr ""
-
-#: apps/payments/templates/payments/payment_failure.html:7
-msgid "Spróbuj ponownie lub wybierz inną metodę płatności."
-msgstr ""
-
-#: apps/payments/templates/payments/payment_failure.html:9
-msgid "Wróć do płatności"
-msgstr ""
-
-#: apps/payments/templates/payments/payment_success.html:3
-msgid "Płatność zakończona"
-msgstr ""
-
-#: apps/payments/templates/payments/payment_success.html:6
-msgid "Dziękujemy! Płatność zakończona powodzeniem."
-msgstr ""
-
-#: apps/payments/templates/payments/payment_success.html:9
-#, fuzzy
-#| msgid "Brak rezerwacji."
-msgid "Numer rezerwacji"
-msgstr "No bookings."
-
-#: apps/payments/templates/payments/payment_success.html:13
-msgid "Zapłacono"
-msgstr ""
-
-#: apps/payments/templates/payments/payment_success.html:18
-#, fuzzy
-#| msgid "Pobierz bilet PDF"
-msgid "Zobacz bilety"
-msgstr "Download PDF ticket"
-
-#: apps/payments/templates/payments/payment_success.html:19
-#, fuzzy
-#| msgid "Przegląd wydarzeń"
-msgid "Wróć do przeglądu wydarzeń"
-msgstr "Browse events"
-
-#: apps/payments/views.py:117
+#: apps/payments/views.py:78
 msgid "Błąd płatności"
 msgstr ""
 
-#: apps/payments/views.py:139
+#: apps/payments/views.py:100
 msgid "Webhook received (no provider logic implemented yet)."
 msgstr ""
 
+#: apps/payments/views.py:179
+msgid "Usunięto pozycję z koszyka."
+msgstr ""
+
+#: apps/payments/views.py:237
+msgid "Płatność zakończona pomyślnie."
+msgstr ""
+
 #: apps/payments/views.py:274
-msgid "Płatność zakończona pomyślnie. Rezerwacja została utworzona."
+msgid "Płatność zakończona pomyślnie. Rezerwacja została sfinalizowana."
 msgstr ""
 
-#: apps/payments/views.py:279
-msgid "Nie udało się utworzyć rezerwacji po płatności."
-msgstr ""
-
-#: apps/payments/views.py:293
+#: apps/payments/views.py:282
 msgid "Płatność nie powiodła się. Spróbuj ponownie."
 msgstr ""
 
@@ -2303,6 +2318,40 @@ msgstr ""
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:236
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#~ msgid "w trakcie płatności"
+#~ msgstr "payment in progress"
+
+#~ msgid "Powrót"
+#~ msgstr "Back"
+
+#, fuzzy
+#~| msgid "Potwierdź rezerwację"
+#~ msgid "Potwierdź rezerwacje"
+#~ msgstr "Confirm booking"
+
+#, fuzzy
+#~| msgid "Brak rezerwacji."
+#~ msgid "Brak pozycji w tej rezerwacji."
+#~ msgstr "No bookings."
+
+#, fuzzy
+#~| msgid "Brak rezerwacji."
+#~ msgid "Numer rezerwacji"
+#~ msgstr "No bookings."
+
+#~ msgid "Zapłacono"
+#~ msgstr "Paid"
+
+#, fuzzy
+#~| msgid "Pobierz bilet PDF"
+#~ msgid "Zobacz bilety"
+#~ msgstr "Download PDF ticket"
+
+#, fuzzy
+#~| msgid "Przegląd wydarzeń"
+#~ msgid "Wróć do przeglądu wydarzeń"
+#~ msgstr "Browse events"
 
 #~ msgid "Liczba miejsc: "
 #~ msgstr "Number of seats: "

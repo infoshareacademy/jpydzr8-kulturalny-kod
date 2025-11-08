@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Wynik płatności" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>{% trans "Wynik płatności" %}</h2>
+
+  {% if error %}
+    <p><strong style="color:#e53e3e">{% trans "Błąd:" %}</strong> {{ error }}</p>
+  {% endif %}
+
+  {% if payment %}
+    {% if payment.booking %}
+      <p><strong>{% trans "Rezerwacja" %}:</strong> #{{ payment.booking.id }}</p>
+    {% endif %}
+    <p><strong>{% trans "Kwota" %}:</strong> {{ payment.amount }} {{ payment.currency }}</p>
+    <p><strong>{% trans "Status" %}:</strong> {{ payment.status }}</p>
+  {% endif %}
+
+  <p style="margin-top:1rem">
+    {% trans "Za chwilę nastąpi przekierowanie do listy Twoich rezerwacji." %}
+  </p>
+
+  <div class="options" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem;">
+    <a class="btn btn-accent" href="{% url 'booking:my_bookings' %}">{% trans "Przejdź do moich rezerwacji" %}</a>
+    <a class="btn" href="{% url 'events:events_list' %}">{% trans "Przeglądaj wydarzenia" %}</a>
+  </div>
+</div>
+
+<script>
+  // Auto-redirect po 3 sekundach
+  setTimeout(function () {
+    window.location.href = "{% url 'booking:my_bookings' %}";
+  }, 3000);
+</script>
+{% endblock %}

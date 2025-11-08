@@ -1,45 +1,47 @@
-{% load static %}
-{% load i18n %}
-<head>
-    <meta charset="UTF-8">
-    <title>{{ event.name }}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% extends "base.html" %}
+{% load static i18n l10n %}
 
-</head>
-<body>
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
 <div class="container">
-    <h1>{{ event.name }}</h1>
-    <p><strong>{% trans "Data: " %}</strong> {{ event.date|date:"Y-m-d" }}</p>
-    <p><strong>{% trans "Miasto: " %}</strong> {{ event.city }}</p>
-    <p><strong>Miejsce: </strong>
-        {% if event.venue_area %}
-            {{ event.venue_area.venue.name }} — {{ event.venue_area.name }}
-        {% elif event.venue %}
-            {{ event.venue.name }} ({{ event.venue.city }})
-        {% else %}
-            {{ event.city }}
-        {% endif %}
-    </p>
-    <p><strong>{% trans "Dostępnych miejsc: " %}</strong> {{ event.available_seats }}</p>
+  <h1>{{ event.name }}</h1>
 
-    {% if event.description %}
-        <p><strong>{% trans "Opis: " %}</strong> {{ event.description }}</p>
+  <p><strong>{% trans "Data:" %}</strong> {{ event.date|date:"Y-m-d" }}</p>
+  <p><strong>{% trans "Miasto:" %}</strong> {{ event.city }}</p>
+
+  <p><strong>{% trans "Miejsce:" %}</strong>
+    {% if event.venue_area %}
+      {{ event.venue_area.venue.name }} — {{ event.venue_area.name }}
+    {% elif event.venue %}
+      {{ event.venue.name }} ({{ event.venue.city }})
+    {% else %}
+      {{ event.city }}
     {% endif %}
+  </p>
 
-    {% if event.highlights %}
-        <p><strong>{% trans "Najważniejsze atrakcje: " %}</strong></p>
-        {% for point in event.highlights %}
-            <p>{{ point }}</p>
-        {% endfor %}
-    {% endif %}
+  <p><strong>{% trans "Dostępnych miejsc:" %}</strong> {{ event.available_seats }}</p>
 
+  {% if event.description %}
+    <p><strong>{% trans "Opis:" %}</strong> {{ event.description }}</p>
+  {% endif %}
 
-    <div class="options" style="margin-top: 30px;">
-        <a class="btn" href="{% url 'booking:create' event.id %}">{% trans "Kup bilety od " %}{{ event.price }} zł</a>
-    </div>
+  {% if event.highlights %}
+    <p><strong>{% trans "Najważniejsze atrakcje:" %}</strong></p>
+    {% for point in event.highlights %}
+      <p>{{ point }}</p>
+    {% endfor %}
+  {% endif %}
 
-    <div class="options" style="margin-top: 30px;">
-        <a href="{% url 'events:events_list' %}" class="button">{% trans "Powrót" %}</a>
-    </div>
+  <div class="options" style="margin-top:30px;">
+    <a class="btn" href="{% url 'booking:booking_view' event_id=event.id %}">
+      {% trans "Kup bilety od" %} {% localize on %}{{ event.price }}{% endlocalize %} {% trans "zł" %}
+    </a>
+  </div>
 </div>
-</body>
+{% endblock %}
