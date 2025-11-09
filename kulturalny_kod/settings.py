@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'two_factor',
     'two_factor.plugins.email',  # <- for email capability.
     
+    'widget_tweaks',
+    
     # custom apps
     'apps.account',
     'apps.events',

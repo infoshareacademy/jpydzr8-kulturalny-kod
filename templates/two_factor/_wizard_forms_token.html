@@ -1,15 +1,19 @@
 {% load static %}
 {% load i18n %}
+{% load widget_tweaks %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/account/style.css' %}">
 
 {{ wizard.management_form }}
+
 <div class="row align-center align-baseline">
+    <!-- {{ wizard.form.as_table }} -->
     <div class="col right-align">
-        <label for="id_generator-token">Token</label>
+        {{ wizard.form.token.label_tag }}
     </div>
     <div class="col col-3 left-align">
-        <input type="text" class="form-control col-12" name="generator-token" required id="id_generator-token">
+        
+        {{ wizard.form.token|add_class:"form-control col-12" }}
         <div class="error">
             {% if wizard.form.otp_token.errors %}
                 {{ error }}
