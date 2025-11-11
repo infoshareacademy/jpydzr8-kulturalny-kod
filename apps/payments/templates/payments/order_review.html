@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Potwierdzenie koszyka" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>{% trans "Potwierdzenie zamówienia" %}</h2>
+
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <p class="alert {{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if booking %}
+    <h3>{% trans "Rezerwacja" %} #{{ booking.id }}</h3>
+
+    <ul>
+      {% for it in items %}
+        <li>
+          <strong>{{ it.event.name }}</strong>
+          — {{ it.total_price }} PLN
+          {% if it.seat %}
+            • {% trans "Sektor" %}: {{ it.seat.seat.section.name }}
+            {% if it.seat.seat.row %} • {% trans "Rząd" %}: {{ it.seat.seat.row }}{% endif %}
+            {% if it.seat.seat.number %} • {% trans "Miejsce nr" %}: {{ it.seat.seat.number }}{% endif %}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+
+    <p style="margin-top:.5rem">
+      <strong>{% trans "Razem" %}:</strong> {{ total_price }} {{ currency|default:"PLN" }}
+    </p>
+
+    <div class="options" style="margin-top:1rem; display:flex; gap:.5rem;">
+      <a class="btn" href="{% url 'payments:cart' %}">{% trans "Wróć" %}</a>
+
+      <form method="post" action="{% url 'payments:confirm' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-accent">
+          {% trans "Potwierdź i przejdź do płatności" %}
+        </button>
+      </form>
+    </div>
+  {% else %}
+    <p>{% trans "Twój koszyk jest pusty." %}</p>
+    <a class="btn" href="{% url 'events:events_list' %}">{% trans "Przeglądaj wydarzenia" %}</a>
+  {% endif %}
+</div>
+{% endblock %}

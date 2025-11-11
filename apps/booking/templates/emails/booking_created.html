@@ -1,0 +1,27 @@
+{% load i18n %}
+<p>{% blocktrans with u=user.username %}Dzień dobry, {{ u }},{% endblocktrans %}</p>
+
+<p>
+  {% blocktrans with bid=booking.id en=event.name ed=event.date|date:"d.m.Y" et=event.date|date:"H:i" %}
+  otrzymaliśmy Twoją rezerwację nr <strong>{{ bid }}</strong> na wydarzenie
+  <strong>{{ en }}</strong>, które odbędzie się {{ ed }} o {{ et }}.
+  {% endblocktrans %}
+</p>
+
+<p>
+  {% blocktrans %}Pamiętaj, że rezerwacja jest ważna przez <strong>15 minut</strong>.
+  Po tym czasie zostanie automatycznie anulowana.{% endblocktrans %}
+</p>
+
+<p>
+  {% blocktrans %}Jeżeli potrzebujesz więcej czasu na dokonanie płatności, pamiętaj o ponownym dodaniu rezerwacji do koszyka.{% endblocktrans %}
+</p>
+
+<p style="margin:20px 0;">
+  <a href="{{ payment_url }}" style="background:#ffb300;color:#000;padding:10px 16px;border-radius:8px;
+     text-decoration:none;font-weight:bold;display:inline-block;">
+    {% trans "Przejdź do płatności" %}
+  </a>
+</p>
+
+<p>{% trans "Zespół Kulturalnego Kodu" %}</p>

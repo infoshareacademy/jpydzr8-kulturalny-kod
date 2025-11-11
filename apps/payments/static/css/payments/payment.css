@@ -1,0 +1,256 @@
+/* === PAYMENT / MY BOOKINGS === */
+.payment
+.payment-container,
+.container.payment {
+  max-width: 720px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* --- Sekcje i karty --- */
+.payment-title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.card {
+  background: #1f1f1f;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  padding: 1.25rem 1.25rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  margin: 0 0 .75rem 0;
+}
+
+/* --- Linie podsumowania --- */
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .5rem 0;
+  border-bottom: 1px dashed #2c2c2c;
+}
+.summary-line:last-child { border-bottom: 0; }
+
+.badge {
+  display: inline-block;
+  padding: .25rem .6rem;
+  border-radius: 999px;
+  font-size: .8rem;
+  border: 1px solid #3a3a3a;
+  background: #262626;
+  color: #fff;
+}
+
+.badge-paid,
+.payment .badge--paid {
+  background: #0d3f23;
+  border-color: #146b3a;
+  color: #fff;
+}
+
+.badge-failed,
+.badge--failed {
+  background: #3f1a1a;
+  border-color: #7a2f2f;
+  color: #fff;
+}
+
+.badge-pending,
+.badge--pending {
+  background: #2b2b16;
+  border-color: #6b6b2f;
+  color: #fff;
+}
+
+.badge-canceled,
+.badge--canceled {
+  background: #2e2e2e;
+  border-color: #555;
+  color: #fff;
+}
+
+/* === Przyciski === */
+.btn-primary,
+.btn-secondary,
+.btn-success,
+.btn-failure {
+  display: inline-block;
+  text-align: center;
+  padding: .9rem 1.1rem;
+  border-radius: 10px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg,#ff9800,#ffbe55);
+  color: #000;
+}
+.btn-primary:hover { filter: brightness(1.05); }
+
+.btn-secondary {
+  background: #2b2b2b;
+  color: #fff;
+  border: 1px solid #3a3a3a;
+}
+.btn-secondary:hover { background: #343434; }
+
+.btn-success {
+  background: #1e7f42;
+  color: #fff;
+}
+.btn-success:hover { filter: brightness(1.05); }
+
+.btn-failure {
+  background: #8f2d2d;
+  color: #fff;
+}
+.btn-failure:hover { filter: brightness(1.05); }
+
+.btn-warning {
+  background: #b45309;
+  color: #fff;
+}
+.btn-warning:hover { filter: brightness(1.05); }
+
+.btn-danger { background: #8f2d2d; color: #fff; }
+.btn-danger:hover { filter: brightness(1.05); }
+
+
+button[disabled],
+.btn[disabled],
+button[aria-disabled="true"],
+.btn[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+
+
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.method:focus-visible {
+  outline: 2px solid #ffbe55;
+  outline-offset: 2px;
+}
+
+.methods {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .6rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .methods {
+    grid-template-columns: 1fr;
+  }
+}
+
+.status-filter {
+  display: flex;
+  justify-content: space-between;   /* równomierne rozmieszczenie */
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0 1.5rem;
+  text-align: center;
+}
+
+.status-btn {
+  flex: 1 1 calc(20% - 0.75rem); /* 5 przycisków w rzędzie */
+  text-align: center;
+  padding: 0.6rem 0.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 2px solid transparent;   /* brak obramowania domyślnie */
+  background: transparent;         /* przezroczyste tło */
+  color: #fff;                     /* białe litery */
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.status-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 6px rgba(255, 153, 51, 0.25);
+  transform: translateY(-1px);
+}
+
+.status-btn.active {
+  color: #ffb347;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: transparent !important;
+  box-shadow: 0 0 8px rgba(255, 153, 51, 0.3);
+  filter: brightness(1.1);
+}
+
+@media (max-width: 640px) {
+  .status-btn {
+    flex: 1 1 45%;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.4rem;
+  }
+}
+
+/* === Layout karty rezerwacji === */
+.booking-item {
+  text-align: center;
+  border: 1px solid #ffffff1f;
+  border-radius: 10px;
+  padding: 1rem;
+  background: transparent;
+  margin-bottom: 1rem;
+}
+
+.booking-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: .25rem;
+}
+
+.booking-head h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+hr.divider {
+  all: unset;
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ffffff33, transparent);
+  margin: 1.75rem 0 1.5rem;
+}
+
+/* Detale */
+.booking-details {
+  text-align: center;
+}
+.booking-line {
+  margin: .5rem 0;
+}
+
+/* Przycisk akcji */
+.options {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 1rem;
+}
