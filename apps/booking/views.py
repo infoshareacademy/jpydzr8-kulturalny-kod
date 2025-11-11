@@ -1,33 +1,68 @@
+import os
+import base64
+
 from decimal import Decimal
+from pathlib import Path
+
 from django.utils import timezone
+from django.db.models.functions import TruncDate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.conf import settings
 from django.utils.encoding import smart_str
-import os
-import base64
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_http_methods
-from .utils import render_ticket_pdf_to_content, default_storage, make_qr_code
-from apps.events.models import Event, EventSeat
+
+from .utils import default_storage, make_qr_code
+from .services import render_ticket_pdf_to_content
+from .utils import make_qr_data_url
 from .models import Booking, BookingItem
 from .utils import generate_ticket_number
-from pathlib import Path
+
+from apps.events.models import Event, EventSeat
+
 from kulturalny_kod.logger import get_logger
 
 logger = get_logger(__name__)
 
+def _truthy(val):
+    return (val or "").lower() in {"1", "true", "on", "yes", "y"}
+
 @login_required
 def my_bookings(request):
-    booking_items = (
+    today = timezone.localdate()
+
+    show_archive = _truthy(request.GET.get("archiwum")) or _truthy(request.GET.get("archiwalne"))
+
+    base_qs = (
         BookingItem.objects
         .filter(booking__user=request.user)
         .select_related("booking", "event", "seat__seat__section")
-        .order_by("-booking__created_at")
+        .annotate(ev_date=TruncDate("event__date"))    # porównujemy po samej dacie WYDARZENIA
     )
-    return render(request, "my_bookings.html", {"booking_items": booking_items})
+
+    if show_archive:
+        booking_items = base_qs.filter(ev_date__lt=today).order_by("-event__date")
+    else:
+        booking_items = base_qs.filter(ev_date__gte=today).order_by("event__date")
+
+    logger.info(
+        "my_bookings GET=%s show_archive=%s count=%s",
+        dict(request.GET),
+        show_archive,
+        booking_items.count(),
+    )
+
+    return render(
+        request,
+        "my_bookings.html",
+        {
+            "booking_items": booking_items,
+            "show_archive": show_archive,
+        },
+    )
 
 @require_http_methods(["GET", "POST"])
 @login_required
@@ -56,11 +91,15 @@ def booking_view(request, event_id):
             "is_seated": bool(ev.seat),
         })
 
+    available_now = len(seats)
+
     if request.method == "POST":
         seat_id = request.POST.get("seat_id")
         if not seat_id:
             messages.error(request, "Musisz wybrać miejsce.")
             return render(request, "booking_form.html", {"event": event, "seats": seats})
+
+        created_now = False
 
         try:
             with transaction.atomic():
@@ -80,6 +119,7 @@ def booking_view(request, event_id):
                     )
                     request.session["booking_id"] = booking.pk
                     request.session.modified = True
+                    created_now = True
 
                 evseat = EventSeat.objects.select_for_update().get(pk=int(seat_id), event=event)
                 if evseat.is_reserved:
@@ -111,10 +151,34 @@ def booking_view(request, event_id):
             messages.error(request, f"Nie udało się dodać miejsca: {e}")
             return render(request, "booking_form.html", {"event": event, "seats": seats})
 
+        if created_now:
+            try:
+                payment_url = request.build_absolute_uri(reverse("payments:cart"))
+                html = render_to_string(
+                    "emails/booking_created.html",
+                    {
+                        "user": request.user,
+                        "booking": booking,
+                        "event": event,
+                        "payment_url": payment_url,
+                    },
+                )
+                email = EmailMessage(
+                    subject=f"Nowa rezerwacja w Kulturalnym Kodzie — #{booking.id}",
+                    body=html,
+                    to=[request.user.email],
+                )
+                email.content_subtype = "html"
+                email.send()
+            except Exception as e:
+                logger.warning(f"Reservation email send failed: {e}")
+
         messages.success(request, "Dodano do koszyka.")
         return redirect("payments:cart")
 
-    return render(request, "booking_form.html", {"event": event, "seats": seats})
+    return render(
+        request, "booking_form.html", {"event": event, "seats": seats, "available_now": available_now},
+    )
 
 @login_required
 def booking_item_cancel(request, booking_item_id: int):
@@ -122,7 +186,6 @@ def booking_item_cancel(request, booking_item_id: int):
     booking = item.booking
 
     if request.method == "POST":
-        # zwolnij miejsce, jeśli było przypisane
         if item.seat_id:
             try:
                 evseat = EventSeat.objects.get(pk=item.seat_id)
@@ -153,14 +216,17 @@ def ticket_pdf(request, booking_item_id: int):
     item = get_object_or_404(BookingItem, pk=booking_item_id, booking__user=request.user)
     event = item.event
 
-    qr_content_file = make_qr_code(item.ticket_number)  # ContentFile
+    qr_content_file = make_qr_code(item.ticket_number)
     qr_bytes = qr_content_file.read()
     qr_data_uri = "data:image/png;base64," + base64.b64encode(qr_bytes).decode("ascii")
+
+    base_url = request.build_absolute_uri("/")
 
     pdf_content = render_ticket_pdf_to_content(
         event=event,
         booking_item=item,
-        qr_url=qr_data_uri,  # ← przekazujemy data URI, szablon pozostaje bez zmian
+        qr_url=qr_data_uri,
+        base_url=base_url,
     )
 
     if not item.pdf_file:

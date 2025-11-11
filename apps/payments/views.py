@@ -4,7 +4,7 @@ from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_exempt  # ✅ poprawny import
+from django.views.decorators.csrf import csrf_exempt
 from .models import Payment
 from .services.dummy import DummyProvider
 from apps.booking.models import Booking, BookingItem

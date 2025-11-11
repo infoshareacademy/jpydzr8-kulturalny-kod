@@ -4,19 +4,8 @@
 
 {% block css %}
 {{ block.super }}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'booking/css/popup_style.css' %}">
-<style>
-    /* FIX: delikatny styl przycisków i modala */
-    .btn { display:inline-block; padding:.55rem 1rem; border-radius:999px; text-decoration:none; font-weight:600; }
-    .btn-primary { background:#ffbf1a; color:#111; }
-    .btn-ghost { background:transparent; border:1px solid #ddd; color:#222; }
-    .btn + .btn, .btn + form, form + .btn { margin-left:.5rem; }
-
-    .kk-modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; z-index:9999; }
-    .kk-modal { background:#fff; border-radius:16px; padding:18px 20px; max-width:520px; box-shadow:0 10px 30px rgba(0,0,0,.25); }
-    .kk-modal h4 { margin:0 0 .5rem 0; }
-    .kk-modal .actions { text-align:right; margin-top:1rem; }
-</style>
 {% endblock css %}
 
 {% block title %}{% trans "Moje rezerwacje" %}{% endblock %}
@@ -32,18 +21,36 @@
 {% endif %}
 
 <div class="container">
-    <h2>{% trans "Moje rezerwacje" %}</h2>
-    <hr>
+
+    <div class="page-header" style="text-align:center; margin-bottom:.5rem;">
+        <h1 style="margin:0;">{% trans "Moje rezerwacje" %}</h1>
+
+        <div class="filter-right" style="margin-top:.5rem; justify-content:flex-end;">
+            <form method="get" style="display:flex; justify-content:flex-end;">
+                <label style="display:inline-flex; gap:.5rem; align-items:center; white-space:nowrap;">
+  <input
+    type="checkbox"
+    class="custom-checkbox"
+    name="archiwum"
+    value="1"
+    {% if show_archive %}checked{% endif %}>
+  {% trans "Archiwum rezerwacji" %}
+</label>
+
+            </form>
+        </div>
+    </div>
+
+    <hr class="head-sep">
+
 
     {% if booking_items %}
     {% for item in booking_items %}
-    {# FIX: pokazuj tylko opłacone (gdy payment istnieje i status == succeeded) #}
     {% if item.booking.payment and item.booking.payment.status == 'succeeded' %}
     <div class="booking-item">
-        <!-- FIX: numer rezerwacji przed nazwą wydarzenia -->
-        <h3>
+        <h2>
             {% trans "Rezerwacja" %} #{{ item.booking.id }} — {{ item.event.name }}
-        </h3>
+        </h2>
 
         <p><strong>{% trans "Numer biletu:" %}</strong> {{ item.ticket_number }}</p>
         <p><strong>{% trans "Data wydarzenia:" %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
@@ -81,7 +88,7 @@
         </div>
 
     </div>
-    <hr>
+    <hr class="sep">
     {% endif %}
     {% endfor %}
     {% else %}
@@ -96,12 +103,12 @@
     </div>
 </div>
 
-<div class="kk-modal-backdrop" id="kkRefundModal">
-    <div class="kk-modal" role="dialog" aria-modal="true" aria-labelledby="kkRefundTitle">
-        <h4 id="kkRefundTitle">{% trans "Zwrot biletu" %}</h4>
+<div class="modal-backdrop" id="RefundModal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="RefundTitle">
+        <h4 id="RefundTitle">{% trans "Zwrot biletu" %}</h4>
         <p>{% trans "W sprawie zwrotu biletu należy skontaktować się bezpośrednio z organizatorem wydarzenia." %}</p>
         <div class="actions">
-            <button type="button" class="btn btn-primary" id="kkRefundClose">{% trans "Rozumiem" %}</button>
+            <button type="button" class="btn btn-primary" id="RefundClose">{% trans "Rozumiem" %}</button>
         </div>
     </div>
 </div>
@@ -110,26 +117,34 @@
 
 {% block scripts %}
 {{ block.super }}
+<script>
+  (function () {
+    // FIX: selektor kierujemy do realnego inputa (ma klasę custom-checkbox i name="archiwum")
+    const t = document.querySelector('input.custom-checkbox[name="archiwum"]'); // ← FIX
+    if (t) {
+      t.addEventListener('change', function () {
+        if (this.form) this.form.submit();
+      });
+    }
+  })();
+</script>
 <script src="{% static 'booking/js/popup.js' %}"></script>
 <script>
-    (function () {
-      var modal = document.getElementById('kkRefundModal');
-      var closeBtn = document.getElementById('kkRefundClose');
+  (function () {
+    var modal = document.getElementById('RefundModal');
+    var closeBtn = document.getElementById('RefundClose');
 
-      function openModal() {
-        modal.style.display = 'flex';
-      }
-      function closeModal() {
-        modal.style.display = 'none';
-      }
+    function openModal() { modal.style.display = 'flex'; }
+    function closeModal() { modal.style.display = 'none'; }
 
-      document.querySelectorAll('.js-refund').forEach(function(btn){
-        btn.addEventListener('click', openModal);
-      });
-      if (closeBtn) closeBtn.addEventListener('click', closeModal);
-      modal && modal.addEventListener('click', function(e){
-        if (e.target === modal) closeModal();
-      });
-    })();
+    document.querySelectorAll('.js-refund').forEach(function(btn){
+      btn.addEventListener('click', openModal);
+    });
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (modal) modal.addEventListener('click', function(e){
+      if (e.target === modal) closeModal();
+    });
+  })();
 </script>
 {% endblock scripts %}
+
