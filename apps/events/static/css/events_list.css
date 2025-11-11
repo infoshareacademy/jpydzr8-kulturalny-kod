@@ -186,3 +186,51 @@ input[type="checkbox"].custom-checkbox:checked::after {
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
+
+/* blok tekstowy: węższa kolumna + lepsza czytelność */
+.event .prose {
+  max-width: 65ch;
+  margin: 0 auto 1.25rem auto;
+  text-align: left;            /* usuwa wrażenie "rozjechanych" punktorów przy centrowaniu */
+  line-height: 1.65;
+}
+
+/* nagłówki sekcji */
+.event .prose h3 {
+  text-align: center;
+  margin: 1.25rem 0 .75rem;
+  font-size: clamp(1.05rem, 1.2vw + .9rem, 1.4rem);
+}
+
+/* lista atrakcji: eleganckie punktorowanie + dwie kolumny na desktopie */
+.event .highlights {
+  list-style: none;
+  padding: 0;
+  margin: .25rem 0 0;
+}
+
+.event .highlights li {
+  position: relative;
+  padding-left: 1.4rem;
+  margin: .35rem 0;
+  break-inside: avoid;
+}
+
+/* znacznik przed każdym elementem listy */
+.event .highlights li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateY(0.05rem);
+  font-weight: 700;
+  opacity: .8;
+}
+
+/* dwie kolumny dla większych ekranów */
+@media (min-width: 768px) {
+  .event .highlights {
+    columns: 2;
+    column-gap: 2rem;
+  }
+}

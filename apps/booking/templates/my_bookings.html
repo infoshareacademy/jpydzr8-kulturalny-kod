@@ -28,77 +28,73 @@
         <div class="filter-right" style="margin-top:.5rem; justify-content:flex-end;">
             <form method="get" style="display:flex; justify-content:flex-end;">
                 <label style="display:inline-flex; gap:.5rem; align-items:center; white-space:nowrap;">
-  <input
-    type="checkbox"
-    class="custom-checkbox"
-    name="archiwum"
-    value="1"
-    {% if show_archive %}checked{% endif %}>
-  {% trans "Archiwum rezerwacji" %}
-</label>
-
+                  <input
+                    type="checkbox"
+                    class="custom-checkbox"
+                    name="archiwum"
+                    value="1"
+                    {% if show_archive %}checked{% endif %}>
+                  {% trans "Archiwum rezerwacji" %}
+                </label>
             </form>
         </div>
     </div>
 
     <hr class="head-sep">
 
-
     {% if booking_items %}
-    {% for item in booking_items %}
-    {% if item.booking.payment and item.booking.payment.status == 'succeeded' %}
-    <div class="booking-item">
-        <h2>
-            {% trans "Rezerwacja" %} #{{ item.booking.id }} — {{ item.event.name }}
-        </h2>
+      {% for item in booking_items %}
+        {% if item.booking.payment and item.booking.payment.status == 'succeeded' %}
+        <div class="booking-item">
+            <h2>
+                {% trans "Rezerwacja" %} #{{ item.booking.id }} — {{ item.event.name }}
+            </h2>
 
-        <p><strong>{% trans "Numer biletu:" %}</strong> {{ item.ticket_number }}</p>
-        <p><strong>{% trans "Data wydarzenia:" %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
+            <p><strong>{% trans "Numer biletu:" %}</strong> {{ item.ticket_number }}</p>
+            <p><strong>{% trans "Data wydarzenia:" %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}</p>
 
-        {% if item.seat %}
-        <p><strong>{% trans "Miejsce:" %}</strong>
-            {{ item.event.venue.name }} – {{ item.event.city }},
-            {% trans "Sektor" %}: {{ item.seat.seat.section.name }},
-            {% trans "Rząd" %}: {{ item.seat.seat.row }},
-            {% trans "Miejsce" %}: {{ item.seat.seat.number }}
-        </p>
-        {% endif %}
-
-        <p><strong>{% trans "Cena:" %}</strong> {{ item.total_price }} PLN</p>
-        <p><strong>{% trans "Zarezerwowano:" %}</strong> {{ item.booking.created_at|date:"Y-m-d H:i" }}</p>
-
-        <div class="options" style="margin-top:.5rem">
-            {% if item.pdf_file %}
-            <a href="{{ item.pdf_file.url }}" target="_blank" class="btn btn-primary">
-                {% trans "Pobierz bilet" %}
-            </a>
-            {% else %}
-            <a href="{% url 'booking:ticket_pdf' item.id %}" target="_blank" class="btn btn-primary">
-                {% trans "Pobierz bilet" %}
-            </a>
+            {% if item.seat %}
+            <p><strong>{% trans "Miejsce:" %}</strong>
+                {% if item.event.venue %}{{ item.event.venue.name }}{% endif %}
+                {% if item.event.city %} – {{ item.event.city }}{% endif %},
+                {% trans "Sektor" %}: {{ item.seat.seat.section.name }},
+                {% trans "Rząd" %}: {{ item.seat.seat.row }},
+                {% trans "Miejsce" %}: {{ item.seat.seat.number }}
+            </p>
             {% endif %}
 
-            <a href="{% url 'events:event_detail' item.event.id %}" class="btn btn-ghost">
-                {% trans "Szczegóły wydarzenia" %}
-            </a>
+            <p><strong>{% trans "Cena:" %}</strong> {{ item.total_price }} PLN</p>
+            <p><strong>{% trans "Zarezerwowano:" %}</strong> {{ item.booking.created_at|date:"Y-m-d H:i" }}</p>
 
-            <button type="button" class="btn btn-ghost js-refund" data-event="{{ item.event.name }}">
-                {% trans "Zwróć bilet" %}
-            </button>
+            <div class="options" style="margin-top:.5rem">
+                {% if item.pdf_file %}
+                  <a href="{{ item.pdf_file.url }}" target="_blank" class="btn btn-primary">
+                    {% trans "Pobierz bilet" %}
+                  </a>
+                {% else %}
+                  <a href="{% url 'booking:ticket_pdf' item.id %}" target="_blank" class="btn btn-primary">
+                    {% trans "Pobierz bilet" %}
+                  </a>
+                {% endif %}
+
+                <a href="{% url 'events:event_detail' item.event.id %}" class="btn btn-ghost">
+                    {% trans "Szczegóły wydarzenia" %}
+                </a>
+
+                <button type="button" class="btn btn-ghost js-refund" data-event="{{ item.event.name }}">
+                    {% trans "Zwróć bilet" %}
+                </button>
+            </div>
         </div>
-
-    </div>
-    <hr class="sep">
-    {% endif %}
-    {% endfor %}
+        <hr class="sep">
+        {% endif %}
+      {% endfor %}
     {% else %}
-    <p>{% trans "Nie masz jeszcze żadnych rezerwacji." %}</p>
-    <div class="options">
-        <a href="{% url 'events:events_list' %}" class="btn btn-primary">{% trans "Przeglądaj wydarzenia" %}</a>
-    </div>
+      <p>{% trans "Nie masz jeszcze żadnych rezerwacji." %}</p>
     {% endif %}
 
-    <div class="options" style="margin-top:1rem">
+    <div class="options" style="margin-top:1rem; display:flex; justify-content:center; gap:1rem;">
+        <a href="{% url 'events:events_list' %}" class="btn btn-primary">{% trans "Przeglądaj wydarzenia" %}</a>
         <a href="{% url 'home' %}" class="btn btn-ghost">{% trans "Powrót do strony głównej" %}</a>
     </div>
 </div>
@@ -119,8 +115,8 @@
 {{ block.super }}
 <script>
   (function () {
-    // FIX: selektor kierujemy do realnego inputa (ma klasę custom-checkbox i name="archiwum")
-    const t = document.querySelector('input.custom-checkbox[name="archiwum"]'); // ← FIX
+    // selektor do checkboxa archiwum (działa też z inline-form)
+    const t = document.querySelector('input.custom-checkbox[name="archiwum"]');
     if (t) {
       t.addEventListener('change', function () {
         if (this.form) this.form.submit();
@@ -140,11 +136,10 @@
     document.querySelectorAll('.js-refund').forEach(function(btn){
       btn.addEventListener('click', openModal);
     });
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (closeBtn) closeModal && closeBtn.addEventListener('click', closeModal);
     if (modal) modal.addEventListener('click', function(e){
       if (e.target === modal) closeModal();
     });
   })();
 </script>
 {% endblock scripts %}
-

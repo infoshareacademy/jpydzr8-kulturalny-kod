@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Q, Count
 from django.db.models.functions import TruncDate
+from django.db.models import Sum
 
 from .models import Event, EventSeat
 from kulturalny_kod.logger import get_logger
@@ -36,7 +37,6 @@ def event_list_view(request):
         )
     )
 
-    # ---- Filtry tekstowe ----
     q = (request.GET.get("q") or "").strip()
     if q:
         qs = qs.filter(
@@ -52,7 +52,6 @@ def event_list_view(request):
     if city:
         qs = qs.filter(city__icontains=city)
 
-    # ---- Filtry dat (po samej dacie) ----
     from_date = (request.GET.get("from_date") or "").strip()
     to_date = (request.GET.get("to_date") or "").strip()
     if from_date:
@@ -60,11 +59,9 @@ def event_list_view(request):
     if to_date:
         qs = qs.filter(date_only__lte=to_date)
 
-    # ---- Checkbox „Dostępne bilety” ----
     if show_available_only:
         qs = qs.filter(available_now__gt=0)
 
-    # Domyślnie: dziś i przyszłość (chyba że użytkownik zawęził wcześniejszymi filtrami)
     qs = qs.filter(date_only__gte=today).order_by("date")
 
     events = list(qs)  # materializacja (stabilne atrybuty w szablonie)
