@@ -1,33 +1,29 @@
-{% load static %}
-{% load i18n %}
-<head>
-    <meta charset="UTF-8">
-    <title>{% trans "Przegląd wydarzeń" %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
-</head>
-<body>
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Przegląd wydarzeń" %}{% endblock title %}
+
+{% block content %}
 <div class="container">
     <h1>{% trans "Przegląd wydarzeń" %}</h1>
 
     <form method="get" class="filters-row">
-
         <label for="q">Szukaj:</label>
         <input type="text" name="q" id="q" placeholder="kategoria,artysta..." value="{{ request.GET.q }}">
 
         <label for="city">{% trans "Miasto: " %}</label>
         <input type="text" name="city" id="city" value="{{ request.GET.city }}">
 
-        <label for="from_date">{% trans "Od: "%}</label>
+        <label for="from_date">{% trans "Od: " %}</label>
         <input type="date" name="from_date" id="from_date" value="{{ request.GET.from_date }}">
 
         <label for="to_date">{% trans "Do: " %}</label>
         <input type="date" name="to_date" id="to_date" value="{{ request.GET.to_date }}">
+
         <div class="options">
             <button type="submit">{% trans "Szukaj" %}</button>
             <a href="?all=1" class="button">{% trans "Wszystkie wydarzenia" %}</a>
         </div>
-
     </form>
 
     <hr>
@@ -56,9 +52,9 @@
     {% else %}
         <p>{% trans "Brak wydarzeń do wyświetlenia. Skorzystaj z filtrów powyżej." %}</p>
     {% endif %}
+
     <div class="options" style="margin-top: 30px;">
         <a href="{% url 'home' %}" class="button">{% trans "Powrót do strony głównej" %}</a>
     </div>
 </div>
-</body>
-</html>
+{% endblock content %}

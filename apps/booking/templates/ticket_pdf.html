@@ -17,7 +17,7 @@
 
         {% if booking_item.seat %}
         <div class="row">
-          {% trans "Miejsce: " %}
+          {% trans "Miejsce nr: " %}
           {{ booking_item.seat.seat.section.name }},
           Rząd {{ booking_item.seat.seat.row }},
           Nr {{ booking_item.seat.seat.number }}

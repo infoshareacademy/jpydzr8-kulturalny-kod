@@ -46,7 +46,7 @@
         <div class="options">
           {% if item.pdf_file %}
             <a href="{{ item.pdf_file.url }}" target="_blank" class="btn">
-              {% trans "Pobierz bilet PDF" %}
+              {% trans "Pobierz bilet" %}
             </a>
           {% endif %}
           <form method="post" action="{% url 'booking:cancel_item' item.id %}">
