@@ -84,10 +84,7 @@ def save_booking_to_json(booking, booking_item):
     )
 
 
-def render_ticket_pdf_to_content(event, booking_item, qr_url: str) -> ContentFile:
-    """
-    Renderuje PDF z zewnętrznym CSS i absolutnym file:// do obrazu QR.
-    """
+def render_ticket_pdf_to_content(event, booking_item, qr_url: str, base_url: str) -> ContentFile:
     html = render_to_string(
         "ticket_pdf.html",
         {
@@ -96,10 +93,11 @@ def render_ticket_pdf_to_content(event, booking_item, qr_url: str) -> ContentFil
             "qr_url": qr_url,
         },
     )
+
     pdf_io = io.BytesIO()
     css_file = finders.find("booking/css/ticket.css")
+    stylesheets = [CSS(filename=css_file)] if css_file else None
 
-    HTML(string=html, base_url=settings.MEDIA_ROOT).write_pdf(
-        pdf_io, stylesheets=[CSS(css_file)] if css_file else None
-    )
+    HTML(string=html, base_url=base_url).write_pdf(pdf_io, stylesheets=stylesheets)
+
     return ContentFile(pdf_io.getvalue(), name=f"{booking_item.ticket_number}.pdf")

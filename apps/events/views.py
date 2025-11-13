@@ -1,36 +1,45 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Q
-from .models import Event, EventSeat
+from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.utils import timezone
+from django.db.models import Q, Count
+from django.db.models.functions import TruncDate
+from django.db.models import Sum
+
+from .models import Event, EventSeat
 from kulturalny_kod.logger import get_logger
 
 logger = get_logger(__name__)
 
 
+def _truthy(val: str | None) -> bool:
+    return (val or "").lower() in {"1", "on", "true", "yes", "y"}
+
+
 def event_list_view(request):
-    events = Event.objects.all()
-    from_date = request.GET.get("from_date")
-    to_date = request.GET.get("to_date")
-    show_all = request.GET.get("all")
-    city = request.GET.get("city")
-    q = request.GET.get("q", "")
+    """
+    Lista wydarzeń:
+    - domyślnie: tylko dziś i przyszłość, rosnąco po dacie
+    - checkbox 'dostepne=1' → tylko wydarzenia z wolnymi miejscami (>0)
+    - filtry: q (nazwa/miasto/opis), city, from_date, to_date (po samej dacie)
+    """
+    today = timezone.localdate()
+    show_available_only = _truthy(request.GET.get("dostepne"))
 
-    if not show_all and not (from_date or to_date) and not city and not q:
-        return render(request, "events/events_list.html", {"events": []})
+    # Bazowy queryset + adnotacje: data bez czasu i dostępna pula miejsc z EventSeat
+    qs = (
+        Event.objects
+        .annotate(date_only=TruncDate("date"))
+        .annotate(
+            available_now=Count(
+                "event_seats",
+                filter=Q(event_seats__is_reserved=False),
+            )
+        )
+    )
 
-    if from_date and to_date:
-        events = events.filter(date__range=[from_date, to_date])
-    elif from_date:
-        events = events.filter(date__gte=from_date)
-    elif to_date:
-        events = events.filter(date__lte=to_date)
-
-    if city:
-        events = events.filter(city__iexact=city.strip())
-
+    q = (request.GET.get("q") or "").strip()
     if q:
-        q = q.strip()
-        events = events.filter(
+        qs = qs.filter(
             Q(name__icontains=q)
             | Q(city__icontains=q)
             | Q(venue_area__venue__name__icontains=q)
@@ -39,18 +48,51 @@ def event_list_view(request):
             | Q(highlights__icontains=q)
         )
 
+    city = (request.GET.get("city") or "").strip()
+    if city:
+        qs = qs.filter(city__icontains=city)
+
+    from_date = (request.GET.get("from_date") or "").strip()
+    to_date = (request.GET.get("to_date") or "").strip()
+    if from_date:
+        qs = qs.filter(date_only__gte=from_date)
+    if to_date:
+        qs = qs.filter(date_only__lte=to_date)
+
+    if show_available_only:
+        qs = qs.filter(available_now__gt=0)
+
+    qs = qs.filter(date_only__gte=today).order_by("date")
+
+    events = list(qs)  # materializacja (stabilne atrybuty w szablonie)
+
     logger.info(
-        f"Wywołana lista eventów: {events} przez: {getattr(request.user, 'username', 'Anonymous')}"
+        f"Lista eventów: {len(events)} wyników; dostępne_only={show_available_only}; "
+        f"user={getattr(request.user, 'username', 'Anonymous')}"
     )
-    return render(request, "events/events_list.html", {"events": events})
+
+    return render(
+        request,
+        "events/events_list.html",
+        {
+            "events": events,
+            "show_available_only": show_available_only,  # do zbindowania checkboxa w szablonie
+        },
+    )
 
 
 def event_detail_view(request, pk):
     event = get_object_or_404(Event, pk=pk)
+    available_now = EventSeat.objects.filter(event=event, is_reserved=False).count()
+
     logger.info(
-        f"Wywołane szczegółu eventu: {event} przez: {getattr(request.user, 'username', 'Anonymous')}"
+        f"Wywołane szczegóły eventu: {event} przez: {getattr(request.user, 'username', 'Anonymous')}"
     )
-    return render(request, "events/event_detail.html", {"event": event})
+    return render(
+        request,
+        "events/event_detail.html",
+        {"event": event, "available_now": available_now},
+    )
 
 
 def event_seats_json(request, event_id):

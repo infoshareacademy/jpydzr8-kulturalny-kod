@@ -1,35 +1,65 @@
-{% load static %}
+{% load static i18n %}
 <!doctype html>
 <html lang="pl">
 <head>
   <meta charset="utf-8" />
-  <title>Płatność #{{ payment.id }} — wynik</title>
+  <title>{% blocktrans %}Płatność #{{ payment.id }} — wynik{% endblocktrans %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 </head>
 <body>
   <main class="container">
-    <h1>Wynik płatności #{{ payment.id }}</h1>
+    <h1>{% blocktrans %}Wynik płatności #{{ payment.id }}{% endblocktrans %}</h1>
 
     {% if error %}
-      <p><strong style="color:#e53e3e">Błąd:</strong> {{ error }}</p>
+      <p><strong style="color:#e53e3e">{% trans "Błąd:" %}</strong> {{ error }}</p>
     {% endif %}
 
-    <p>Rezerwacja: <strong>{{ payment.booking.ticket_number }}</strong></p>
-    <p>Kwota: <strong>{{ payment.amount }} {{ payment.currency }}</strong></p>
+    {% if payment.booking %}
+      <p>{% trans "Numer rezerwacji:" %} <strong>#{{ payment.booking.id }}</strong></p>
+      {% if payment.booking.items.first %}
+        {% with item=payment.booking.items.first %}
+          <p>{% trans "Wydarzenie:" %} <strong>{{ item.event.name }}</strong></p>
+          {% if item.event.venue %}
+            <p>{% trans "Miejsce:" %} {{ item.event.venue.name }}</p>
+          {% elif item.event.venue_area %}
+            <p>{% trans "Miejsce:" %} {{ item.event.venue_area.venue.name }} — {{ item.event.venue_area.name }}</p>
+          {% endif %}
+          <p>{% trans "Data wydarzenia:" %} {{ item.event.date|date:"Y-m-d H:i" }}</p>
+          {% if item.seat %}
+            <p>{% trans "Miejsce:" %} {{ item.seat.seat.section.name }} — {% trans "Rząd" %} {{ item.seat.seat.row }}, {% trans "Miejsce" %} {{ item.seat.seat.number }}</p>
+          {% endif %}
+        {% endwith %}
+      {% endif %}
+    {% endif %}
+
+    <p>{% trans "Kwota:" %} <strong>{{ payment.amount|floatformat:2 }} {{ payment.currency }}</strong></p>
 
     {% if payment.status == 'succeeded' %}
-      <p class="event meta">Status: <strong style="color:#48bb78">succeeded</strong> – płatność przyjęta 👍</p>
+      <p class="event meta">{% trans "Status:" %} <strong style="color:#48bb78">succeeded</strong> – {% trans "płatność przyjęta" %}</p>
     {% elif payment.status == 'failed' %}
-      <p class="event meta">Status: <strong style="color:#e53e3e">failed</strong> – płatność nieudana</p>
+      <p class="event meta">{% trans "Status:" %} <strong style="color:#e53e3e">failed</strong> – {% trans "płatność nieudana" %}</p>
     {% else %}
-      <p class="event meta">Status: <strong>{{ payment.status }}</strong></p>
+      <p class="event meta">{% trans "Status:" %} <strong>{{ payment.status }}</strong></p>
     {% endif %}
 
     <div class="divider"></div>
 
     <div class="options">
-      <a href="{% url 'payments:start' payment.id %}">Wróć do płatności</a>
+      {% if payment.status == 'succeeded' %}
+        <a href="{% url 'home' %}#{{ payment.id }}">{% trans "Wróć do strony głównej" %}</a>
+        <a href="{% url 'booking:my_bookings' %}#{{ payment.id }}">{% trans "Moje rezerwacje" %}</a>
+
+      {% elif payment.status == 'failed' %}
+        <form method="post" action="{% url 'payments:checkout' %}" style="display:inline">
+          {% csrf_token %}
+          <button type="submit">{% trans "Spróbuj ponownie" %}</button>
+        </form>
+        <a href="{% url 'booking:my_bookings' %}#{{ payment.id }}">{% trans "Moje rezerwacje" %}</a>
+
+      {% else %}
+        <a href="{% url 'payments:start' payment.id %}#{{ payment.id }}">{% trans "Wróć do płatności" %}</a>
+      {% endif %}
     </div>
   </main>
 </body>

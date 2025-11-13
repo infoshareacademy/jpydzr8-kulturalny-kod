@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.conf import settings
 from django.db import models
 
@@ -39,6 +40,7 @@ class BookingItem(models.Model):
         blank=True,
         verbose_name="Zarezerwowane miejsce",
     )
+    locked_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.ticket_number} - {self.full_name}"

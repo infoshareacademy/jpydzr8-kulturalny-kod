@@ -49,10 +49,39 @@ main {
     width: min(100%, 1100px);
 }
 
+
+.sep {
+  border: none;
+  height: 1px;
+  margin: 1.5rem 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0.35),
+    rgba(255,255,255,0)
+  );
+  border-radius: 999px;
+  opacity: .9;
+}
+
+.head-sep {
+  border: none;
+  height: 2px;
+  margin: 1.5rem 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0),
+    rgba(255,255,255,1),
+    rgba(255,255,255,0)
+  );
+  border-radius: 999px;
+  opacity: 1;
+}
+
+
 h1 {
     font-family: 'Bellota Text', sans-serif;
     font-weight: 700;
-    font-style: italic;
     text-transform: uppercase;
     color: #fff;
     letter-spacing: .5px;
@@ -67,6 +96,14 @@ p {
     margin: 0 0 1.75rem 0;
     font-size: clamp(1rem, 2.5vw, 1.125rem);
     color: var(--muted);
+}
+
+.events-list.container {
+  background: #1b1b1b;
+  border-radius: 20px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.35);
+  padding: 2rem;
+  margin: 2rem auto;
 }
 
 .event h3 {
@@ -152,8 +189,17 @@ p {
     margin-top: 1rem;
 }
 
-.event { background: #222; border-radius: 12px; padding: 14px 16px; }
-.event h3 { margin: 0 0 .25rem 0; font-size: 1.05rem; color: #fff; }
+.event {
+background: #222;
+border-radius: 12px;
+padding: 14px 16px;
+}
+
+.event h3 {
+margin: 0 0 .25rem 0;
+font-size: 1.05rem;
+color: #fff;
+}
 
 /* responsywność */
 @media (max-width: 400px) {
@@ -261,4 +307,59 @@ p {
     text-align: center;
     gap: 0.5rem;
   }
+}
+
+input[type="checkbox"].custom-checkbox,
+.filter-right input[type="checkbox"],
+.filters-row input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #999;
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+/* efekt hover */
+input[type="checkbox"].custom-checkbox:hover,
+.filter-right input[type="checkbox"]:hover,
+.filters-row input[type="checkbox"]:hover {
+  border-color: #555;
+}
+
+/* stan zaznaczony */
+input[type="checkbox"].custom-checkbox:checked,
+.filter-right input[type="checkbox"]:checked,
+.filters-row input[type="checkbox"]:checked {
+  background-color: #fff;
+  border-color: #000;
+}
+
+/* czarna fajka wewnątrz */
+input[type="checkbox"].custom-checkbox:checked::after,
+.filter-right input[type="checkbox"]:checked::after,
+.filters-row input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #000;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* sekcja pomocnicza do ustawiania checkboxów po prawej stronie */
+.filter-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }

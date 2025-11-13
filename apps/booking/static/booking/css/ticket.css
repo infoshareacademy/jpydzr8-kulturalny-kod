@@ -9,6 +9,8 @@ body { font-family: DejaVu Sans, sans-serif; font-size: 12px; color: #222; }
 .left   { display: table-cell; width: 70%; vertical-align: top; }
 .right  { display: table-cell; width: 30%; text-align: right; vertical-align: top; }
 
+.event-title { font-size: 16px; font-weight: 600; margin: 4px 0 8px; }
+
 /* Ramka wokół QR */
 .qr-box {
   display: inline-block;
