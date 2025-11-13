@@ -105,6 +105,19 @@
         <p>{% trans "W sprawie zwrotu biletu należy skontaktować się bezpośrednio z organizatorem wydarzenia." %}</p>
         <div class="actions">
             <button type="button" class="btn btn-primary" id="RefundClose">{% trans "Rozumiem" %}</button>
+        <p><strong>{% trans "Cena:" %}</strong> {{ item.total_price }} PLN</p>
+        <p><strong>{% trans "Zarezerwowano:" %}</strong> {{ item.booking.created_at|date:"Y-m-d H:i" }}</p>
+
+        <div class="options">
+          {% if item.pdf_file %}
+            <a href="{{ item.pdf_file.url }}" target="_blank" class="btn">
+              {% trans "Pobierz bilet" %}
+            </a>
+          {% endif %}
+          <form method="post" action="{% url 'booking:cancel_item' item.id %}">
+            {% csrf_token %}
+            <button type="submit">{% trans "Anuluj rezerwację" %}</button>
+          </form>
         </div>
     </div>
 </div>

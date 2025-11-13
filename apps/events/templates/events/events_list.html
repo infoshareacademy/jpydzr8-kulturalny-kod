@@ -61,6 +61,17 @@
         {% if event.available_now is not None %}
           <p><strong>{% trans "Dostępne miejsca:" %}</strong> {{ event.available_now }}</p>
         {% endif %}
+        <label for="from_date">{% trans "Od: " %}</label>
+        <input type="date" name="from_date" id="from_date" value="{{ request.GET.from_date }}">
+
+        <label for="to_date">{% trans "Do: " %}</label>
+        <input type="date" name="to_date" id="to_date" value="{{ request.GET.to_date }}">
+
+        <div class="options">
+            <button type="submit">{% trans "Szukaj" %}</button>
+            <a href="?all=1" class="button">{% trans "Wszystkie wydarzenia" %}</a>
+        </div>
+    </form>
 
         <div class="options" style="margin-top: 30px;">
           {% if event.available_now is not None and event.available_now|floatformat:0 == "0" %}
@@ -98,3 +109,9 @@
 {% block footer %}
 {{ block.super }}
 {% endblock footer %}
+
+    <div class="options" style="margin-top: 30px;">
+        <a href="{% url 'home' %}" class="button">{% trans "Powrót do strony głównej" %}</a>
+    </div>
+</div>
+{% endblock content %}

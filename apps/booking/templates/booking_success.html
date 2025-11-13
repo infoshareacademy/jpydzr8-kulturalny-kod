@@ -19,7 +19,7 @@
 
   <div class="options">
     {% if booking.pdf_file %}
-      <a href="{{ booking.pdf_file.url }}" target="_blank" class="btn">{% trans "Pobierz bilet PDF" %}</a>
+      <a href="{{ booking.pdf_file.url }}" target="_blank" class="btn">{% trans "Pobierz bilet" %}</a>
     {% endif %}
     <a href="{% url 'events:event_detail' booking.event.id %}" class="btn">{% trans "Powrót do wydarzenia" %}</a>
     <a href="{% url 'booking:my_bookings' %}" class="btn">{% trans "Moje rezerwacje" %}</a>
