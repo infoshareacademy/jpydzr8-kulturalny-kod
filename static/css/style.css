@@ -363,3 +363,46 @@ input[type="checkbox"].custom-checkbox:checked::after,
   justify-content: flex-end;
   gap: 0.5rem;
 }
+
+.booking-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  margin: 2rem 0;
+}
+
+.booking-card {
+  background: #1e1e1e;                  /* ciemna karta — spójna z systemem */
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem;
+  border: 1px solid rgba(255,153,51,0.35); /* delikatny pomarańczowy akcent */
+  box-shadow:
+      0 6px 14px rgba(0,0,0,0.35),
+      0 0 12px rgba(255,153,51,0.12);       /* lekki pomarańczowy glow */
+  transition: transform .15s ease, box-shadow .2s ease;
+}
+
+.booking-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+      0 10px 20px rgba(0,0,0,0.45),
+      0 0 16px rgba(255,153,51,0.18);
+}
+
+.booking-card h3 {
+  margin: 0 0 .5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;                      /* białe nagłówki */
+}
+
+.booking-card .meta-row {
+  margin: .35rem 0;
+  font-size: 1rem;
+  color: var(--muted);              /* jak w reszcie projektu */
+}
+
+.booking-card .seat {
+  font-style: italic;
+  opacity: .9;
+}

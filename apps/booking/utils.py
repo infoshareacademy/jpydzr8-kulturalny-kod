@@ -3,12 +3,13 @@ import io
 import qrcode
 import base64
 from pathlib import Path
-
+import os
 from django.contrib.auth.models import User
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.files import File
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 
 from .models import Booking, BookingItem
 from .services import save_booking_to_csv, save_booking_to_json
@@ -108,18 +109,11 @@ def create_single_booking_item(
 
 
 def send_booking_confirmation_email(booking: Booking):
-    """
-    (Opcjonalnie) wyślij mail po SUCCEEDED – tu bez załączników.
-    Mail “rezerwacja utworzona, zapłać w 15 min” wysyłasz w booking_view (booking_created.html).
-    """
     user = booking.user
 
     message = render_to_string(
         "emails/booking_confirmation.html",
-        {
-            "user": user,
-            "booking": booking,
-        },
+        {"user": user, "booking": booking},
     )
 
     email = EmailMessage(
@@ -129,5 +123,34 @@ def send_booking_confirmation_email(booking: Booking):
     )
     email.content_subtype = "html"
 
-    # REMOVED: załączniki PDF; bilet generujesz on-demand (ticket_pdf) lub w jobie po SUCCEEDED
+    for item in booking.items.all():
+        pdf_name = item.pdf_file.name
+
+        if not pdf_name:
+            continue
+
+        if default_storage.exists(pdf_name):
+            with default_storage.open(pdf_name, "rb") as f:
+                email.attach(
+                    filename=os.path.basename(pdf_name),
+                    content=f.read(),
+                    mimetype="application/pdf",
+                )
+        else:
+            print("PDF NOT FOUND:", pdf_name)
+
+    for item in booking.items.all():
+        print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
+        print("PDF FIELD NAME:", item.pdf_file.name)
+        try:
+            print("PDF PATH:", item.pdf_file.path)
+        except Exception as e:
+            print("ERROR item.pdf_file.path:", e)
+
+        print("STORAGE EXISTS?:", default_storage.exists(item.pdf_file.name))
+        abs_path = os.path.join(settings.MEDIA_ROOT, item.pdf_file.name)
+        print("ABS PATH:", abs_path)
+        print("EXISTS ON DISK?:", os.path.exists(abs_path))
+        print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
+
     email.send()

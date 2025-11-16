@@ -234,3 +234,19 @@ input[type="checkbox"].custom-checkbox:checked::after {
     column-gap: 2rem;
   }
 }
+
+.filters-top,
+.filters-bottom {
+  display: flex;
+  gap: 1rem 1.2rem;
+  width: 100%;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .filters-top,
+  .filters-bottom {
+    flex-direction: column;
+    align-items: center;
+  }
+}

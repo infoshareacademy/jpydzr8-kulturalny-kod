@@ -13,6 +13,13 @@ from django.conf import settings
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib import messages
+from apps.booking.utils import send_booking_confirmation_email
+from apps.booking.utils import make_qr_code, default_storage
+from apps.booking.services import render_ticket_pdf_to_content
+import os
+from kulturalny_kod.logger import get_logger
+
+logger = get_logger(__name__)
 
 def _get_provider(name: str):
     return DummyProvider()
@@ -165,9 +172,46 @@ def start_payment(request: HttpRequest, pk: int):
 def result(request: HttpRequest, pk: int):
     payment = get_object_or_404(Payment, pk=pk)
 
-    # po sukcesie czyścimy booking_id z sesji (masz helper _clear_booking_session)
     if payment.status == Payment.Status.SUCCEEDED:
         _clear_booking_session(request, payment)
+
+        booking = payment.booking
+
+        for item in booking.items.all():
+
+            if item.pdf_file:  # jeśli ma już pdf, NIE generujemy ponownie
+                continue
+
+            # QR → zapis jak wcześniej
+            qr_content = make_qr_code(item.ticket_number)
+            qr_path = f"qr_codes/{item.ticket_number}.png"
+            qr_saved_path = default_storage.save(qr_path, qr_content)
+            qr_url = os.path.join(settings.MEDIA_URL, qr_saved_path)
+
+            # BASE_URL dla PDF
+            base_url = request.build_absolute_uri('/')
+
+            # GENEROWANIE PDF
+            pdf_content = render_ticket_pdf_to_content(
+                event=item.event,
+                booking_item=item,
+                qr_url=qr_url,
+                base_url=base_url,
+            )
+
+            # ZAPIS PDF DO STORAGE
+            pdf_path = f"tickets/{item.ticket_number}.pdf"
+            pdf_saved_path = default_storage.save(pdf_path, pdf_content)
+
+            # ZAPIS ŚCIEŻKI PDF DO DB
+            item.pdf_file.name = pdf_saved_path
+            item.save(update_fields=["pdf_file"])
+
+        # wysyłka maila tylko raz
+        if not payment.metadata.get("confirmation_email_sent"):
+            send_booking_confirmation_email(payment.booking)
+            payment.metadata["confirmation_email_sent"] = True
+            payment.save(update_fields=["metadata", "updated_at"])
 
     can_retry = (
         payment.status in (Payment.Status.FAILED, Payment.Status.CANCELED)
