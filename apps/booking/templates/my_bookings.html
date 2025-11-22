@@ -114,10 +114,12 @@
               {% trans "Pobierz bilet" %}
             </a>
           {% endif %}
-          <form method="post" action="{% url 'booking:cancel_item' item.id %}">
-            {% csrf_token %}
-            <button type="submit">{% trans "Anuluj rezerwację" %}</button>
-          </form>
+          {% if item %}
+            <form method="post" action="{% url 'booking:cancel_item' item.id %}">
+                {% csrf_token %}
+                <button type="submit">{% trans "Anuluj rezerwację" %}</button>
+            </form>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -15,22 +15,47 @@
       <p><strong style="color:#e53e3e">{% trans "Błąd:" %}</strong> {{ error }}</p>
     {% endif %}
 
-    {% if payment.booking %}
-      <p>{% trans "Numer rezerwacji:" %} <strong>#{{ payment.booking.id }}</strong></p>
-      {% if payment.booking.items.first %}
-        {% with item=payment.booking.items.first %}
-          <p>{% trans "Wydarzenie:" %} <strong>{{ item.event.name }}</strong></p>
-          {% if item.event.venue %}
-            <p>{% trans "Miejsce:" %} {{ item.event.venue.name }}</p>
-          {% elif item.event.venue_area %}
-            <p>{% trans "Miejsce:" %} {{ item.event.venue_area.venue.name }} — {{ item.event.venue_area.name }}</p>
-          {% endif %}
-          <p>{% trans "Data wydarzenia:" %} {{ item.event.date|date:"Y-m-d H:i" }}</p>
-          {% if item.seat %}
-            <p>{% trans "Miejsce:" %} {{ item.seat.seat.section.name }} — {% trans "Rząd" %} {{ item.seat.seat.row }}, {% trans "Miejsce" %} {{ item.seat.seat.number }}</p>
-          {% endif %}
-        {% endwith %}
-      {% endif %}
+    {% if payment.booking.items.all %}
+      <div class="booking-items-list">
+        {% for item in payment.booking.items.all %}
+          <div class="booking-card">
+
+            <h3>
+              {{ item.event.name }}
+            </h3>
+
+            {% if item.event.venue %}
+              <p class="meta-row">
+                <strong>{% trans "Miejsce:" %}</strong> {{ item.event.venue.name }}
+              </p>
+            {% elif item.event.venue_area %}
+              <p class="meta-row">
+                <strong>{% trans "Miejsce:" %}</strong>
+                {{ item.event.venue_area.venue.name }} — {{ item.event.venue_area.name }}
+              </p>
+            {% endif %}
+
+            <p class="meta-row">
+              <strong>{% trans "Data:" %}</strong> {{ item.event.date|date:"Y-m-d H:i" }}
+            </p>
+
+            {% if item.seat %}
+              <p class="meta-row">
+                <strong>{% trans "Miejsce:" %}</strong>
+                {{ item.seat.seat.section.name }} —
+                {% trans "Rząd" %} {{ item.seat.seat.row }},
+                {% trans "Miejsce" %} {{ item.seat.seat.number }}
+              </p>
+            {% endif %}
+
+            <p class="meta-row">
+              <strong>{% trans "Cena:" %}</strong>
+              {{ item.total_price }} PLN
+            </p>
+
+          </div>
+        {% endfor %}
+      </div>
     {% endif %}
 
     <p>{% trans "Kwota:" %} <strong>{{ payment.amount|floatformat:2 }} {{ payment.currency }}</strong></p>

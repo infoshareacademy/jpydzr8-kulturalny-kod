@@ -15,40 +15,46 @@
   <h1>{% trans "Przeglądaj wydarzenia" %}</h1>
 
   <form method="get" class="filters-row">
-    <div class="filter-field">
-      <label for="q">{% trans "Szukaj:" %}</label>
-      <input type="text" name="q" id="q" placeholder="{% trans 'kategoria, artysta...' %}" value="{{ request.GET.q }}">
-    </div>
-    <div class="filter-field">
-      <label for="city">{% trans "Miasto:" %}</label>
-      <input type="text" name="city" id="city" value="{{ request.GET.city }}">
-    </div>
-    <div class="filter-field">
-      <label for="from_date">{% trans "Od:" %}</label>
-      <input type="date" name="from_date" id="from_date" value="{{ request.GET.from_date }}">
-    </div>
-    <div class="filter-field">
-      <label for="to_date">{% trans "Do:" %}</label>
-      <input type="date" name="to_date" id="to_date" value="{{ request.GET.to_date }}">
-    </div>
 
-    <div class="options">
-      <button type="submit">{% trans "Szukaj" %}</button>
-      <a href="?all=1" class="button">{% trans "Wszystkie wydarzenia" %}</a>
-    </div>
+      <div class="filters-top">
+        <div class="filter-field">
+          <label for="q">{% trans "Szukaj:" %}</label>
+          <input type="text" name="q" id="q"
+                 placeholder="{% trans 'kategoria, artysta...' %}"
+                 value="{{ request.GET.q }}">
+        </div>
 
-    <div class="filter-right">
-      <label style="display:inline-flex; gap:.5rem; align-items:center;">
-        <input
-          type="checkbox"
-          class="custom-checkbox"
-          name="dostepne"
-          value="1"
-          {% if show_available_only %}checked{% endif %}>
-        {% trans "Dostępne bilety" %}
-      </label>
-    </div>
-  </form>
+        <div class="filter-field">
+          <label for="city">{% trans "Miasto:" %}</label>
+          <input type="text" name="city" id="city" value="{{ request.GET.city }}">
+        </div>
+      </div>
+
+      <div class="filters-bottom">
+        <div class="filter-field">
+          <label for="from_date">{% trans "Od:" %}</label>
+          <input type="date" name="from_date" id="from_date" value="{{ request.GET.from_date }}">
+        </div>
+
+        <div class="filter-field">
+          <label for="to_date">{% trans "Do:" %}</label>
+          <input type="date" name="to_date" id="to_date" value="{{ request.GET.to_date }}">
+        </div>
+      </div>
+
+      <div class="filter-right">
+        <label style="display:inline-flex; gap:.5rem; align-items:center;">
+          <input type="checkbox" class="custom-checkbox" name="dostepne" value="1"
+                 {% if show_available_only %}checked{% endif %}>
+          {% trans "Dostępne bilety" %}
+        </label>
+      </div>
+
+      <div class="options">
+        <button type="submit">{% trans "Szukaj" %}</button>
+        <a href="?all=1" class="button">{% trans "Wszystkie wydarzenia" %}</a>
+      </div>
+    </form>
 
   <hr class="head-sep">
 
@@ -61,26 +67,16 @@
         {% if event.available_now is not None %}
           <p><strong>{% trans "Dostępne miejsca:" %}</strong> {{ event.available_now }}</p>
         {% endif %}
-        <label for="from_date">{% trans "Od: " %}</label>
-        <input type="date" name="from_date" id="from_date" value="{{ request.GET.from_date }}">
-
-        <label for="to_date">{% trans "Do: " %}</label>
-        <input type="date" name="to_date" id="to_date" value="{{ request.GET.to_date }}">
-
-        <div class="options">
-            <button type="submit">{% trans "Szukaj" %}</button>
-            <a href="?all=1" class="button">{% trans "Wszystkie wydarzenia" %}</a>
-        </div>
-    </form>
 
         <div class="options" style="margin-top: 30px;">
-          {% if event.available_now is not None and event.available_now|floatformat:0 == "0" %}
+          {% if event.available_now is not None and event.available_now <= 0 %}
             <span class="button button--soldout">{% trans "Bilety wyprzedane" %}</span>
           {% else %}
             <a href="{% url 'events:event_detail' event.pk %}" class="button">{% trans "Rezerwuj bilety" %}</a>
           {% endif %}
         </div>
       </div>
+
       <hr class="sep">
     {% endfor %}
   {% else %}
@@ -109,9 +105,3 @@
 {% block footer %}
 {{ block.super }}
 {% endblock footer %}
-
-    <div class="options" style="margin-top: 30px;">
-        <a href="{% url 'home' %}" class="button">{% trans "Powrót do strony głównej" %}</a>
-    </div>
-</div>
-{% endblock content %}
